@@ -1,0 +1,10 @@
+# Carpetas de compilación
+build/
+dist/
+
+# Configuraciones privadas de tu NetBeans local
+nbproject/private/
+
+# Base de datos y avatares generados por la librería IPC2026
+sportactivity.db
+avatars/
