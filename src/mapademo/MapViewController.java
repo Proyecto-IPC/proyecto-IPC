@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds; // Para zoom centrado
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -75,9 +76,46 @@ public class MapViewController implements Initializable {
     }
     
     private void setZoom(double zoom) {
-        zoomLevel = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom));
+        // El zoom se mantiene entre sus limites
+        double newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom));
+        
+        // Rectangulo visible del ScrollPane
+        Bounds viewportBounds = mapScrollPane.getViewportBounds();
+        // Tamanyo total del contendido dentro del ScrollPane (mapa escalado)
+        Bounds contentBounds = contentGroup.getBoundsInLocal();
+        
+        // Obtiene las dimensiones visibles y las del contenido
+        double viewportWidth = viewportBounds.getWidth();
+        double viewportHeight = viewportBounds.getHeight();
+        double contentWidth = contentBounds.getWidth();
+        double contentHeight = contentBounds.getHeight();
+        
+        // Calcular el centro visible del ScrollPane
+        double centerX = mapScrollPane.getHvalue() * Math.max(contentWidth - viewportWidth, 0) + viewportWidth / 2;
+        double centerY = mapScrollPane.getVvalue() * Math.max(contentHeight - viewportHeight, 0) + viewportHeight / 2;
+        
+        // Ajusta el zoom solicitado a los limites permitidos
+        zoomLevel = newZoom;
         zoomGroup.setScaleX(zoomLevel);
         zoomGroup.setScaleY(zoomLevel);
+        
+        // Mide el nuevo tamanyo del contenido tras el zoom
+        Bounds newContentBounds = contentGroup.getBoundsInLocal();
+        double newContentWidth = newContentBounds.getWidth();
+        double newContentHeight = newContentBounds.getHeight();
+        
+        // Calcula la nueva posicion del scroll (H y V)
+        double newH = (centerX * (newContentWidth / contentWidth) - viewportWidth / 2) / Math.max(newContentWidth - viewportWidth, 1);
+        double newV = (centerY * (newContentHeight / contentHeight) - viewportHeight / 2) / Math.max(newContentHeight - viewportHeight, 1);
+        
+        // Aplica el nuevo scroll
+        mapScrollPane.setHvalue(clamp(newH, 0, 1));
+        mapScrollPane.setVvalue(clamp(newV, 0, 1));
+    }
+    
+    // Asegura que nunca se salga de los limites de ScrollPane
+    private double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
     }
     
     public void setActivity(Activity activity) {
