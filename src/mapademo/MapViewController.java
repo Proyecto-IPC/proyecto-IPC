@@ -48,6 +48,8 @@ public class MapViewController implements Initializable {
     private Button centerRouteButton;
     @FXML
     private Label emptyStateLabel;
+    @FXML
+    private VBox zoomButtonGroup;
     
     private double zoomLevel = 1.0;
     private static final double MIN_ZOOM = 0.5;

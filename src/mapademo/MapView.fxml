@@ -5,11 +5,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.MapViewController">
    <center>
@@ -33,14 +35,51 @@
                </content>
             </ScrollPane>
             <Label fx:id="emptyStateLabel" alignment="CENTER" text="Selecciona una actividad para ver su recorrido" StackPane.alignment="CENTER" />
-            <VBox fx:id="zoomControls" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="6.0" StackPane.alignment="BOTTOM_RIGHT">
+            <VBox fx:id="zoomControls" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="8.0" StackPane.alignment="BOTTOM_RIGHT">
                <StackPane.margin>
                   <Insets bottom="16.0" right="16.0" />
                </StackPane.margin>
                <children>
-                  <Button fx:id="zoomInButton" mnemonicParsing="false" text="+" />
-                  <Button fx:id="zoomOutButton" mnemonicParsing="false" text="-" />
-                  <Button fx:id="centerRouteButton" mnemonicParsing="false" text="Centrar" />
+                  <Button fx:id="centerRouteButton" alignment="CENTER" focusTraversable="false" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/icons/center.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <VBox fx:id="zoomButtonGroup" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+                     <children>
+                        <Button fx:id="zoomInButton" alignment="CENTER" focusTraversable="false" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/icons/plus.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="zoomOutButton" alignment="CENTER" focusTraversable="false" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/icons/minus.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
