@@ -85,9 +85,9 @@ public class MapViewController implements Initializable {
         
         mapScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
             if (event.getDeltaY() > 0) {
-                zoomIn(WHEEL_ZOOM_STEP);
+                setZoomAt(zoomLevel + WHEEL_ZOOM_STEP, event.getX(), event.getY());
             } else if (event.getDeltaY() < 0) {
-                zoomOut(WHEEL_ZOOM_STEP);
+                setZoomAt(zoomLevel - WHEEL_ZOOM_STEP, event.getX(), event.getY());
             }
             
             event.consume();
@@ -146,6 +146,37 @@ public class MapViewController implements Initializable {
         double newV = (centerY * (newContentHeight / contentHeight) - viewportHeight / 2) / Math.max(newContentHeight - viewportHeight, 1);
         
         // Aplica el nuevo scroll
+        mapScrollPane.setHvalue(clamp(newH, 0, 1));
+        mapScrollPane.setVvalue(clamp(newV, 0, 1));
+    }
+    
+    private void setZoomAt(double zoom, double mouseX, double mouseY) {
+        double newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom));
+
+        Bounds viewportBounds = mapScrollPane.getViewportBounds();
+
+        double viewportWidth = viewportBounds.getWidth();
+        double viewportHeight = viewportBounds.getHeight();
+
+        double oldContentWidth = contentGroup.getBoundsInLocal().getWidth();
+        double oldContentHeight = contentGroup.getBoundsInLocal().getHeight();
+
+        double contentX = mapScrollPane.getHvalue() * Math.max(oldContentWidth - viewportWidth, 0) + mouseX;
+        double contentY = mapScrollPane.getVvalue() * Math.max(oldContentHeight - viewportHeight, 0) + mouseY;
+
+        zoomLevel = newZoom;
+        zoomGroup.setScaleX(zoomLevel);
+        zoomGroup.setScaleY(zoomLevel);
+
+        double newContentWidth = contentGroup.getBoundsInLocal().getWidth();
+        double newContentHeight = contentGroup.getBoundsInLocal().getHeight();
+
+        double scaleX = newContentWidth / oldContentWidth;
+        double scaleY = newContentHeight / oldContentHeight;
+
+        double newH = (contentX * scaleX - mouseX) / Math.max(newContentWidth - viewportWidth, 1);
+        double newV = (contentY * scaleY - mouseY) / Math.max(newContentHeight - viewportHeight, 1);
+
         mapScrollPane.setHvalue(clamp(newH, 0, 1));
         mapScrollPane.setVvalue(clamp(newV, 0, 1));
     }
