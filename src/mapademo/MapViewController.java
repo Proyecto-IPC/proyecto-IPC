@@ -63,7 +63,7 @@ public class MapViewController implements Initializable {
     private VBox zoomButtonGroup;
     
     private double zoomLevel = 1.0;
-    private static final double MIN_ZOOM = 0.5;
+    private static final double DEFAULT_MIN_ZOOM = 0.5;
     private static final double MAX_ZOOM = 2.5;
     private static final double ZOOM_STEP = 0.15;
     private static final double WHEEL_ZOOM_STEP = 0.025;
@@ -114,7 +114,7 @@ public class MapViewController implements Initializable {
     
     private void setZoom(double zoom) {
         // El zoom se mantiene entre sus limites
-        double newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom));
+        double newZoom = Math.max(getMinZoom(), Math.min(MAX_ZOOM, zoom));
         
         // Rectangulo visible del ScrollPane
         Bounds viewportBounds = mapScrollPane.getViewportBounds();
@@ -151,7 +151,7 @@ public class MapViewController implements Initializable {
     }
     
     private void setZoomAt(double zoom, double mouseX, double mouseY) {
-        double newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom));
+        double newZoom = Math.max(getMinZoom(), Math.min(MAX_ZOOM, zoom));
 
         Bounds viewportBounds = mapScrollPane.getViewportBounds();
 
@@ -184,6 +184,23 @@ public class MapViewController implements Initializable {
     // Asegura que nunca se salga de los limites de ScrollPane
     private double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
+    }
+    
+    private double getMinZoom() {
+        double viewportWidth = mapScrollPane.getViewportBounds().getWidth();
+        double viewportHeight = mapScrollPane.getViewportBounds().getHeight();
+
+        double mapWidth = mapPane.getWidth();
+        double mapHeight = mapPane.getHeight();
+
+        if (viewportWidth <= 0 || viewportHeight <= 0 || mapWidth <= 0 || mapHeight <= 0) {
+            return DEFAULT_MIN_ZOOM;
+        }
+
+        double fitWidthZoom = viewportWidth / mapWidth;
+        double fitHeightZoom = viewportHeight / mapHeight;
+
+        return Math.max(fitWidthZoom, fitHeightZoom);
     }
     
     public void setActivity(Activity activity) {
