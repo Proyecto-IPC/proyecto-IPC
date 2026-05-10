@@ -27,6 +27,13 @@ public class MapViewManualTestApp extends Application {
         Parent root = loader.load();
         MapViewController controller = loader.getController();
         
+        controller.setOnMapSecondaryClick(geoPoint -> {
+            System.out.println(
+                "Click mapa: lat = " + geoPoint.getLatitude()
+                + ", lon = " + geoPoint.getLongitude()
+            );
+        });
+        
         SportActivityApp app = SportActivityApp.getInstance();
         app.registerUser(
             "testmap",

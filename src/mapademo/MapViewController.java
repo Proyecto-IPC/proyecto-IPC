@@ -7,6 +7,7 @@ package mapademo;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds; // Para zoom centrado
@@ -29,6 +30,7 @@ import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.TrackPoint;
+import upv.ipc.sportlib.GeoPoint;
 
 
 /**
@@ -72,6 +74,7 @@ public class MapViewController implements Initializable {
     private Activity currentActivity;
     private MapProjection projection;
     private Bounds routeBounds;
+    private Consumer<GeoPoint> mapSecondaryClickHandler;
 
     /**
      * Initializes the controller class.
@@ -217,10 +220,9 @@ public class MapViewController implements Initializable {
         
         var geoPoint = projection.unproject(x, y);
         
-        System.out.println(
-        "Click mapa: lat = " + geoPoint.getLatitude()
-        + ", lon = " + geoPoint.getLongitude()
-        );
+        if (mapSecondaryClickHandler != null) {
+            mapSecondaryClickHandler.accept(geoPoint);
+        }
     }
     
     public void setActivity(Activity activity) {
@@ -237,6 +239,10 @@ public class MapViewController implements Initializable {
         loadMapForActivity(activity);
         drawActivity(activity);
         centerRouteButton.setDisable(false);
+    }
+    
+    public void setOnMapSecondaryClick(Consumer<GeoPoint> handler) {
+        mapSecondaryClickHandler = handler;
     }
     
     private void clearMap() {
