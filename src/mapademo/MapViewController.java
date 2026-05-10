@@ -68,6 +68,7 @@ public class MapViewController implements Initializable {
     
     private Activity currentActivity;
     private MapProjection projection;
+    private Bounds routeBounds;
 
     /**
      * Initializes the controller class.
@@ -152,6 +153,7 @@ public class MapViewController implements Initializable {
     
     private void clearMap() {
         projection = null;
+        routeBounds = null;
         mapImageView.setImage(null);
         mapImageView.setFitWidth(0);
         mapImageView.setFitHeight(0);
@@ -193,6 +195,9 @@ public class MapViewController implements Initializable {
         
         mapPane.getChildren().add(routeLine);
         
+        // Guarda el rectangulo que ocupa la ruta
+        routeBounds = routeLine.getBoundsInLocal();
+        
         drawRouteMarker(activity.getStartPoint(), Color.GREEN);
         drawRouteMarker(activity.getEndPoint(), Color.RED);
     }
@@ -213,7 +218,24 @@ public class MapViewController implements Initializable {
     }
     
     private void centerRoute() {
+        if (routeBounds == null) {
+            return;
+        }
         
+        double mapWidth = mapPane.getWidth() * zoomLevel;
+        double mapHeight = mapPane.getHeight() * zoomLevel;
+        
+        double viewportWidth = mapScrollPane.getViewportBounds().getWidth();
+        double viewportHeight = mapScrollPane.getViewportBounds().getHeight();
+        
+        double centerX = routeBounds.getCenterX() * zoomLevel;
+        double centerY = routeBounds.getCenterY() * zoomLevel;
+        
+        double h = (centerX - viewportWidth / 2) / Math.max(mapWidth - viewportWidth, 1);
+        double v = (centerY - viewportHeight / 2) / Math.max(mapHeight - viewportHeight, 1);
+        
+        mapScrollPane.setHvalue(clamp(h, 0, 1));
+        mapScrollPane.setVvalue(clamp(v, 0, 1));
     }
     
 }
