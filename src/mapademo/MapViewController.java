@@ -4,6 +4,7 @@
  */
 package mapademo;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -13,11 +14,15 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image; // Para la imagen del mapa
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.MapProjection;
+import upv.ipc.sportlib.MapRegion;
+
 
 /**
  * FXML Controller class
@@ -55,6 +60,9 @@ public class MapViewController implements Initializable {
     private static final double MIN_ZOOM = 0.5;
     private static final double MAX_ZOOM = 2.5;
     private static final double ZOOM_STEP = 0.1;
+    
+    private Activity currentActivity;
+    private MapProjection projection;
 
     /**
      * Initializes the controller class.
@@ -65,6 +73,7 @@ public class MapViewController implements Initializable {
         
         zoomInButton.setOnAction(event -> zoomIn());
         zoomOutButton.setOnAction(event -> zoomOut());
+        centerRouteButton.setOnAction(event -> centerRoute());
         
         setZoom(1.0);
     }
@@ -121,11 +130,46 @@ public class MapViewController implements Initializable {
     }
     
     public void setActivity(Activity activity) {
+        currentActivity = activity;
+        clearMap();
         
+        if (activity == null) {
+            emptyStateLabel.setVisible(true);
+            centerRouteButton.setDisable(true);
+            return;
+        }
+        
+        emptyStateLabel.setVisible(false);
+        loadMapForActivity(activity);
+        drawActivity(activity);
+        centerRouteButton.setDisable(false);
     }
     
     private void clearMap() {
+        projection = null;
+        mapImageView.setImage(null);
+        mapImageView.setFitWidth(0);
+        mapImageView.setFitHeight(0);
+        // Borra todos los hijos del mapPane y deja unicamente mapImageView
+        mapPane.getChildren().setAll(mapImageView);
+    }
+    
+    private void loadMapForActivity(Activity activity) {
+        MapRegion region = activity.getSuggestedMap();
+        Image mapImage = new Image(new File(region.getImagePath()).toURI().toString());
         
+        double width = mapImage.getWidth();
+        double height = mapImage.getHeight();
+        
+        mapImageView.setImage(mapImage);
+        mapImageView.setFitWidth(width);
+        mapImageView.setFitHeight(height);
+        
+        mapPane.setPrefSize(width, height);
+        mapPane.setMinSize(width, height);
+        mapPane.setMaxSize(width, height);
+        
+        projection = new MapProjection(region, width, height);
     }
     
     private void drawActivity(Activity activity) {
