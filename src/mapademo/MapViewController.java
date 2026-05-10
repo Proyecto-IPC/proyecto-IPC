@@ -24,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.MouseButton;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
@@ -91,6 +92,12 @@ public class MapViewController implements Initializable {
             }
             
             event.consume();
+        });
+        
+        mapPane.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                handleMapSecondaryClick(event.getX(), event.getY());
+            }
         });
         
         setZoom(1.0);
@@ -201,6 +208,19 @@ public class MapViewController implements Initializable {
         double fitHeightZoom = viewportHeight / mapHeight;
 
         return Math.max(fitWidthZoom, fitHeightZoom);
+    }
+    
+    private void handleMapSecondaryClick(double x, double y) {
+        if (projection == null || currentActivity == null) {
+            return;
+        }
+        
+        var geoPoint = projection.unproject(x, y);
+        
+        System.out.println(
+        "Click mapa: lat = " + geoPoint.getLatitude()
+        + ", lon = " + geoPoint.getLongitude()
+        );
     }
     
     public void setActivity(Activity activity) {
