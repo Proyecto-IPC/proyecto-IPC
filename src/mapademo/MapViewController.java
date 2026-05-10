@@ -23,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.input.ScrollEvent;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
@@ -64,7 +65,8 @@ public class MapViewController implements Initializable {
     private double zoomLevel = 1.0;
     private static final double MIN_ZOOM = 0.5;
     private static final double MAX_ZOOM = 2.5;
-    private static final double ZOOM_STEP = 0.1;
+    private static final double ZOOM_STEP = 0.15;
+    private static final double WHEEL_ZOOM_STEP = 0.025;
     
     private Activity currentActivity;
     private MapProjection projection;
@@ -81,15 +83,33 @@ public class MapViewController implements Initializable {
         zoomOutButton.setOnAction(event -> zoomOut());
         centerRouteButton.setOnAction(event -> centerRoute());
         
+        mapScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
+            if (event.getDeltaY() > 0) {
+                zoomIn(WHEEL_ZOOM_STEP);
+            } else if (event.getDeltaY() < 0) {
+                zoomOut(WHEEL_ZOOM_STEP);
+            }
+            
+            event.consume();
+        });
+        
         setZoom(1.0);
     }
     
-    private void zoomIn() {
-        setZoom(zoomLevel + ZOOM_STEP);
+    private void zoomIn(double step) {
+        setZoom(zoomLevel + step);
     }
     
+    private void zoomOut(double step) {
+        setZoom(zoomLevel - step);
+    }
+    
+    private void zoomIn() {
+        zoomIn(ZOOM_STEP);
+    }
+        
     private void zoomOut() {
-        setZoom(zoomLevel - ZOOM_STEP);
+        zoomOut(ZOOM_STEP);
     }
     
     private void setZoom(double zoom) {
