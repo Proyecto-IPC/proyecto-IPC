@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds; // Para zoom centrado
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -25,6 +26,7 @@ import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
+import upv.ipc.sportlib.TrackPoint;
 
 
 /**
@@ -182,7 +184,7 @@ public class MapViewController implements Initializable {
         
         Polyline routeLine = new Polyline();
         routeLine.setStrokeWidth(4);
-        routeLine.setStroke(Color.web("#2563EB"));
+        routeLine.setStroke(Color.BLUE);
         
         for (var trackPoint : activity.getTrackPoints()) {
             Point2D point = projection.project(trackPoint);
@@ -190,6 +192,24 @@ public class MapViewController implements Initializable {
         }
         
         mapPane.getChildren().add(routeLine);
+        
+        drawRouteMarker(activity.getStartPoint(), Color.GREEN);
+        drawRouteMarker(activity.getEndPoint(), Color.RED);
+    }
+    
+    private void drawRouteMarker(TrackPoint trackPoint, Color color) {
+        if (trackPoint == null || projection == null) {
+            return;
+        }
+        
+        Point2D point = projection.project(trackPoint);
+        
+        Circle marker = new Circle(point.getX(), point.getY(), 7);
+        marker.setFill(color);
+        marker.setStroke(Color.WHITE);
+        marker.setStrokeWidth(2);
+        
+        mapPane.getChildren().add(marker);
     }
     
     private void centerRoute() {
