@@ -10,6 +10,9 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds; // Para zoom centrado
+import javafx.geometry.Point2D;
+import javafx.scene.shape.Polyline;
+import javafx.scene.paint.Color;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -173,7 +176,20 @@ public class MapViewController implements Initializable {
     }
     
     private void drawActivity(Activity activity) {
+        if (activity == null || projection == null) {
+            return;
+        }
         
+        Polyline routeLine = new Polyline();
+        routeLine.setStrokeWidth(4);
+        routeLine.setStroke(Color.web("#2563EB"));
+        
+        for (var trackPoint : activity.getTrackPoints()) {
+            Point2D point = projection.project(trackPoint);
+            routeLine.getPoints().addAll(point.getX(), point.getY());
+        }
+        
+        mapPane.getChildren().add(routeLine);
     }
     
     private void centerRoute() {
