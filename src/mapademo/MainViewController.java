@@ -13,11 +13,11 @@ public class MainViewController implements Initializable {
     @FXML
     private BorderPane rootPane;  // El BorderPane principal del FXML
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // Se ejecuta automáticamente al cargar el FXML
-        // De momento vacío, aquí luego cargaremos la vista de Login
-    }
+   @Override
+public void initialize(URL url, ResourceBundle rb) {
+    // Al arrancar la app, cargamos el Login en el centro del BorderPane
+    cargarVista("LoginView.fxml");
+}
 
     // Carga cualquier vista FXML en el centro del BorderPane
     public void cargarVista(String fxmlPath) {
