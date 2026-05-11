@@ -22,17 +22,27 @@ public class LoginViewController implements Initializable {
     }
 
     @FXML
-    private void handleLogin() {
-        String usuario = txtUsuario.getText().trim();
-        String password = txtPassword.getText().trim();
+private void handleLogin() {
+    String usuario = txtUsuario.getText().trim();
+    String password = txtPassword.getText().trim();
 
-        if (usuario.isEmpty() || password.isEmpty()) {
-            lblError.setText("Rellena todos los campos.");
-            return;
-        }
-
-        // Aquí conectaremos con IPC2026.jar para validar el usuario
-        // Por ahora solo comprobamos que no estén vacíos
-        lblError.setText("Login pendiente de conectar con la BD.");
+    if (usuario.isEmpty() || password.isEmpty()) {
+        lblError.setText("Rellena todos los campos.");
+        return;
     }
+
+    // Obtenemos la instancia única de la aplicación
+    upv.ipc.sportlib.SportActivityApp app = upv.ipc.sportlib.SportActivityApp.getInstance();
+
+    // Intentamos hacer login con las credenciales introducidas
+    boolean exito = app.login(usuario, password);
+
+    if (exito) {
+        lblError.setText("");
+        // Aquí navegaremos al Dashboard (lo conectamos con el MainShell después)
+        System.out.println("Login correcto: " + app.getCurrentUser().getNickName());
+    } else {
+        lblError.setText("Usuario o contraseña incorrectos.");
+    }
+}
 }
