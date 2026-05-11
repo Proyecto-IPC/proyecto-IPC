@@ -1,48 +1,7 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates.
- * All rights reserved. Use is subject to license terms.
- *
- * This file is available and licensed under the following license:
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *  - Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *  - Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the distribution.
- *  - Neither the name of Oracle Corporation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Legacy stylesheet kept for FXMLDocument.fxml, the original map demo.
+ * New application views use style.css.
  */
-
-/*******************************************************************************
- *                                                                             *
- * Embedded Styling                                                            *
- *                                                                             *
- ******************************************************************************/
-
-
-
-/*******************************************************************************
- *                                                                             *
- * High Contrast Theme                                                         *
- *                                                                             *
- ******************************************************************************/
 
 .contrast {
     -app-color-hi: #5bf900;
@@ -51,90 +10,15 @@
     -fx-background-color: -app-color-lo;
 }
 
-/*-------------------------- map pin ------------------------- */
-
 .map-pin {
-    -fx-shape: "M13.558,0C6.07,0,0,6.07,0,13.558s13.558,22.346,13.558,22.346s13.558-14.858,13.558-22.346S21.045,0,13.558,0z
-M13.558,20.762c-4.084,0-7.395-3.311-7.395-7.395s3.311-7.395,7.395-7.395c4.084,0,7.396,3.311,7.396,7.395
-S17.642,20.762,13.558,20.762z";    
+    -fx-shape: "M13.558,0C6.07,0,0,6.07,0,13.558s13.558,22.346,13.558,22.346s13.558-14.858,13.558-22.346S21.045,0,13.558,0z M13.558,20.762c-4.084,0-7.395-3.311-7.395-7.395s3.311-7.395,7.395-7.395c4.084,0,7.396,3.311,7.396,7.395S17.642,20.762,13.558,20.762z";
     -fx-background-color: black, white;
     -fx-background-insets: 0, 2;
-    -fx-effect: dropshadow( two-pass-box, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 10 );
+    -fx-effect: dropshadow(two-pass-box, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 10);
     -fx-pref-width: 48;
     -fx-pref-height: 60;
 }
+
 .map-pin .arrow-button .arrow {
     -fx-padding: 0;
-}
-.map-scroll-pane,
-.map-scroll-pane:focused {
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
-    -fx-background-color: #eef3f0;
-}
-
-.map-scroll-pane > .viewport {
-    -fx-background-color: #eef3f0;
-}
-
-.map-view {
-    -fx-background-color: #eef3f0;
-}
-
-.map-area {
-    -fx-background-color: #eef3f0;
-}
-
-.map-controls {
-    -fx-padding: 0;
-}
-
-.zoom-button-group {
-    -fx-background-color: rgba(255, 255, 255, 0.94);
-    -fx-background-radius: 9;
-    -fx-border-color: rgba(39, 55, 47, 0.14);
-    -fx-border-radius: 9;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.18), 14, 0.16, 0, 6);
-}
-
-.map-control-button {
-    -fx-background-color: rgba(255, 255, 255, 0.94);
-    -fx-background-radius: 9;
-    -fx-border-color: rgba(39, 55, 47, 0.14);
-    -fx-border-radius: 9;
-    -fx-padding: 0;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.14), 12, 0.12, 0, 5);
-}
-
-.zoom-button-group .map-control-button {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0), 0, 0, 0, 0);
-}
-
-.map-control-button:hover {
-    -fx-background-color: #f1f5f3;
-}
-
-.map-control-button:pressed {
-    -fx-background-color: #e5eee9;
-}
-
-.map-control-button:disabled {
-    -fx-opacity: 0.38;
-    -fx-cursor: default;
-}
-
-.empty-state {
-    -fx-background-color: rgba(255, 255, 255, 0.9);
-    -fx-background-radius: 12;
-    -fx-border-color: rgba(39, 55, 47, 0.14);
-    -fx-border-radius: 12;
-    -fx-padding: 12 16 12 16;
-    -fx-text-fill: #66736d;
-    -fx-font-size: 14px;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.12), 12, 0.12, 0, 6);
 }

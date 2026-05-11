@@ -4,6 +4,7 @@
     -app-bg: #f6f7f9;
     -app-surface: #ffffff;
     -app-surface-alt: #f1f5f3;
+    -app-map-bg: #eef3f0;
     -app-border: #dbe3df;
     -app-text: #17211c;
     -app-muted: #66736d;
@@ -21,6 +22,22 @@
 
 .app-shell {
     -fx-background-color: -app-bg;
+}
+
+.theme-dark {
+    -app-bg: #090f0c;
+    -app-surface: #111815;
+    -app-surface-alt: #17231d;
+    -app-map-bg: #0e1713;
+    -app-border: #26352e;
+    -app-text: #eef5f0;
+    -app-muted: #9aa8a1;
+    -app-primary: #4ade9b;
+    -app-primary-hover: #35c786;
+    -app-primary-soft: #123024;
+    -app-danger: #f07167;
+    -app-success: #5ee0a0;
+    -app-focus: rgba(74, 222, 155, 0.24);
 }
 
 .menu-bar {
@@ -184,4 +201,61 @@
     -fx-padding: 12 16 12 16;
     -fx-text-fill: -app-muted;
     -fx-font-size: 14px;
+}
+
+.map-view,
+.map-area,
+.map-scroll-pane,
+.map-scroll-pane:focused,
+.map-scroll-pane > .viewport {
+    -fx-background-color: -app-map-bg;
+}
+
+.map-scroll-pane,
+.map-scroll-pane:focused {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.map-controls {
+    -fx-padding: 0;
+}
+
+.zoom-button-group {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-radius: 9;
+    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-radius: 9;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.18), 14, 0.16, 0, 6);
+}
+
+.map-control-button {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-radius: 9;
+    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-radius: 9;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.14), 12, 0.12, 0, 5);
+}
+
+.zoom-button-group .map-control-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0), 0, 0, 0, 0);
+}
+
+.map-control-button:hover {
+    -fx-background-color: -app-surface-alt;
+}
+
+.map-control-button:pressed {
+    -fx-background-color: derive(-app-surface-alt, -5%);
+}
+
+.map-control-button:disabled {
+    -fx-opacity: 0.38;
+    -fx-cursor: default;
 }
