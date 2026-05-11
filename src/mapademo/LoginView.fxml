@@ -4,29 +4,37 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.LoginViewController">
+<HBox styleClass="auth-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.LoginViewController">
    <children>
-      <!-- LADO IZQUIERDO: Nombre + imagen -->
-      <VBox alignment="CENTER" spacing="20" styleClass="panel-izquierdo" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" prefWidth="420.0" spacing="20.0" styleClass="auth-brand-panel" HBox.hgrow="ALWAYS">
          <children>
             <Label styleClass="titulo-app" text="Running La Safor" />
-            <ImageView fitHeight="200" fitWidth="200" preserveRatio="true" />
+            <Label styleClass="brand-subtitle" text="Rutas, mapas y actividad del club" />
+            <ImageView fitHeight="160.0" fitWidth="160.0" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/logo.png" />
+               </image>
+            </ImageView>
          </children>
       </VBox>
-
-      <!-- LADO DERECHO: Formulario de login -->
-      <VBox alignment="CENTER" fillWidth="false" spacing="15" styleClass="panel-derecho" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" fillWidth="false" spacing="15.0" styleClass="auth-form-panel" HBox.hgrow="ALWAYS">
          <children>
-            <Label styleClass="titulo" text="Iniciar Sesión" />
-            <TextField fx:id="txtUsuario" maxWidth="300" promptText="Usuario" />
-            <PasswordField fx:id="txtPassword" maxWidth="300" promptText="Contraseña" />
-            <Button fx:id="btnLogin" defaultButton="true" mnemonicParsing="false" onAction="#handleLogin" text="Entrar" />
-            <Label text="¿No tienes cuenta?" />
-            <Button fx:id="btnIrRegistro" mnemonicParsing="false" onAction="#handleIrRegistro" styleClass="button-secundario" text="Registrarme" />
+            <VBox alignment="CENTER_LEFT" maxWidth="340.0" spacing="14.0" styleClass="auth-card">
+               <children>
+                  <Label styleClass="titulo" text="Iniciar sesión" />
+                  <Label styleClass="muted-label" text="Accede para consultar tus actividades." />
+                  <TextField fx:id="txtUsuario" maxWidth="1.7976931348623157E308" promptText="Usuario" />
+                  <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Contraseña" />
+                  <Button fx:id="btnLogin" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" text="Entrar" />
+                  <Label styleClass="muted-label" text="¿No tienes cuenta?" />
+                  <Button fx:id="btnIrRegistro" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrRegistro" styleClass="button-secundario" text="Registrarme" />
+               </children>
+            </VBox>
             <Label fx:id="lblError" styleClass="error" text=" " />
          </children>
       </VBox>

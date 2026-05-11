@@ -4,28 +4,38 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
+<HBox styleClass="auth-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
    <children>
-      <VBox alignment="CENTER" spacing="20" styleClass="panel-izquierdo" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" prefWidth="420.0" spacing="20.0" styleClass="auth-brand-panel" HBox.hgrow="ALWAYS">
          <children>
             <Label styleClass="titulo-app" text="Running La Safor" />
-            <ImageView fitHeight="200" fitWidth="200" preserveRatio="true" />
+            <Label styleClass="brand-subtitle" text="Crea tu cuenta y empieza a guardar rutas" />
+            <ImageView fitHeight="160.0" fitWidth="160.0" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/logo.png" />
+               </image>
+            </ImageView>
          </children>
       </VBox>
-
-      <VBox alignment="CENTER" fillWidth="false" spacing="12" styleClass="panel-derecho" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" fillWidth="false" spacing="15.0" styleClass="auth-form-panel" HBox.hgrow="ALWAYS">
          <children>
-            <Label styleClass="titulo" text="Registro" />
-            <TextField fx:id="txtUsuario" maxWidth="300" promptText="Usuario" />
-            <PasswordField fx:id="txtPassword" maxWidth="300" promptText="Contraseña" />
-            <PasswordField fx:id="txtConfirm" maxWidth="300" promptText="Confirmar contraseña" />
-            <Button fx:id="btnRegistrar" defaultButton="true" mnemonicParsing="false" onAction="#handleRegistro" text="Entrar" />
-            <Label text="¿Ya tienes cuenta?" />
-            <Button fx:id="btnIrLogin" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
+            <VBox alignment="CENTER_LEFT" maxWidth="360.0" spacing="12.0" styleClass="auth-card">
+               <children>
+                  <Label styleClass="titulo" text="Registro" />
+                  <Label styleClass="muted-label" text="Usa una contraseña segura para tu cuenta." />
+                  <TextField fx:id="txtUsuario" maxWidth="1.7976931348623157E308" promptText="Usuario" />
+                  <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Contraseña" />
+                  <PasswordField fx:id="txtConfirm" maxWidth="1.7976931348623157E308" promptText="Confirmar contraseña" />
+                  <Button fx:id="btnRegistrar" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegistro" text="Crear cuenta" />
+                  <Label styleClass="muted-label" text="¿Ya tienes cuenta?" />
+                  <Button fx:id="btnIrLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
+               </children>
+            </VBox>
             <Label fx:id="lblError" styleClass="error" text=" " />
          </children>
       </VBox>

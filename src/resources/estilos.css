@@ -72,4 +72,69 @@ S17.642,20.762,13.558,20.762z";
     -fx-padding: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
+    -fx-background-color: #eef3f0;
+}
+
+.map-scroll-pane > .viewport {
+    -fx-background-color: #eef3f0;
+}
+
+.map-view {
+    -fx-background-color: #eef3f0;
+}
+
+.map-area {
+    -fx-background-color: #eef3f0;
+}
+
+.map-controls {
+    -fx-padding: 0;
+}
+
+.zoom-button-group {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-radius: 9;
+    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-radius: 9;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.18), 14, 0.16, 0, 6);
+}
+
+.map-control-button {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-radius: 9;
+    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-radius: 9;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.14), 12, 0.12, 0, 5);
+}
+
+.zoom-button-group .map-control-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0), 0, 0, 0, 0);
+}
+
+.map-control-button:hover {
+    -fx-background-color: #f1f5f3;
+}
+
+.map-control-button:pressed {
+    -fx-background-color: #e5eee9;
+}
+
+.map-control-button:disabled {
+    -fx-opacity: 0.38;
+    -fx-cursor: default;
+}
+
+.empty-state {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-radius: 12;
+    -fx-padding: 12 16 12 16;
+    -fx-text-fill: #66736d;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.12), 12, 0.12, 0, 6);
 }

@@ -1,89 +1,187 @@
-/* ============ FONDO Y CONTENEDORES ============ */
+/* Running La Safor - UI foundation */
+
 .root {
-    -fx-font-family: "Segoe UI", "San Francisco", Arial, sans-serif;
-    -fx-background-color: #f4f6f8;
+    -app-bg: #f6f7f9;
+    -app-surface: #ffffff;
+    -app-surface-alt: #f1f5f3;
+    -app-border: #dbe3df;
+    -app-text: #17211c;
+    -app-muted: #66736d;
+    -app-primary: #16724f;
+    -app-primary-hover: #105d40;
+    -app-primary-soft: #e7f3ee;
+    -app-danger: #c2413a;
+    -app-success: #1d8f61;
+    -app-focus: rgba(22, 114, 79, 0.22);
+
+    -fx-font-family: "Segoe UI", "Inter", "Arial", sans-serif;
+    -fx-background-color: -app-bg;
+    -fx-text-fill: -app-text;
 }
 
-/* ============ TÍTULOS ============ */
-.titulo {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+.app-shell {
+    -fx-background-color: -app-bg;
 }
 
-/* ============ CAMPOS DE TEXTO ============ */
-.text-field, .password-field {
-    -fx-background-color: white;
-    -fx-background-radius: 8;
-    -fx-border-color: #d0d7de;
-    -fx-border-radius: 8;
-    -fx-padding: 10;
+.menu-bar {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -app-border transparent;
+}
+
+.auth-root {
+    -fx-background-color: -app-bg;
+}
+
+.auth-brand-panel {
+    -fx-background-color: linear-gradient(to bottom right, #10241b, #1f6a4e);
+    -fx-padding: 56 48 56 48;
+}
+
+.auth-form-panel {
+    -fx-background-color: -app-surface;
+    -fx-padding: 56 64 56 64;
+}
+
+.auth-card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 12;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 12;
+    -fx-padding: 28;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.08), 18, 0.16, 0, 8);
+}
+
+.titulo,
+.page-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -app-text;
+}
+
+.titulo-app {
+    -fx-font-size: 34px;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+}
+
+.brand-subtitle {
     -fx-font-size: 14px;
+    -fx-text-fill: rgba(255, 255, 255, 0.78);
 }
 
-.text-field:focused, .password-field:focused {
-    -fx-border-color: #3498db;
-    -fx-border-width: 2;
+.section-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -app-muted;
 }
 
-/* ============ BOTONES ============ */
+.muted-label {
+    -fx-text-fill: -app-muted;
+}
+
+.text-field,
+.password-field {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 8;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 9 11 9 11;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #8b9892;
+}
+
+.text-field:hover,
+.password-field:hover {
+    -fx-border-color: #b9c7c1;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: -app-primary;
+    -fx-effect: dropshadow(gaussian, -app-focus, 7, 0.6, 0, 0);
+}
+
 .button {
-    -fx-background-color: #3498db;
+    -fx-background-color: -app-primary;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-border-color: transparent;
     -fx-text-fill: white;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-padding: 10 25 10 25;
+    -fx-font-weight: 600;
+    -fx-padding: 9 18 9 18;
     -fx-cursor: hand;
 }
 
 .button:hover {
-    -fx-background-color: #2980b9;
+    -fx-background-color: -app-primary-hover;
 }
 
-.button-secundario {
+.button:pressed {
+    -fx-background-color: #0d4f37;
+}
+
+.button:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
+}
+
+.button-secundario,
+.outline-button {
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-border;
+    -fx-text-fill: -app-text;
+}
+
+.button-secundario:hover,
+.outline-button:hover {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: #c6d2cc;
+}
+
+.ghost-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #3498db;
-    -fx-border-color: #3498db;
-    -fx-border-radius: 8;
-    -fx-border-width: 2;
+    -fx-border-color: transparent;
+    -fx-text-fill: -app-muted;
 }
 
-.button-secundario:hover {
-    -fx-background-color: #ecf0f1;
+.ghost-button:hover {
+    -fx-background-color: -app-primary-soft;
+    -fx-text-fill: -app-primary;
 }
 
-/* ============ LABELS DE ERROR ============ */
 .error {
-    -fx-text-fill: #e74c3c;
+    -fx-text-fill: -app-danger;
     -fx-font-size: 13px;
 }
 
-/* ============ MENU BAR ============ */
-.menu-bar {
-    -fx-background-color: #2c3e50;
+.profile-root {
+    -fx-background-color: -app-bg;
+    -fx-padding: 32;
 }
 
-.menu-bar > .container > .menu-button > .label {
-    -fx-text-fill: white;
+.profile-card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 12;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 12;
+    -fx-padding: 28;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 14, 0.12, 0, 6);
 }
 
-.menu-item .label {
-    -fx-text-fill: #2c3e50;
+.profile-value {
+    -fx-font-size: 14px;
+    -fx-text-fill: -app-text;
 }
 
-/* ============ PANELES DE LOGIN / REGISTRO ============ */
-.panel-izquierdo {
-    -fx-background-color: #2c3e50;
-    -fx-padding: 40;
-}
-
-.panel-izquierdo .titulo-app {
-    -fx-font-size: 32px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
-.panel-derecho {
-    -fx-padding: 40;
+.empty-state {
+    -fx-background-color: rgba(255, 255, 255, 0.88);
+    -fx-background-radius: 12;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 12;
+    -fx-padding: 12 16 12 16;
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 14px;
 }
