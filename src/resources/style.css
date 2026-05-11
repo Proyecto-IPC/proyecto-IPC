@@ -1,0 +1,69 @@
+/* ============ FONDO Y CONTENEDORES ============ */
+.root {
+    -fx-font-family: "Segoe UI", "San Francisco", Arial, sans-serif;
+    -fx-background-color: #f4f6f8;
+}
+
+/* ============ TÍTULOS ============ */
+.titulo {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* ============ CAMPOS DE TEXTO ============ */
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2;
+}
+
+/* ============ BOTONES ============ */
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 25 10 25;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button-secundario {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3498db;
+    -fx-border-color: #3498db;
+    -fx-border-radius: 8;
+    -fx-border-width: 2;
+}
+
+.button-secundario:hover {
+    -fx-background-color: #ecf0f1;
+}
+
+/* ============ LABELS DE ERROR ============ */
+.error {
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 13px;
+}
+
+/* ============ MENU BAR ============ */
+.menu-bar {
+    -fx-background-color: #2c3e50;
+}
+
+.menu-bar .label {
+    -fx-text-fill: white;
+}

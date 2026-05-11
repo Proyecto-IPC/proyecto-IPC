@@ -20,6 +20,7 @@ public class MapaDemoApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/resources/style.css").toExternalForm());
         stage.setTitle("Sport Activity - IPC");
         stage.setScene(scene);
         stage.show();
