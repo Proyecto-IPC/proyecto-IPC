@@ -1,6 +1,7 @@
 package mapademo;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,39 +31,38 @@ public class RegisterViewController implements Initializable {
         String confirm = txtConfirm.getText().trim();
 
         if (usuario.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-            lblError.setText("Rellena todos los campos.");
+            lblError.setText("Completa usuario, contraseña y confirmación.");
             return;
         }
 
         if (!password.equals(confirm)) {
-            lblError.setText("Las contraseñas no coinciden.");
+            lblError.setText("Las contraseñas no coinciden. Escríbelas de nuevo.");
             return;
         }
 
         if (!upv.ipc.sportlib.User.validateNickName(usuario)) {
-            lblError.setText("Nombre de usuario no válido.");
+            lblError.setText("El usuario no es válido. Revisa el formato del nombre.");
             return;
         }
 
         if (password.length() < 8) {
-            lblError.setText("Contraseña no válida: mínimo 8 caracteres.");
+            lblError.setText("La contraseña debe tener al menos 8 caracteres.");
             return;
         }
 
         if (!upv.ipc.sportlib.User.validatePassword(password)) {
-            lblError.setText("Contraseña no válida: debe tener mayúscula, minúscula, número y símbolo.");
+            lblError.setText("Usa mayúscula, minúscula, número y símbolo en la contraseña.");
             return;
         }
 
         upv.ipc.sportlib.SportActivityApp app = upv.ipc.sportlib.SportActivityApp.getInstance();
-
-        boolean exito = app.registerUser(usuario, usuario + "@app.com", password, java.time.LocalDate.of(2000, 1, 1), "");
+        boolean exito = app.registerUser(usuario, usuario + "@app.com", password, LocalDate.of(2000, 1, 1), "");
 
         if (exito) {
             lblError.setText("");
             MainViewController.getInstancia().cargarVista("LoginView.fxml");
         } else {
-            lblError.setText("El usuario ya existe o hubo un error.");
+            lblError.setText("No se ha podido crear la cuenta. Prueba con otro usuario.");
         }
     }
 

@@ -1,19 +1,22 @@
 /* Running La Safor - UI foundation */
 
 .root {
-    -app-bg: #f6f7f9;
+    -app-bg: #f8faf9;
     -app-surface: #ffffff;
-    -app-surface-alt: #f1f5f3;
+    -app-surface-alt: #f3f6f4;
     -app-map-bg: #eef3f0;
-    -app-border: #dbe3df;
-    -app-text: #17211c;
-    -app-muted: #66736d;
-    -app-primary: #16724f;
-    -app-primary-hover: #105d40;
-    -app-primary-soft: #e7f3ee;
-    -app-danger: #c2413a;
-    -app-success: #1d8f61;
-    -app-focus: rgba(22, 114, 79, 0.22);
+    -app-border: #d9e1dc;
+    -app-text: #111816;
+    -app-muted: #65726c;
+    -app-primary: #158052;
+    -app-primary-hover: #116a45;
+    -app-primary-soft: #e8f5ef;
+    -app-coast: #2563eb;
+    -app-coast-soft: #eaf2ff;
+    -app-sand: #d7aa4a;
+    -app-danger: #b9352f;
+    -app-success: #168a57;
+    -app-focus: rgba(21, 128, 82, 0.2);
 
     -fx-font-family: "Segoe UI", "Inter", "Arial", sans-serif;
     -fx-background-color: -app-bg;
@@ -35,6 +38,9 @@
     -app-primary: #4ade9b;
     -app-primary-hover: #35c786;
     -app-primary-soft: #123024;
+    -app-coast: #60a5fa;
+    -app-coast-soft: #10233d;
+    -app-sand: #e2be69;
     -app-danger: #f07167;
     -app-success: #5ee0a0;
     -app-focus: rgba(74, 222, 155, 0.24);
@@ -50,8 +56,18 @@
 }
 
 .auth-brand-panel {
-    -fx-background-color: linear-gradient(to bottom right, #10241b, #1f6a4e);
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: transparent -app-border transparent transparent;
+    -fx-border-width: 0 1 0 0;
     -fx-padding: 56 48 56 48;
+}
+
+.auth-brand-mark {
+    -fx-background-color: -app-primary-soft;
+    -fx-background-radius: 999;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 999;
+    -fx-padding: 18;
 }
 
 .auth-form-panel {
@@ -61,11 +77,11 @@
 
 .auth-card {
     -fx-background-color: -app-surface;
-    -fx-background-radius: 12;
+    -fx-background-radius: 10;
     -fx-border-color: -app-border;
-    -fx-border-radius: 12;
+    -fx-border-radius: 10;
     -fx-padding: 28;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.08), 18, 0.16, 0, 8);
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.05), 14, 0.12, 0, 5);
 }
 
 .titulo,
@@ -76,14 +92,14 @@
 }
 
 .titulo-app {
-    -fx-font-size: 34px;
+    -fx-font-size: 32px;
     -fx-font-weight: 700;
-    -fx-text-fill: white;
+    -fx-text-fill: -app-text;
 }
 
 .brand-subtitle {
     -fx-font-size: 14px;
-    -fx-text-fill: rgba(255, 255, 255, 0.78);
+    -fx-text-fill: -app-muted;
 }
 
 .section-label {
@@ -96,14 +112,24 @@
     -fx-text-fill: -app-muted;
 }
 
+.field-stack {
+    -fx-spacing: 6;
+}
+
+.field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -app-text;
+}
+
 .text-field,
 .password-field {
     -fx-background-color: -app-surface;
-    -fx-background-radius: 8;
+    -fx-background-radius: 7;
     -fx-border-color: -app-border;
-    -fx-border-radius: 8;
+    -fx-border-radius: 7;
     -fx-border-width: 1;
-    -fx-padding: 9 11 9 11;
+    -fx-padding: 8 11 8 11;
     -fx-font-size: 14px;
     -fx-prompt-text-fill: #8b9892;
 }
@@ -115,20 +141,20 @@
 
 .text-field:focused,
 .password-field:focused {
-    -fx-border-color: -app-primary;
-    -fx-effect: dropshadow(gaussian, -app-focus, 7, 0.6, 0, 0);
+    -fx-border-color: -app-coast;
+    -fx-border-width: 1.2;
 }
 
 .button {
     -fx-background-color: -app-primary;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
     -fx-border-width: 1;
     -fx-border-color: transparent;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: 600;
-    -fx-padding: 9 18 9 18;
+    -fx-padding: 8 16 8 16;
     -fx-cursor: hand;
 }
 
@@ -138,6 +164,10 @@
 
 .button:pressed {
     -fx-background-color: #0d4f37;
+}
+
+.button:focused {
+    -fx-border-color: derive(-app-primary, -28%);
 }
 
 .button:disabled {
@@ -154,8 +184,13 @@
 
 .button-secundario:hover,
 .outline-button:hover {
-    -fx-background-color: -app-surface-alt;
-    -fx-border-color: #c6d2cc;
+    -fx-background-color: -app-coast-soft;
+    -fx-border-color: derive(-app-coast, 45%);
+}
+
+.button-secundario:focused,
+.outline-button:focused {
+    -fx-border-color: -app-coast;
 }
 
 .ghost-button {
@@ -181,11 +216,11 @@
 
 .profile-card {
     -fx-background-color: -app-surface;
-    -fx-background-radius: 12;
+    -fx-background-radius: 10;
     -fx-border-color: -app-border;
-    -fx-border-radius: 12;
+    -fx-border-radius: 10;
     -fx-padding: 28;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 14, 0.12, 0, 6);
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 12, 0.1, 0, 4);
 }
 
 .profile-value {
@@ -195,9 +230,9 @@
 
 .empty-state {
     -fx-background-color: rgba(255, 255, 255, 0.88);
-    -fx-background-radius: 12;
+    -fx-background-radius: 10;
     -fx-border-color: -app-border;
-    -fx-border-radius: 12;
+    -fx-border-radius: 10;
     -fx-padding: 12 16 12 16;
     -fx-text-fill: -app-muted;
     -fx-font-size: 14px;
@@ -225,20 +260,20 @@
 
 .zoom-button-group {
     -fx-background-color: rgba(255, 255, 255, 0.94);
-    -fx-background-radius: 9;
+    -fx-background-radius: 8;
     -fx-border-color: rgba(39, 55, 47, 0.14);
-    -fx-border-radius: 9;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.18), 14, 0.16, 0, 6);
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.12), 10, 0.12, 0, 4);
 }
 
 .map-control-button {
     -fx-background-color: rgba(255, 255, 255, 0.94);
-    -fx-background-radius: 9;
+    -fx-background-radius: 8;
     -fx-border-color: rgba(39, 55, 47, 0.14);
-    -fx-border-radius: 9;
+    -fx-border-radius: 8;
     -fx-padding: 0;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.14), 12, 0.12, 0, 5);
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.10), 9, 0.1, 0, 3);
 }
 
 .zoom-button-group .map-control-button {

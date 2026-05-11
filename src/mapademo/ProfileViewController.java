@@ -15,16 +15,19 @@ public class ProfileViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    upv.ipc.sportlib.User user = upv.ipc.sportlib.SportActivityApp.getInstance().getCurrentUser();
-    if (user != null) {
-        lblUsuario.setText("Usuario: " + user.getNickName());
-        lblEmail.setText("Email: " + user.getEmail());
+        upv.ipc.sportlib.User user = upv.ipc.sportlib.SportActivityApp.getInstance().getCurrentUser();
+        if (user != null) {
+            lblUsuario.setText(user.getNickName());
+            lblEmail.setText(user.getEmail());
+        } else {
+            lblUsuario.setText("No hay sesión activa");
+            lblEmail.setText("Inicia sesión para ver tu perfil");
+        }
     }
-}
 
     @FXML
     private void handleLogout() {
-    upv.ipc.sportlib.SportActivityApp.getInstance().logout();
-    MainViewController.getInstancia().cargarVista("LoginView.fxml");
+        upv.ipc.sportlib.SportActivityApp.getInstance().logout();
+        MainViewController.getInstancia().cargarVista("LoginView.fxml");
     }
 }

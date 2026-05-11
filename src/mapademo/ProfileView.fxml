@@ -14,8 +14,18 @@
                <children>
                   <Label styleClass="page-title" text="Mi perfil" />
                   <Label styleClass="muted-label" text="Datos de la cuenta activa" />
-                  <Label fx:id="lblUsuario" styleClass="profile-value" text="Usuario" />
-                  <Label fx:id="lblEmail" styleClass="profile-value" text="Email" />
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Usuario" />
+                        <Label fx:id="lblUsuario" styleClass="profile-value" text="No disponible" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Correo electrónico" />
+                        <Label fx:id="lblEmail" styleClass="profile-value" text="No disponible" />
+                     </children>
+                  </VBox>
                   <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handleLogout" styleClass="button-secundario" text="Cerrar sesión">
                      <VBox.margin>
                         <Insets top="10.0" />

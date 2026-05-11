@@ -15,7 +15,7 @@
          <children>
             <Label styleClass="titulo-app" text="Running La Safor" />
             <Label styleClass="brand-subtitle" text="Rutas, mapas y actividad del club" />
-            <ImageView fitHeight="160.0" fitWidth="160.0" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="150.0" preserveRatio="true" styleClass="auth-brand-mark">
                <image>
                   <Image url="@../resources/logo.png" />
                </image>
@@ -28,8 +28,18 @@
                <children>
                   <Label styleClass="titulo" text="Iniciar sesión" />
                   <Label styleClass="muted-label" text="Accede para consultar tus actividades." />
-                  <TextField fx:id="txtUsuario" maxWidth="1.7976931348623157E308" promptText="Usuario" />
-                  <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Contraseña" />
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Usuario" />
+                        <TextField fx:id="txtUsuario" maxWidth="1.7976931348623157E308" promptText="Tu nombre de usuario" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Contraseña" />
+                        <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Introduce tu contraseña" />
+                     </children>
+                  </VBox>
                   <Button fx:id="btnLogin" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" text="Entrar" />
                   <Label styleClass="muted-label" text="¿No tienes cuenta?" />
                   <Button fx:id="btnIrRegistro" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrRegistro" styleClass="button-secundario" text="Registrarme" />
