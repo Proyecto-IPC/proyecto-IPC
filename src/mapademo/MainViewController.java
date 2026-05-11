@@ -11,15 +11,23 @@ import javafx.scene.layout.Pane;
 public class MainViewController implements Initializable {
 
     @FXML
-    private BorderPane rootPane;  // El BorderPane principal del FXML
+    private BorderPane rootPane;
 
-   @Override
-public void initialize(URL url, ResourceBundle rb) {
-    // Al arrancar la app, cargamos el Login en el centro del BorderPane
-    cargarVista("LoginView.fxml");
-}
+    // Referencia estática para que otras vistas puedan navegar
+    private static MainViewController instancia;
 
-    // Carga cualquier vista FXML en el centro del BorderPane
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        instancia = this;          // Guardamos la referencia a esta instancia
+        cargarVista("LoginView.fxml");
+    }
+
+    // Permite a cualquier controlador acceder al MainShell
+    public static MainViewController getInstancia() {
+        return instancia;
+    }
+
+    // Carga una vista FXML en el centro del BorderPane
     public void cargarVista(String fxmlPath) {
         try {
             Pane vista = FXMLLoader.load(getClass().getResource(fxmlPath));

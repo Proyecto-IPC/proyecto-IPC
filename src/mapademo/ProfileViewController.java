@@ -15,13 +15,16 @@ public class ProfileViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Aquí cargaremos los datos del usuario desde IPC2026.jar
-        lblUsuario.setText("Usuario: -");
-        lblEmail.setText("Email: -");
+    upv.ipc.sportlib.User user = upv.ipc.sportlib.SportActivityApp.getInstance().getCurrentUser();
+    if (user != null) {
+        lblUsuario.setText("Usuario: " + user.getNickName());
+        lblEmail.setText("Email: " + user.getEmail());
     }
+}
 
     @FXML
     private void handleLogout() {
-        // Aquí cerraremos la sesión y volveremos al Login
+    upv.ipc.sportlib.SportActivityApp.getInstance().logout();
+    MainViewController.getInstancia().cargarVista("LoginView.fxml");
     }
 }

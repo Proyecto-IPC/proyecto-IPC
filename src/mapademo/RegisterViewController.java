@@ -53,18 +53,17 @@ private void handleRegistro() {
     upv.ipc.sportlib.SportActivityApp app = upv.ipc.sportlib.SportActivityApp.getInstance();
 
     // Registramos el usuario — email y fecha de nacimiento los pediremos luego en la vista completa
-    boolean exito = app.registerUser(usuario, password, usuario + "@app.com", java.time.LocalDate.now(), "");
+   boolean exito = app.registerUser(usuario, usuario + "@app.com", password, java.time.LocalDate.of(2000, 1, 1), "");
 
-    if (exito) {
-        lblError.setText("");
-        System.out.println("Registro correcto: " + usuario);
-        // Aquí navegaremos al Login después del registro
+   if (exito) {
+    lblError.setText("");
+    MainViewController.getInstancia().cargarVista("LoginView.fxml");
     } else {
-        lblError.setText("El usuario ya existe o hubo un error.");
+    lblError.setText("El usuario ya existe o hubo un error.");
     }
 }
     @FXML
     private void handleIrLogin() {
-        // Aquí navegaremos al Login cuando conectemos el MainShell
+    MainViewController.getInstancia().cargarVista("LoginView.fxml");
     }
 }

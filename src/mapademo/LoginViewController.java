@@ -18,31 +18,32 @@ public class LoginViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lblError.setText("");  // Ocultamos el label de error al inicio
+        lblError.setText("");
     }
 
     @FXML
-private void handleLogin() {
-    String usuario = txtUsuario.getText().trim();
-    String password = txtPassword.getText().trim();
+    private void handleLogin() {
+        String usuario = txtUsuario.getText().trim();
+        String password = txtPassword.getText().trim();
 
-    if (usuario.isEmpty() || password.isEmpty()) {
-        lblError.setText("Rellena todos los campos.");
-        return;
+        if (usuario.isEmpty() || password.isEmpty()) {
+            lblError.setText("Rellena todos los campos.");
+            return;
+        }
+
+        upv.ipc.sportlib.SportActivityApp app = upv.ipc.sportlib.SportActivityApp.getInstance();
+        boolean exito = app.login(usuario, password);
+
+        if (exito) {
+            lblError.setText("");
+            MainViewController.getInstancia().cargarVista("ProfileView.fxml");
+        } else {
+            lblError.setText("Usuario o contraseña incorrectos.");
+        }
     }
 
-    // Obtenemos la instancia única de la aplicación
-    upv.ipc.sportlib.SportActivityApp app = upv.ipc.sportlib.SportActivityApp.getInstance();
-
-    // Intentamos hacer login con las credenciales introducidas
-    boolean exito = app.login(usuario, password);
-
-    if (exito) {
-        lblError.setText("");
-        // Aquí navegaremos al Dashboard (lo conectamos con el MainShell después)
-        System.out.println("Login correcto: " + app.getCurrentUser().getNickName());
-    } else {
-        lblError.setText("Usuario o contraseña incorrectos.");
+    @FXML
+    private void handleIrRegistro() {
+        MainViewController.getInstancia().cargarVista("RegisterView.fxml");
     }
-}
 }
