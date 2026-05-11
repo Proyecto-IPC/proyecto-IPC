@@ -21,7 +21,7 @@ public class MapaDemoApp extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/resources/style.css").toExternalForm());
-        stage.setTitle("Sport Activity - IPC");
+        stage.setTitle("Running La Safor");
         stage.setScene(scene);
         stage.show();
     }

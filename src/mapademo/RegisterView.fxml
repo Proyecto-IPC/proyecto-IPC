@@ -4,22 +4,30 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
+<HBox xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
    <children>
-      <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" spacing="20" styleClass="panel-izquierdo" HBox.hgrow="ALWAYS">
          <children>
-            <Label styleClass="titulo" text="Crear Cuenta" />
-            <TextField fx:id="txtUsuario" maxWidth="400.0" promptText="Nombre de usuario" />
-            <PasswordField fx:id="txtPassword" maxWidth="400.0" promptText="Contraseña" />
-            <PasswordField fx:id="txtConfirm" maxWidth="400.0" promptText="Confirmar Contraseña" />
-            <Button fx:id="btnRegistrar" defaultButton="true" mnemonicParsing="false" onAction="#handleRegistro" text="Registrarse" />
-            <Label text="Ya tienes cuenta?" />
-            <Button fx:id="btnIrLogin" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Inicia Sesión" />
-            <Label fx:id="lblError" styleClass="error" />
+            <Label styleClass="titulo-app" text="Running La Safor" />
+            <ImageView fitHeight="200" fitWidth="200" preserveRatio="true" />
+         </children>
+      </VBox>
+
+      <VBox alignment="CENTER" fillWidth="false" spacing="12" styleClass="panel-derecho" HBox.hgrow="ALWAYS">
+         <children>
+            <Label styleClass="titulo" text="Registro" />
+            <TextField fx:id="txtUsuario" maxWidth="300" promptText="Usuario" />
+            <PasswordField fx:id="txtPassword" maxWidth="300" promptText="Contraseña" />
+            <PasswordField fx:id="txtConfirm" maxWidth="300" promptText="Confirmar contraseña" />
+            <Button fx:id="btnRegistrar" defaultButton="true" mnemonicParsing="false" onAction="#handleRegistro" text="Entrar" />
+            <Label text="¿Ya tienes cuenta?" />
+            <Button fx:id="btnIrLogin" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
+            <Label fx:id="lblError" styleClass="error" text=" " />
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</HBox>

@@ -4,20 +4,31 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.LoginViewController">
+<HBox xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.LoginViewController">
    <children>
-      <VBox alignment="CENTER" fillWidth="false" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <!-- LADO IZQUIERDO: Nombre + imagen -->
+      <VBox alignment="CENTER" spacing="20" styleClass="panel-izquierdo" HBox.hgrow="ALWAYS">
+         <children>
+            <Label styleClass="titulo-app" text="Running La Safor" />
+            <ImageView fitHeight="200" fitWidth="200" preserveRatio="true" />
+         </children>
+      </VBox>
+
+      <!-- LADO DERECHO: Formulario de login -->
+      <VBox alignment="CENTER" fillWidth="false" spacing="15" styleClass="panel-derecho" HBox.hgrow="ALWAYS">
          <children>
             <Label styleClass="titulo" text="Iniciar Sesión" />
-            <TextField fx:id="txtUsuario" maxWidth="400.0" promptText="Usuario" />
-            <PasswordField fx:id="txtPassword" maxWidth="400.0" promptText="Contraseña" />
+            <TextField fx:id="txtUsuario" maxWidth="300" promptText="Usuario" />
+            <PasswordField fx:id="txtPassword" maxWidth="300" promptText="Contraseña" />
             <Button fx:id="btnLogin" defaultButton="true" mnemonicParsing="false" onAction="#handleLogin" text="Entrar" />
-            <Button fx:id="btnIrRegistro" mnemonicParsing="false" onAction="#handleIrRegistro" styleClass="button-secundario" text="Crear Cuenta" />
+            <Label text="¿No tienes cuenta?" />
+            <Button fx:id="btnIrRegistro" mnemonicParsing="false" onAction="#handleIrRegistro" styleClass="button-secundario" text="Registrarme" />
             <Label fx:id="lblError" styleClass="error" text=" " />
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</HBox>
