@@ -4,7 +4,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.MainViewController">
    <top>
@@ -28,7 +27,4 @@
         </menus>
       </MenuBar>
    </top>
-   <left>
-      <VBox id="menuLateral" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
-   </left>
 </BorderPane>
