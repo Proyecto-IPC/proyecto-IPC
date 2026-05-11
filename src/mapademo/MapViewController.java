@@ -66,6 +66,8 @@ public class MapViewController implements Initializable {
     private VBox zoomButtonGroup;
     
     private double zoomLevel = 1.0;
+    private static final String EMPTY_STATE_MESSAGE = "Selecciona una actividad para ver su recorrido";
+    private static final String MAP_LOAD_ERROR_MESSAGE = "No se pudo cargar el mapa de la actividad";
     private static final double DEFAULT_MIN_ZOOM = 0.5;
     private static final double MAX_ZOOM = 2.5;
     private static final double ZOOM_STEP = 0.15;
@@ -242,13 +244,21 @@ public class MapViewController implements Initializable {
         clearMap();
         
         if (activity == null) {
+            emptyStateLabel.setText(EMPTY_STATE_MESSAGE);
             emptyStateLabel.setVisible(true);
             centerRouteButton.setDisable(true);
             return;
         }
         
         emptyStateLabel.setVisible(false);
-        loadMapForActivity(activity);
+        
+        if (!loadMapForActivity(activity)) {
+            emptyStateLabel.setText(MAP_LOAD_ERROR_MESSAGE);
+            emptyStateLabel.setVisible(true);
+            centerRouteButton.setDisable(true);
+            return;
+        }
+        
         drawActivity(activity);
         centerRouteButton.setDisable(false);
     }
@@ -296,9 +306,16 @@ public class MapViewController implements Initializable {
         mapPane.getChildren().setAll(mapImageView);
     }
     
-    private void loadMapForActivity(Activity activity) {
+    private boolean loadMapForActivity(Activity activity) {
         MapRegion region = activity.getSuggestedMap();
+        if (region == null) {
+            return false;
+        }
+        
         Image mapImage = new Image(new File(region.getImagePath()).toURI().toString());
+        if (mapImage.isError() || mapImage.getWidth() <= 0 || mapImage.getHeight() <= 0) {
+            return false;
+        }
         
         double width = mapImage.getWidth();
         double height = mapImage.getHeight();
@@ -312,6 +329,7 @@ public class MapViewController implements Initializable {
         mapPane.setMaxSize(width, height);
         
         projection = new MapProjection(region, width, height);
+        return true;
     }
     
     private void drawActivity(Activity activity) {
