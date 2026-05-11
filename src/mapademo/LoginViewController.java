@@ -36,7 +36,7 @@ public class LoginViewController implements Initializable {
 
         if (exito) {
             lblError.setText("");
-            MainViewController.getInstancia().cargarVista("ProfileView.fxml");
+            MainViewController.getInstancia().mostrarShellInicial();
         } else {
             lblError.setText("Usuario o contraseña incorrectos. Revisa los datos e inténtalo de nuevo.");
         }
