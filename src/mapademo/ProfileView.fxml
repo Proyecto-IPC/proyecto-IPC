@@ -11,11 +11,11 @@
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Mi Perfil" />
+            <Label styleClass="titulo" text="Mi Perfil" />
             <Label fx:id="lblUsuario" text="Usuario" />
             <Label fx:id="lblEmail" text="Email" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handleLogout" text="Cerrar Sesión" />
+            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handleLogout" styleClass="button-secundario" text="Cerrar Sesión" />
          </children>
       </VBox>
    </children>

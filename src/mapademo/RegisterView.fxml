@@ -11,14 +11,14 @@
    <children>
       <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Crear Cuenta" />
+            <Label styleClass="titulo" text="Crear Cuenta" />
             <TextField fx:id="txtUsuario" maxWidth="400.0" promptText="Nombre de usuario" />
             <PasswordField fx:id="txtPassword" maxWidth="400.0" promptText="Contraseña" />
             <PasswordField fx:id="txtConfirm" maxWidth="400.0" promptText="Confirmar Contraseña" />
             <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#handleRegistro" text="Registrarse" />
             <Label text="Ya tienes cuenta?" />
-            <Button fx:id="btnIrLogin" mnemonicParsing="false" onAction="#handleIrLogin" text="Inicia Sesión" />
-            <Label fx:id="lblError" />
+            <Button fx:id="btnIrLogin" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Inicia Sesión" />
+            <Label fx:id="lblError" styleClass="error" />
          </children>
       </VBox>
    </children>
