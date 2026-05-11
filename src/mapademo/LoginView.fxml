@@ -14,7 +14,7 @@
             <Label styleClass="titulo" text="Iniciar Sesión" />
             <TextField fx:id="txtUsuario" maxWidth="400.0" promptText="Usuario" />
             <PasswordField fx:id="txtPassword" maxWidth="400.0" promptText="Contraseña" />
-            <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLogin" text="Entrar" />
+            <Button fx:id="btnLogin" defaultButton="true" mnemonicParsing="false" onAction="#handleLogin" text="Entrar" />
             <Button fx:id="btnIrRegistro" mnemonicParsing="false" onAction="#handleIrRegistro" styleClass="button-secundario" text="Crear Cuenta" />
             <Label fx:id="lblError" styleClass="error" text=" " />
          </children>

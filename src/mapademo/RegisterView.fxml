@@ -15,7 +15,7 @@
             <TextField fx:id="txtUsuario" maxWidth="400.0" promptText="Nombre de usuario" />
             <PasswordField fx:id="txtPassword" maxWidth="400.0" promptText="Contraseña" />
             <PasswordField fx:id="txtConfirm" maxWidth="400.0" promptText="Confirmar Contraseña" />
-            <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#handleRegistro" text="Registrarse" />
+            <Button fx:id="btnRegistrar" defaultButton="true" mnemonicParsing="false" onAction="#handleRegistro" text="Registrarse" />
             <Label text="Ya tienes cuenta?" />
             <Button fx:id="btnIrLogin" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Inicia Sesión" />
             <Label fx:id="lblError" styleClass="error" />

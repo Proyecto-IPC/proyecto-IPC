@@ -24,46 +24,50 @@ public class RegisterViewController implements Initializable {
     }
 
     @FXML
-private void handleRegistro() {
-    String usuario = txtUsuario.getText().trim();
-    String password = txtPassword.getText().trim();
-    String confirm = txtConfirm.getText().trim();
+    private void handleRegistro() {
+        String usuario = txtUsuario.getText().trim();
+        String password = txtPassword.getText().trim();
+        String confirm = txtConfirm.getText().trim();
 
-    if (usuario.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-        lblError.setText("Rellena todos los campos.");
-        return;
+        if (usuario.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
+            lblError.setText("Rellena todos los campos.");
+            return;
+        }
+
+        if (!password.equals(confirm)) {
+            lblError.setText("Las contraseñas no coinciden.");
+            return;
+        }
+
+        if (!upv.ipc.sportlib.User.validateNickName(usuario)) {
+            lblError.setText("Nombre de usuario no válido.");
+            return;
+        }
+
+        if (password.length() < 8) {
+            lblError.setText("Contraseña no válida: mínimo 8 caracteres.");
+            return;
+        }
+
+        if (!upv.ipc.sportlib.User.validatePassword(password)) {
+            lblError.setText("Contraseña no válida: debe tener mayúscula, minúscula, número y símbolo.");
+            return;
+        }
+
+        upv.ipc.sportlib.SportActivityApp app = upv.ipc.sportlib.SportActivityApp.getInstance();
+
+        boolean exito = app.registerUser(usuario, usuario + "@app.com", password, java.time.LocalDate.of(2000, 1, 1), "");
+
+        if (exito) {
+            lblError.setText("");
+            MainViewController.getInstancia().cargarVista("LoginView.fxml");
+        } else {
+            lblError.setText("El usuario ya existe o hubo un error.");
+        }
     }
 
-    if (!password.equals(confirm)) {
-        lblError.setText("Las contraseñas no coinciden.");
-        return;
-    }
-
-    // Validamos formato de nickname y contraseña con los métodos de la librería
-    if (!upv.ipc.sportlib.User.validateNickName(usuario)) {
-        lblError.setText("Nombre de usuario no válido.");
-        return;
-    }
-
-    if (!upv.ipc.sportlib.User.validatePassword(password)) {
-        lblError.setText("Contraseña no válida (mín. 8 caracteres).");
-        return;
-    }
-
-    upv.ipc.sportlib.SportActivityApp app = upv.ipc.sportlib.SportActivityApp.getInstance();
-
-    // Registramos el usuario — email y fecha de nacimiento los pediremos luego en la vista completa
-   boolean exito = app.registerUser(usuario, usuario + "@app.com", password, java.time.LocalDate.of(2000, 1, 1), "");
-
-   if (exito) {
-    lblError.setText("");
-    MainViewController.getInstancia().cargarVista("LoginView.fxml");
-    } else {
-    lblError.setText("El usuario ya existe o hubo un error.");
-    }
-}
     @FXML
     private void handleIrLogin() {
-    MainViewController.getInstancia().cargarVista("LoginView.fxml");
+        MainViewController.getInstancia().cargarVista("LoginView.fxml");
     }
 }
