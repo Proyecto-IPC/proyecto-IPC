@@ -70,6 +70,13 @@ public class MapViewController implements Initializable {
     private static final double MAX_ZOOM = 2.5;
     private static final double ZOOM_STEP = 0.15;
     private static final double WHEEL_ZOOM_STEP = 0.025;
+    private static final Color ROUTE_COLOR = Color.BLUE;
+    private static final Color START_COLOR = Color.GREEN;
+    private static final Color END_COLOR = Color.RED;
+    private static final Color MARKER_BORDER_COLOR = Color.WHITE;
+    private static final double ROUTE_WIDTH = 4.0;
+    private static final double MARKER_RADIUS = 7.0;
+    private static final double MARKER_BORDER_WIDTH = 2.0;
     
     private Activity currentActivity;
     private MapProjection projection;
@@ -279,8 +286,8 @@ public class MapViewController implements Initializable {
         }
         
         Polyline routeLine = new Polyline();
-        routeLine.setStrokeWidth(4);
-        routeLine.setStroke(Color.BLUE);
+        routeLine.setStrokeWidth(ROUTE_WIDTH);
+        routeLine.setStroke(ROUTE_COLOR);
         
         for (var trackPoint : activity.getTrackPoints()) {
             Point2D point = projection.project(trackPoint);
@@ -292,8 +299,8 @@ public class MapViewController implements Initializable {
         // Guarda el rectangulo que ocupa la ruta
         routeBounds = routeLine.getBoundsInLocal();
         
-        drawRouteMarker(activity.getStartPoint(), Color.GREEN);
-        drawRouteMarker(activity.getEndPoint(), Color.RED);
+        drawRouteMarker(activity.getStartPoint(), START_COLOR);
+        drawRouteMarker(activity.getEndPoint(), END_COLOR);
     }
     
     private void drawRouteMarker(TrackPoint trackPoint, Color color) {
@@ -303,10 +310,10 @@ public class MapViewController implements Initializable {
         
         Point2D point = projection.project(trackPoint);
         
-        Circle marker = new Circle(point.getX(), point.getY(), 7);
+        Circle marker = new Circle(point.getX(), point.getY(), MARKER_RADIUS);
         marker.setFill(color);
-        marker.setStroke(Color.WHITE);
-        marker.setStrokeWidth(2);
+        marker.setStroke(MARKER_BORDER_COLOR);
+        marker.setStrokeWidth(MARKER_BORDER_WIDTH);
         
         mapPane.getChildren().add(marker);
     }
