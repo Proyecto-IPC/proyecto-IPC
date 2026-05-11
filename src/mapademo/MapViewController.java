@@ -74,13 +74,18 @@ public class MapViewController implements Initializable {
     private static final Color START_COLOR = Color.GREEN;
     private static final Color END_COLOR = Color.RED;
     private static final Color MARKER_BORDER_COLOR = Color.WHITE;
+    private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
+    private static final Color HIGHLIGHT_BORDER_COLOR = Color.BLACK;
     private static final double ROUTE_WIDTH = 4.0;
     private static final double MARKER_RADIUS = 7.0;
     private static final double MARKER_BORDER_WIDTH = 2.0;
+    private static final double HIGHLIGHT_RADIUS = 9.0;
+    private static final double HIGHLIGHT_BORDER_WIDTH = 2.0;
     
     private Activity currentActivity;
     private MapProjection projection;
     private Bounds routeBounds;
+    private Circle highlightedTrackPoint;
     private Consumer<GeoPoint> mapSecondaryClickHandler;
 
     /**
@@ -252,9 +257,38 @@ public class MapViewController implements Initializable {
         mapSecondaryClickHandler = handler;
     }
     
+    public void highlightTrackPoint(TrackPoint trackPoint) {
+        if (trackPoint == null || projection == null) {
+            clearHighlightedTrackPoint();
+            return;
+        }
+        
+        Point2D point = projection.project(trackPoint);
+        
+        if (highlightedTrackPoint == null) {
+            highlightedTrackPoint = new Circle();
+            highlightedTrackPoint.setRadius(HIGHLIGHT_RADIUS);
+            highlightedTrackPoint.setFill(HIGHLIGHT_COLOR);
+            highlightedTrackPoint.setStroke(HIGHLIGHT_BORDER_COLOR);
+            highlightedTrackPoint.setStrokeWidth(HIGHLIGHT_BORDER_WIDTH);
+            mapPane.getChildren().add(highlightedTrackPoint);
+        }
+        
+        highlightedTrackPoint.setCenterX(point.getX());
+        highlightedTrackPoint.setCenterY(point.getY());
+    }
+    
+    public void clearHighlightedTrackPoint() {
+        if (highlightedTrackPoint != null) {
+            mapPane.getChildren().remove(highlightedTrackPoint);
+            highlightedTrackPoint = null;
+        }
+    }
+    
     private void clearMap() {
         projection = null;
         routeBounds = null;
+        highlightedTrackPoint = null;
         mapImageView.setImage(null);
         mapImageView.setFitWidth(0);
         mapImageView.setFitHeight(0);
