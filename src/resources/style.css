@@ -307,9 +307,21 @@
     -fx-background-radius: 10;
     -fx-border-color: -app-border;
     -fx-border-radius: 10;
-    -fx-padding: 12 16 12 16;
+    -fx-padding: 16 18 16 18;
     -fx-text-fill: -app-muted;
     -fx-font-size: 14px;
+}
+
+.empty-state-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -app-text;
+}
+
+.empty-state-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: -app-muted;
+    -fx-text-alignment: center;
 }
 
 .map-view,
@@ -362,6 +374,11 @@
 
 .map-control-button:pressed {
     -fx-background-color: derive(-app-surface-alt, -5%);
+}
+
+.map-control-button:focused {
+    -fx-border-color: -app-coast;
+    -fx-border-width: 1.2;
 }
 
 .map-control-button:disabled {
