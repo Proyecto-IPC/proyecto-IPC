@@ -62,6 +62,15 @@
     -fx-padding: 56 48 56 48;
 }
 
+.auth-image-panel {
+    -fx-background-image: url("clubRunningLaSafor/loginPageImage.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-border-color: transparent -app-border transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
 .auth-brand-mark {
     -fx-background-color: -app-primary-soft;
     -fx-background-radius: 999;
@@ -72,7 +81,7 @@
 
 .auth-form-panel {
     -fx-background-color: -app-surface;
-    -fx-padding: 56 64 56 64;
+    -fx-padding: 40 20 40 20;
 }
 
 .auth-form-scroll,
@@ -188,6 +197,8 @@
     -fx-font-weight: 600;
     -fx-padding: 8 16 8 16;
     -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .button:hover {
@@ -199,7 +210,7 @@
 }
 
 .button:focused {
-    -fx-border-color: derive(-app-primary, -28%);
+    -fx-border-color: transparent;
 }
 
 .button:disabled {
@@ -222,7 +233,7 @@
 
 .button-secundario:focused,
 .outline-button:focused {
-    -fx-border-color: -app-coast;
+    -fx-border-color: -app-border;
 }
 
 .ghost-button {
@@ -257,10 +268,12 @@
 .shell-brand-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-padding: 6 4 6 4;
+    -fx-padding: 5 8 5 6;
     -fx-font-size: 17px;
     -fx-font-weight: 700;
     -fx-text-fill: -app-text;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .shell-brand-button:hover {
@@ -274,7 +287,17 @@
 }
 
 .shell-brand-button:focused {
-    -fx-border-color: -app-coast;
+    -fx-border-color: transparent;
+}
+
+.home-glyph {
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 17px;
+    -fx-font-weight: 700;
+}
+
+.shell-brand-button:hover .home-glyph {
+    -fx-text-fill: -app-primary;
 }
 
 .user-menu-button {
@@ -284,6 +307,9 @@
     -fx-background-radius: 7;
     -fx-border-radius: 7;
     -fx-padding: 7 12 7 12;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .user-menu-button:hover,
@@ -292,7 +318,7 @@
 }
 
 .user-menu-button:focused {
-    -fx-border-color: -app-coast;
+    -fx-border-color: -app-border;
 }
 
 .user-menu-button .label {
@@ -310,6 +336,7 @@
 .menu-item {
     -fx-background-radius: 6;
     -fx-padding: 8 12 8 12;
+    -fx-cursor: hand;
 }
 
 .menu-item:focused {
@@ -341,6 +368,7 @@
 
 .metric-card,
 .activity-panel,
+.calendar-panel,
 .detail-side-panel,
 .detail-block {
     -fx-background-color: -app-surface;
@@ -368,6 +396,12 @@
 
 .activity-panel {
     -fx-padding: 20;
+}
+
+.calendar-panel {
+    -fx-padding: 20;
+    -fx-pref-width: 300;
+    -fx-min-width: 260;
 }
 
 .section-title {
@@ -403,12 +437,59 @@
     -fx-text-fill: -app-text;
 }
 
+.activity-chip {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 999;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 999;
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-padding: 4 8 4 8;
+}
+
 .home-empty-state {
     -fx-background-color: -app-surface;
     -fx-background-radius: 10;
     -fx-border-color: -app-border;
     -fx-border-radius: 10;
     -fx-padding: 18;
+}
+
+.calendar-grid {
+    -fx-padding: 4 0 0 0;
+}
+
+.calendar-weekday {
+    -fx-alignment: center;
+    -fx-min-width: 30;
+    -fx-min-height: 22;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-text-fill: -app-muted;
+}
+
+.calendar-day,
+.calendar-day-active {
+    -fx-alignment: center;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-font-size: 12px;
+}
+
+.calendar-day {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: -app-border;
+    -fx-text-fill: -app-muted;
+}
+
+.calendar-day-active {
+    -fx-background-color: -app-primary-soft;
+    -fx-border-color: derive(-app-primary, 35%);
+    -fx-text-fill: -app-primary;
+    -fx-font-weight: 700;
 }
 
 .activity-detail {
@@ -539,6 +620,8 @@
     -fx-border-radius: 6;
     -fx-padding: 0;
     -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .map-control-button:hover {
@@ -550,8 +633,7 @@
 }
 
 .map-control-button:focused {
-    -fx-border-color: -app-coast;
-    -fx-border-width: 1.2;
+    -fx-border-color: transparent;
 }
 
 .map-control-button:disabled {

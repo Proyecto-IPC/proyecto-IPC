@@ -117,8 +117,12 @@ public class MainViewController implements Initializable {
             statsGrid.add(card, i % 4, i / 4);
         }
 
+        HBox dashboardBody = new HBox(16);
+        dashboardBody.getStyleClass().add("dashboard-body");
+
         VBox activityPanel = new VBox(14);
         activityPanel.getStyleClass().add("activity-panel");
+        HBox.setHgrow(activityPanel, Priority.ALWAYS);
 
         HBox activityHeader = new HBox(10);
         activityHeader.setAlignment(Pos.CENTER_LEFT);
@@ -133,9 +137,9 @@ public class MainViewController implements Initializable {
         VBox list = new VBox(8);
         list.getStyleClass().add("activity-list-placeholder");
         list.getChildren().addAll(
-                crearActividadPlaceholder("Actividad importada", "Abrirá el detalle con mapa cuando haya datos disponibles."),
-                crearActividadPlaceholder("Ruta reciente", "Espacio reservado para distancia, tiempo y ritmo."),
-                crearActividadPlaceholder("Entrenamiento guardado", "Sin datos reales todavía."));
+                crearActividadPlaceholder("Actividad en Gandia", "Hoy, 08:32", "5.2 km", "32 min", "6:08/km"),
+                crearActividadPlaceholder("Actividad en La Safor", "Ayer, 19:10", "8.4 km", "51 min", "145 m"),
+                crearActividadPlaceholder("Actividad en Oliva", "Pendiente de datos", "-- km", "-- min", "--/km"));
 
         VBox emptyState = new VBox(8);
         emptyState.setAlignment(Pos.CENTER_LEFT);
@@ -148,7 +152,8 @@ public class MainViewController implements Initializable {
         emptyState.getChildren().addAll(emptyTitle, emptyText);
 
         activityPanel.getChildren().addAll(activityHeader, list, emptyState);
-        content.getChildren().addAll(header, statsGrid, activityPanel);
+        dashboardBody.getChildren().addAll(activityPanel, crearCalendarioPlaceholder());
+        content.getChildren().addAll(header, statsGrid, dashboardBody);
 
         ScrollPane scroll = new ScrollPane(content);
         scroll.setFitToWidth(true);
@@ -190,16 +195,54 @@ public class MainViewController implements Initializable {
         return card;
     }
 
-    private Node crearActividadPlaceholder(String title, String detail) {
-        VBox row = new VBox(3);
+    private Node crearActividadPlaceholder(String title, String detail, String... chips) {
+        VBox row = new VBox(8);
         row.getStyleClass().add("activity-row-placeholder");
         Label titleNode = new Label(title);
         titleNode.getStyleClass().add("activity-row-title");
         Label detailNode = new Label(detail);
         detailNode.getStyleClass().add("muted-label");
         detailNode.setWrapText(true);
-        row.getChildren().addAll(titleNode, detailNode);
+        HBox chipRow = new HBox(6);
+        for (String chip : chips) {
+            Label chipNode = new Label(chip);
+            chipNode.getStyleClass().add("activity-chip");
+            chipRow.getChildren().add(chipNode);
+        }
+        row.getChildren().addAll(titleNode, detailNode, chipRow);
         return row;
+    }
+
+    private Node crearCalendarioPlaceholder() {
+        VBox panel = new VBox(12);
+        panel.getStyleClass().add("calendar-panel");
+
+        VBox header = new VBox(3);
+        Label title = new Label("Calendario");
+        title.getStyleClass().add("section-title");
+        Label subtitle = new Label("Vista visual pendiente de actividades reales.");
+        subtitle.getStyleClass().add("muted-label");
+        subtitle.setWrapText(true);
+        header.getChildren().addAll(title, subtitle);
+
+        GridPane days = new GridPane();
+        days.setHgap(6);
+        days.setVgap(6);
+        days.getStyleClass().add("calendar-grid");
+        String[] labels = {"L", "M", "X", "J", "V", "S", "D"};
+        for (int i = 0; i < labels.length; i++) {
+            Label label = new Label(labels[i]);
+            label.getStyleClass().add("calendar-weekday");
+            days.add(label, i, 0);
+        }
+        for (int day = 1; day <= 21; day++) {
+            Label cell = new Label(String.valueOf(day));
+            cell.getStyleClass().add(day == 5 || day == 12 ? "calendar-day-active" : "calendar-day");
+            days.add(cell, (day - 1) % 7, ((day - 1) / 7) + 1);
+        }
+
+        panel.getChildren().addAll(header, days);
+        return panel;
     }
 
     private Node crearDetailBlock(String title, String body) {

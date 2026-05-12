@@ -6,29 +6,27 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox styleClass="auth-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
+<GridPane prefHeight="650.0" prefWidth="1000.0" styleClass="auth-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" percentWidth="66.0" />
+      <ColumnConstraints hgrow="ALWAYS" percentWidth="34.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints percentHeight="100.0" vgrow="ALWAYS" />
+   </rowConstraints>
    <children>
-      <VBox alignment="CENTER" prefWidth="420.0" spacing="20.0" styleClass="auth-brand-panel" HBox.hgrow="ALWAYS">
-         <children>
-            <Label styleClass="titulo-app" text="Running La Safor" />
-            <Label styleClass="brand-subtitle" text="Crea tu cuenta y empieza a guardar rutas" />
-            <ImageView fitHeight="150.0" fitWidth="150.0" preserveRatio="true" styleClass="auth-brand-mark">
-               <image>
-                  <Image url="@../resources/logo.png" />
-               </image>
-            </ImageView>
-         </children>
-      </VBox>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="auth-form-scroll" HBox.hgrow="ALWAYS">
+      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="auth-image-panel" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" />
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="auth-form-scroll" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
          <content>
-            <VBox alignment="CENTER" fillWidth="false" spacing="15.0" styleClass="auth-form-panel">
+            <VBox alignment="CENTER" fillWidth="false" maxHeight="1.7976931348623157E308" spacing="15.0" styleClass="auth-form-panel">
                <children>
-                  <VBox alignment="CENTER_LEFT" maxWidth="390.0" spacing="12.0" styleClass="auth-card">
+                  <VBox alignment="CENTER_LEFT" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="12.0" styleClass="auth-card">
                <children>
                   <Label styleClass="titulo" text="Registro" />
                   <Label styleClass="muted-label" text="Crea tu cuenta con los datos requeridos." />
@@ -69,14 +67,14 @@
                      </children>
                   </VBox>
                   <Button fx:id="btnRegistrar" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegistro" text="Crear cuenta" />
+                  <Label fx:id="lblError" styleClass="error" text=" " wrapText="true" />
                   <Label styleClass="muted-label" text="¿Ya tienes cuenta?" />
                   <Button fx:id="btnIrLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
                </children>
                   </VBox>
-                  <Label fx:id="lblError" styleClass="error" text=" " wrapText="true" />
                </children>
             </VBox>
          </content>
       </ScrollPane>
    </children>
-</HBox>
+</GridPane>
