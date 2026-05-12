@@ -3,13 +3,13 @@ package mapademo;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import upv.ipc.sportlib.SportActivityApp;
 
 public class MainViewController implements Initializable {
@@ -28,13 +29,20 @@ public class MainViewController implements Initializable {
     @FXML private BorderPane rootPane;
     @FXML private HBox topBar;
     @FXML private Button btnImportar;
+    @FXML private Label importStatusLabel;
 
     private static MainViewController instancia;
+    private PauseTransition importStatusTimer;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
         btnImportar.setTooltip(new Tooltip("Importación GPX pendiente de conexión."));
+        importStatusTimer = new PauseTransition(Duration.seconds(2.4));
+        importStatusTimer.setOnFinished(event -> {
+            importStatusLabel.setVisible(false);
+            importStatusLabel.setManaged(false);
+        });
         cargarVista("LoginView.fxml");
     }
 
@@ -83,11 +91,9 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleImportarPendiente() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Importar actividad");
-        alert.setHeaderText("Importación GPX pendiente");
-        alert.setContentText("El botón queda preparado para el flujo principal. La importación se conectará cuando esté lista la gestión de actividades.");
-        alert.showAndWait();
+        importStatusLabel.setVisible(true);
+        importStatusLabel.setManaged(true);
+        importStatusTimer.playFromStart();
     }
 
     public void mostrarPantallaPrincipal() {
