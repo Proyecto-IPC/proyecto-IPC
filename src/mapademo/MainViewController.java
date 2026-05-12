@@ -137,15 +137,22 @@ public class MainViewController implements Initializable {
     }
 
     private Node crearPantallaPrincipal() {
-        VBox content = new VBox(22);
+        VBox content = new VBox(20);
         content.getStyleClass().add("home-page");
 
-        VBox header = new VBox(4);
+        HBox header = new HBox(16);
+        header.setAlignment(Pos.CENTER_LEFT);
+        VBox titleGroup = new VBox(4);
         Label title = new Label("Resumen general");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("Panel preparado para actividades importadas. Los datos reales se conectarán desde el módulo de Analista.");
+        Label subtitle = new Label("Base visual preparada para actividades importadas, sin datos reales conectados.");
         subtitle.getStyleClass().add("muted-label");
-        header.getChildren().addAll(title, subtitle);
+        titleGroup.getChildren().addAll(title, subtitle);
+        Region headerSpacer = new Region();
+        HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+        Label dataState = new Label("Datos pendientes");
+        dataState.getStyleClass().add("status-pill-muted");
+        header.getChildren().addAll(titleGroup, headerSpacer, dataState);
 
         GridPane statsGrid = new GridPane();
         statsGrid.setHgap(12);
@@ -154,8 +161,8 @@ public class MainViewController implements Initializable {
         String[][] stats = {
             {"Distancia total", "-- km", "Sin actividades importadas"},
             {"Tiempo total", "--", "Pendiente de GPX real"},
-            {"Desnivel acumulado", "-- m", "Reservado para cálculo real"},
-            {"Actividades", "0", "Lista pendiente"}
+            {"Desnivel", "-- m", "Reservado para cálculo real"},
+            {"Actividades", "0", "Lista real pendiente"}
         };
         for (int i = 0; i < stats.length; i++) {
             Node card = crearMetricCard(stats[i][0], stats[i][1], stats[i][2], i);
@@ -172,7 +179,7 @@ public class MainViewController implements Initializable {
 
         HBox activityHeader = new HBox(10);
         activityHeader.setAlignment(Pos.CENTER_LEFT);
-        Label activityTitle = new Label("Actividad reciente");
+        Label activityTitle = new Label("Actividades previstas");
         activityTitle.getStyleClass().add("section-title");
         Label activityHint = new Label("Placeholder");
         activityHint.getStyleClass().add("status-pill");
@@ -190,9 +197,9 @@ public class MainViewController implements Initializable {
         VBox emptyState = new VBox(8);
         emptyState.setAlignment(Pos.CENTER_LEFT);
         emptyState.getStyleClass().add("home-empty-state");
-        Label emptyTitle = new Label("Aún no hay actividades");
+        Label emptyTitle = new Label("Sin datos reales todavía");
         emptyTitle.getStyleClass().add("empty-state-title");
-        Label emptyText = new Label("Cuando se importe una actividad, aparecerá en esta lista y se podrá abrir su detalle con el mapa.");
+        Label emptyText = new Label("Estos bloques solo reservan estructura. Importación, lista real y selección quedan para Analista.");
         emptyText.getStyleClass().add("empty-state-text");
         emptyText.setWrapText(true);
         emptyState.getChildren().addAll(emptyTitle, emptyText);
@@ -200,7 +207,7 @@ public class MainViewController implements Initializable {
         activityPanel.getChildren().addAll(activityHeader, list, emptyState);
         VBox sideStack = new VBox(16);
         sideStack.getStyleClass().add("dashboard-side-stack");
-        sideStack.getChildren().addAll(crearCalendarioPlaceholder(), crearChartPlaceholder());
+        sideStack.getChildren().addAll(crearMapPreviewPlaceholder(), crearCalendarioPlaceholder(), crearChartPlaceholder());
         dashboardBody.getChildren().addAll(activityPanel, sideStack);
         content.getChildren().addAll(header, statsGrid, dashboardBody);
 
@@ -345,6 +352,51 @@ public class MainViewController implements Initializable {
 
         panel.getChildren().addAll(header, days);
         return panel;
+    }
+
+    private Node crearMapPreviewPlaceholder() {
+        VBox panel = new VBox(12);
+        panel.getStyleClass().add("map-preview-panel");
+
+        VBox header = new VBox(3);
+        Label title = new Label("Detalle map-first");
+        title.getStyleClass().add("section-title");
+        Label subtitle = new Label("Vista reservada para abrir una ruta real.");
+        subtitle.getStyleClass().add("muted-label");
+        subtitle.setWrapText(true);
+        header.getChildren().addAll(title, subtitle);
+
+        Pane preview = new Pane();
+        preview.getStyleClass().add("mini-map-placeholder");
+        Region routeOne = crearRouteSegment(42, 70, 95, 5, -18);
+        Region routeTwo = crearRouteSegment(122, 49, 78, 5, 22);
+        Region routeThree = crearRouteSegment(184, 73, 54, 5, -30);
+        Region start = crearMapMarker("mini-map-start", 34, 67);
+        Region end = crearMapMarker("mini-map-end", 232, 49);
+        preview.getChildren().addAll(routeOne, routeTwo, routeThree, start, end);
+
+        panel.getChildren().addAll(header, preview);
+        return panel;
+    }
+
+    private Region crearRouteSegment(double x, double y, double width, double height, double rotate) {
+        Region segment = new Region();
+        segment.getStyleClass().add("mini-route-segment");
+        segment.setLayoutX(x);
+        segment.setLayoutY(y);
+        segment.setRotate(rotate);
+        segment.setPrefSize(width, height);
+        segment.setMinSize(width, height);
+        segment.setMaxSize(width, height);
+        return segment;
+    }
+
+    private Region crearMapMarker(String styleClass, double x, double y) {
+        Region marker = new Region();
+        marker.getStyleClass().add(styleClass);
+        marker.setLayoutX(x);
+        marker.setLayoutY(y);
+        return marker;
     }
 
     private Node crearChartPlaceholder() {
