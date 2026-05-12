@@ -42,6 +42,11 @@
                   <Label fx:id="emptyStateLabel" alignment="CENTER" styleClass="empty-state-text" text="Selecciona o importa una actividad para ver su recorrido sobre el mapa." wrapText="true" />
                </children>
             </VBox>
+            <Label fx:id="zoomFeedbackLabel" managed="false" styleClass="zoom-feedback" text="100%" visible="false" StackPane.alignment="BOTTOM_RIGHT">
+               <StackPane.margin>
+                  <Insets bottom="130.0" right="16.0" />
+               </StackPane.margin>
+            </Label>
             <VBox fx:id="zoomControls" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="map-control-group" StackPane.alignment="BOTTOM_RIGHT">
                <StackPane.margin>
                   <Insets bottom="16.0" right="16.0" />

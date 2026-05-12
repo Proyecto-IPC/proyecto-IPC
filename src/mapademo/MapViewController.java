@@ -6,6 +6,7 @@ package mapademo;
 
 import java.io.File;
 import java.net.URL;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -28,6 +29,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.AccessibleRole;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.MouseButton;
+import javafx.util.Duration;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
@@ -66,9 +68,12 @@ public class MapViewController implements Initializable {
     private Label emptyStateLabel;
     @FXML
     private VBox emptyStatePanel;
+    @FXML
+    private Label zoomFeedbackLabel;
 
     private double zoomLevel = 1.0;
     private boolean mapLoaded;
+    private PauseTransition zoomFeedbackTimer;
     private static final String EMPTY_STATE_MESSAGE = "Selecciona o importa una actividad para ver su recorrido sobre el mapa.";
     private static final String MAP_LOAD_ERROR_MESSAGE = "No se pudo cargar el mapa de la actividad. Revisa que exista un mapa compatible.";
     private static final double DEFAULT_MIN_ZOOM = 0.5;
@@ -100,6 +105,7 @@ public class MapViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setMapControlsState(false, false);
         configureAccessibility();
+        configureZoomFeedback();
 
         zoomInButton.setOnAction(event -> zoomIn());
         zoomOutButton.setOnAction(event -> zoomOut());
@@ -132,6 +138,14 @@ public class MapViewController implements Initializable {
         zoomInButton.setAccessibleRole(AccessibleRole.BUTTON);
         zoomOutButton.setAccessibleRole(AccessibleRole.BUTTON);
         centerRouteButton.setAccessibleRole(AccessibleRole.BUTTON);
+    }
+
+    private void configureZoomFeedback() {
+        zoomFeedbackTimer = new PauseTransition(Duration.millis(900));
+        zoomFeedbackTimer.setOnFinished(event -> {
+            zoomFeedbackLabel.setVisible(false);
+            zoomFeedbackLabel.setManaged(false);
+        });
     }
 
     private void zoomIn(double step) {
@@ -187,6 +201,7 @@ public class MapViewController implements Initializable {
         mapScrollPane.setHvalue(clamp(newH, 0, 1));
         mapScrollPane.setVvalue(clamp(newV, 0, 1));
         updateZoomButtons();
+        showZoomFeedback();
     }
 
     private void setZoomAt(double zoom, double mouseX, double mouseY) {
@@ -219,6 +234,24 @@ public class MapViewController implements Initializable {
         mapScrollPane.setHvalue(clamp(newH, 0, 1));
         mapScrollPane.setVvalue(clamp(newV, 0, 1));
         updateZoomButtons();
+        showZoomFeedback();
+    }
+
+    private void showZoomFeedback() {
+        if (!mapLoaded) {
+            return;
+        }
+
+        zoomFeedbackLabel.setText(Math.round(zoomLevel * 100) + "%");
+        zoomFeedbackLabel.setVisible(true);
+        zoomFeedbackLabel.setManaged(true);
+        zoomFeedbackTimer.playFromStart();
+    }
+
+    private void hideZoomFeedback() {
+        zoomFeedbackTimer.stop();
+        zoomFeedbackLabel.setVisible(false);
+        zoomFeedbackLabel.setManaged(false);
     }
 
     // Asegura que nunca se salga de los limites de ScrollPane
@@ -335,6 +368,7 @@ public class MapViewController implements Initializable {
         mapImageView.setImage(null);
         mapImageView.setFitWidth(0);
         mapImageView.setFitHeight(0);
+        hideZoomFeedback();
         // Borra todos los hijos del mapPane y deja unicamente mapImageView
         mapPane.getChildren().setAll(mapImageView);
     }
