@@ -28,8 +28,13 @@ public class MainViewController implements Initializable {
 
     @FXML private BorderPane rootPane;
     @FXML private HBox topBar;
+    @FXML private VBox railNav;
     @FXML private Button btnImportar;
     @FXML private Label importStatusLabel;
+    @FXML private Button btnNavResumen;
+    @FXML private Button btnNavActividades;
+    @FXML private Button btnNavPerfil;
+    @FXML private Button btnNavHistorial;
 
     private static MainViewController instancia;
     private PauseTransition importStatusTimer;
@@ -55,8 +60,10 @@ public class MainViewController implements Initializable {
             Pane vista = FXMLLoader.load(getClass().getResource(fxmlPath));
             if (esVistaAuth(fxmlPath)) {
                 ocultarShell();
+                setActiveRail(null);
             } else {
                 mostrarShell();
+                updateRailForView(fxmlPath);
             }
             rootPane.setCenter(vista);
         } catch (Exception e) {
@@ -74,12 +81,34 @@ public class MainViewController implements Initializable {
     }
 
     @FXML
+    private void handleRailResumen() {
+        mostrarPantallaPrincipal();
+    }
+
+    @FXML
+    private void handleRailActividades() {
+        mostrarActividadesPlaceholder();
+    }
+
+    @FXML
+    private void handleRailPerfil() {
+        handlePerfil();
+    }
+
+    @FXML
+    private void handleRailHistorial() {
+        handleHistorial();
+    }
+
+    @FXML
     private void handlePerfil() {
+        setActiveRail(btnNavPerfil);
         cargarVista("ProfileView.fxml");
     }
 
     @FXML
     private void handleHistorial() {
+        setActiveRail(btnNavHistorial);
         cargarVista("HistorialSesionesView.fxml");
     }
 
@@ -98,6 +127,7 @@ public class MainViewController implements Initializable {
 
     public void mostrarPantallaPrincipal() {
         mostrarShell();
+        setActiveRail(btnNavResumen);
         rootPane.setCenter(crearPantallaPrincipal());
     }
 
@@ -113,7 +143,7 @@ public class MainViewController implements Initializable {
         VBox header = new VBox(4);
         Label title = new Label("Resumen general");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("Aquí aparecerán tus actividades importadas y su evolución cuando el módulo de datos esté conectado.");
+        Label subtitle = new Label("Panel preparado para actividades importadas. Los datos reales se conectarán desde el módulo de Analista.");
         subtitle.getStyleClass().add("muted-label");
         header.getChildren().addAll(title, subtitle);
 
@@ -122,13 +152,13 @@ public class MainViewController implements Initializable {
         statsGrid.setVgap(12);
         statsGrid.getStyleClass().add("summary-grid");
         String[][] stats = {
-            {"Distancia total", "-- km"},
-            {"Tiempo total", "--"},
-            {"Desnivel acumulado", "-- m"},
-            {"Actividades", "0"}
+            {"Distancia total", "-- km", "Sin actividades importadas"},
+            {"Tiempo total", "--", "Pendiente de GPX real"},
+            {"Desnivel acumulado", "-- m", "Reservado para cálculo real"},
+            {"Actividades", "0", "Lista pendiente"}
         };
         for (int i = 0; i < stats.length; i++) {
-            Node card = crearMetricCard(stats[i][0], stats[i][1]);
+            Node card = crearMetricCard(stats[i][0], stats[i][1], stats[i][2], i);
             GridPane.setHgrow(card, Priority.ALWAYS);
             statsGrid.add(card, i % 4, i / 4);
         }
@@ -142,9 +172,9 @@ public class MainViewController implements Initializable {
 
         HBox activityHeader = new HBox(10);
         activityHeader.setAlignment(Pos.CENTER_LEFT);
-        Label activityTitle = new Label("Actividades");
+        Label activityTitle = new Label("Actividad reciente");
         activityTitle.getStyleClass().add("section-title");
-        Label activityHint = new Label("Vista prevista");
+        Label activityHint = new Label("Placeholder");
         activityHint.getStyleClass().add("status-pill");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -153,9 +183,9 @@ public class MainViewController implements Initializable {
         VBox list = new VBox(8);
         list.getStyleClass().add("activity-list-placeholder");
         list.getChildren().addAll(
-                crearActividadPlaceholder("Ejemplo de actividad en Gandia", "Vista de ejemplo, pendiente de datos reales", "5.2 km", "32 min", "6:08/km"),
-                crearActividadPlaceholder("Ejemplo de ruta en La Safor", "Vista de ejemplo, pendiente de importación GPX", "8.4 km", "51 min", "145 m"),
-                crearActividadPlaceholder("Nueva actividad importada", "Aparecerá aquí cuando exista una actividad real", "-- km", "-- min", "--/km"));
+                crearActividadPlaceholder("Actividad importada", "Pendiente de GPX real y selección desde Analista", "-- km", "-- min", "--/km"),
+                crearActividadPlaceholder("Ruta por revisar", "Espacio reservado para abrir detalle con mapa", "-- km", "-- min", "-- m"),
+                crearActividadPlaceholder("Nueva actividad", "Aparecerá aquí cuando exista una actividad real", "-- km", "-- min", "--/km"));
 
         VBox emptyState = new VBox(8);
         emptyState.setAlignment(Pos.CENTER_LEFT);
@@ -168,13 +198,54 @@ public class MainViewController implements Initializable {
         emptyState.getChildren().addAll(emptyTitle, emptyText);
 
         activityPanel.getChildren().addAll(activityHeader, list, emptyState);
-        dashboardBody.getChildren().addAll(activityPanel, crearCalendarioPlaceholder());
+        VBox sideStack = new VBox(16);
+        sideStack.getStyleClass().add("dashboard-side-stack");
+        sideStack.getChildren().addAll(crearCalendarioPlaceholder(), crearChartPlaceholder());
+        dashboardBody.getChildren().addAll(activityPanel, sideStack);
         content.getChildren().addAll(header, statsGrid, dashboardBody);
 
         ScrollPane scroll = new ScrollPane(content);
         scroll.setFitToWidth(true);
         scroll.getStyleClass().add("main-scroll");
         return scroll;
+    }
+
+    private void mostrarActividadesPlaceholder() {
+        mostrarShell();
+        setActiveRail(btnNavActividades);
+
+        VBox content = new VBox(18);
+        content.getStyleClass().add("home-page");
+
+        VBox header = new VBox(4);
+        Label title = new Label("Actividades");
+        title.getStyleClass().add("page-title");
+        Label subtitle = new Label("Vista preparada para el módulo de Analista. No hay importación, filtros ni selección real conectados todavía.");
+        subtitle.getStyleClass().add("muted-label");
+        subtitle.setWrapText(true);
+        header.getChildren().addAll(title, subtitle);
+
+        VBox panel = new VBox(12);
+        panel.getStyleClass().add("activity-panel");
+        panel.getChildren().addAll(
+                crearActividadPlaceholder("Actividad futura", "Aquí se mostrará la actividad importada desde un GPX real.", "-- km", "-- min", "--/km"),
+                crearActividadPlaceholder("Detalle con mapa", "Al seleccionar una actividad real se abrirá el detalle map-first.", "-- m", "Mapa", "Ruta"));
+
+        VBox emptyState = new VBox(8);
+        emptyState.setAlignment(Pos.CENTER_LEFT);
+        emptyState.getStyleClass().add("home-empty-state");
+        Label emptyTitle = new Label("Sin actividades reales");
+        emptyTitle.getStyleClass().add("empty-state-title");
+        Label emptyText = new Label("Este apartado solo reserva el espacio de navegación. La lista real y el GPX pertenecen al rol Analista.");
+        emptyText.getStyleClass().add("empty-state-text");
+        emptyText.setWrapText(true);
+        emptyState.getChildren().addAll(emptyTitle, emptyText);
+
+        content.getChildren().addAll(header, panel, emptyState);
+        ScrollPane scroll = new ScrollPane(content);
+        scroll.setFitToWidth(true);
+        scroll.getStyleClass().add("main-scroll");
+        rootPane.setCenter(scroll);
     }
 
     private Node crearDetalleActividad(Object activity) {
@@ -199,21 +270,35 @@ public class MainViewController implements Initializable {
         return detail;
     }
 
-    private Node crearMetricCard(String label, String value) {
-        VBox card = new VBox(6);
+    private Node crearMetricCard(String label, String value, String helper, int visualOffset) {
+        VBox card = new VBox(8);
         card.getStyleClass().add("metric-card");
         card.setMaxWidth(Double.MAX_VALUE);
         Label labelNode = new Label(label);
         labelNode.getStyleClass().add("metric-label");
         Label valueNode = new Label(value);
         valueNode.getStyleClass().add("metric-value");
-        card.getChildren().addAll(labelNode, valueNode);
+        Label helperNode = new Label(helper);
+        helperNode.getStyleClass().add("metric-helper");
+        HBox bars = new HBox(4);
+        bars.getStyleClass().add("metric-bars");
+        for (int i = 0; i < 7; i++) {
+            Region bar = new Region();
+            bar.getStyleClass().add(i <= visualOffset ? "metric-bar-soft" : "metric-bar");
+            bars.getChildren().add(bar);
+        }
+        card.getChildren().addAll(labelNode, valueNode, helperNode, bars);
         return card;
     }
 
     private Node crearActividadPlaceholder(String title, String detail, String... chips) {
-        VBox row = new VBox(8);
+        HBox row = new HBox(10);
         row.getStyleClass().add("activity-row-placeholder");
+        row.setAlignment(Pos.TOP_LEFT);
+        Region marker = new Region();
+        marker.getStyleClass().add("activity-row-marker");
+        VBox body = new VBox(7);
+        HBox.setHgrow(body, Priority.ALWAYS);
         Label titleNode = new Label(title);
         titleNode.getStyleClass().add("activity-row-title");
         Label detailNode = new Label(detail);
@@ -225,7 +310,8 @@ public class MainViewController implements Initializable {
             chipNode.getStyleClass().add("activity-chip");
             chipRow.getChildren().add(chipNode);
         }
-        row.getChildren().addAll(titleNode, detailNode, chipRow);
+        body.getChildren().addAll(titleNode, detailNode, chipRow);
+        row.getChildren().addAll(marker, body);
         return row;
     }
 
@@ -234,9 +320,9 @@ public class MainViewController implements Initializable {
         panel.getStyleClass().add("calendar-panel");
 
         VBox header = new VBox(3);
-        Label title = new Label("Calendario");
+        Label title = new Label("Racha");
         title.getStyleClass().add("section-title");
-        Label subtitle = new Label("Ejemplo visual pendiente de actividades reales.");
+        Label subtitle = new Label("Heatmap visual, sin datos reales.");
         subtitle.getStyleClass().add("muted-label");
         subtitle.setWrapText(true);
         header.getChildren().addAll(title, subtitle);
@@ -258,6 +344,37 @@ public class MainViewController implements Initializable {
         }
 
         panel.getChildren().addAll(header, days);
+        return panel;
+    }
+
+    private Node crearChartPlaceholder() {
+        VBox panel = new VBox(12);
+        panel.getStyleClass().add("chart-panel");
+
+        VBox header = new VBox(3);
+        Label title = new Label("Gráfica semanal");
+        title.getStyleClass().add("section-title");
+        Label subtitle = new Label("Reservada para kilómetros reales por día.");
+        subtitle.getStyleClass().add("muted-label");
+        subtitle.setWrapText(true);
+        header.getChildren().addAll(title, subtitle);
+
+        HBox bars = new HBox(8);
+        bars.setAlignment(Pos.BOTTOM_LEFT);
+        bars.getStyleClass().add("chart-bars");
+        String[] labels = {"L", "M", "X", "J", "V", "S", "D"};
+        for (int i = 0; i < labels.length; i++) {
+            VBox stack = new VBox(6);
+            stack.setAlignment(Pos.BOTTOM_CENTER);
+            Region bar = new Region();
+            bar.getStyleClass().add(i == 2 || i == 5 ? "chart-bar-accent" : "chart-bar");
+            Label day = new Label(labels[i]);
+            day.getStyleClass().add("calendar-weekday");
+            stack.getChildren().addAll(bar, day);
+            bars.getChildren().add(stack);
+        }
+
+        panel.getChildren().addAll(header, bars);
         return panel;
     }
 
@@ -286,11 +403,29 @@ public class MainViewController implements Initializable {
 
     private void mostrarShell() {
         rootPane.setTop(topBar);
-        rootPane.setLeft(null);
+        rootPane.setLeft(railNav);
     }
 
     private void ocultarShell() {
         rootPane.setTop(null);
         rootPane.setLeft(null);
+    }
+
+    private void updateRailForView(String fxmlPath) {
+        if ("ProfileView.fxml".equals(fxmlPath)) {
+            setActiveRail(btnNavPerfil);
+        } else if ("HistorialSesionesView.fxml".equals(fxmlPath)) {
+            setActiveRail(btnNavHistorial);
+        }
+    }
+
+    private void setActiveRail(Button activeButton) {
+        Button[] buttons = {btnNavResumen, btnNavActividades, btnNavPerfil, btnNavHistorial};
+        for (Button button : buttons) {
+            button.getStyleClass().remove("active");
+            if (button == activeButton) {
+                button.getStyleClass().add("active");
+            }
+        }
     }
 }

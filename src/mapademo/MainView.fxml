@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="rootPane" prefHeight="650.0" prefWidth="1000.0" styleClass="app-shell" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.MainViewController">
    <top>
@@ -49,4 +50,30 @@
          </children>
       </HBox>
    </top>
+   <left>
+      <VBox fx:id="railNav" alignment="TOP_CENTER" spacing="8.0" styleClass="shell-rail">
+         <children>
+            <Button fx:id="btnNavResumen" accessibleText="Resumen" mnemonicParsing="false" onAction="#handleRailResumen" styleClass="rail-button" text="⌂">
+               <tooltip>
+                  <Tooltip text="Resumen" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnNavActividades" accessibleText="Actividades previstas" mnemonicParsing="false" onAction="#handleRailActividades" styleClass="rail-button" text="≡">
+               <tooltip>
+                  <Tooltip text="Actividades, pendiente de datos reales" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnNavPerfil" accessibleText="Perfil" mnemonicParsing="false" onAction="#handleRailPerfil" styleClass="rail-button" text="◉">
+               <tooltip>
+                  <Tooltip text="Perfil" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnNavHistorial" accessibleText="Historial de sesiones" mnemonicParsing="false" onAction="#handleRailHistorial" styleClass="rail-button" text="◷">
+               <tooltip>
+                  <Tooltip text="Historial de sesiones" />
+               </tooltip>
+            </Button>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>
