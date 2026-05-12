@@ -228,6 +228,10 @@
     -fx-text-fill: -app-text;
 }
 
+.pending-action {
+    -fx-text-fill: -app-primary;
+}
+
 .button-secundario:hover,
 .outline-button:hover {
     -fx-background-color: -app-primary-soft;

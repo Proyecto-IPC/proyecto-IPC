@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -33,7 +34,7 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
-        btnImportar.setTooltip(new Tooltip("La importación GPX está pendiente de conexión."));
+        btnImportar.setTooltip(new Tooltip("Importación GPX pendiente de conexión."));
         cargarVista("LoginView.fxml");
     }
 
@@ -80,6 +81,15 @@ public class MainViewController implements Initializable {
         cargarVista("LoginView.fxml");
     }
 
+    @FXML
+    private void handleImportarPendiente() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Importar actividad");
+        alert.setHeaderText("Importación GPX pendiente");
+        alert.setContentText("El botón queda preparado para el flujo principal. La importación se conectará cuando esté lista la gestión de actividades.");
+        alert.showAndWait();
+    }
+
     public void mostrarPantallaPrincipal() {
         mostrarShell();
         rootPane.setCenter(crearPantallaPrincipal());
@@ -97,7 +107,7 @@ public class MainViewController implements Initializable {
         VBox header = new VBox(4);
         Label title = new Label("Resumen general");
         title.getStyleClass().add("page-title");
-        Label subtitle = new Label("Resumen preparado para tus actividades importadas.");
+        Label subtitle = new Label("Aquí aparecerán tus actividades importadas y su evolución cuando el módulo de datos esté conectado.");
         subtitle.getStyleClass().add("muted-label");
         header.getChildren().addAll(title, subtitle);
 
@@ -128,7 +138,7 @@ public class MainViewController implements Initializable {
         activityHeader.setAlignment(Pos.CENTER_LEFT);
         Label activityTitle = new Label("Actividades");
         activityTitle.getStyleClass().add("section-title");
-        Label activityHint = new Label("Lista básica");
+        Label activityHint = new Label("Vista prevista");
         activityHint.getStyleClass().add("status-pill");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -137,9 +147,9 @@ public class MainViewController implements Initializable {
         VBox list = new VBox(8);
         list.getStyleClass().add("activity-list-placeholder");
         list.getChildren().addAll(
-                crearActividadPlaceholder("Actividad en Gandia", "Hoy, 08:32", "5.2 km", "32 min", "6:08/km"),
-                crearActividadPlaceholder("Actividad en La Safor", "Ayer, 19:10", "8.4 km", "51 min", "145 m"),
-                crearActividadPlaceholder("Actividad en Oliva", "Pendiente de datos", "-- km", "-- min", "--/km"));
+                crearActividadPlaceholder("Ejemplo de actividad en Gandia", "Vista de ejemplo, pendiente de datos reales", "5.2 km", "32 min", "6:08/km"),
+                crearActividadPlaceholder("Ejemplo de ruta en La Safor", "Vista de ejemplo, pendiente de importación GPX", "8.4 km", "51 min", "145 m"),
+                crearActividadPlaceholder("Nueva actividad importada", "Aparecerá aquí cuando exista una actividad real", "-- km", "-- min", "--/km"));
 
         VBox emptyState = new VBox(8);
         emptyState.setAlignment(Pos.CENTER_LEFT);
@@ -220,7 +230,7 @@ public class MainViewController implements Initializable {
         VBox header = new VBox(3);
         Label title = new Label("Calendario");
         title.getStyleClass().add("section-title");
-        Label subtitle = new Label("Vista visual pendiente de actividades reales.");
+        Label subtitle = new Label("Ejemplo visual pendiente de actividades reales.");
         subtitle.getStyleClass().add("muted-label");
         subtitle.setWrapText(true);
         header.getChildren().addAll(title, subtitle);
