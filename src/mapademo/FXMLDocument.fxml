@@ -19,6 +19,11 @@
 <?import javafx.scene.layout.VBox?>
 
 
+<!--
+   LEGACY DEMO VIEW.
+   Main app flow uses MainView.fxml + MapView.fxml + style.css.
+   This file is kept only for the original POI/map classroom demo.
+-->
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.FXMLDocumentController">
    <center>
       <VBox prefHeight="556.0" prefWidth="853.0" stylesheets="@../resources/estilos.css">
