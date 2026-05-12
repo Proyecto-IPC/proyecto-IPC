@@ -28,8 +28,8 @@
                </tooltip>
             </Button>
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnImportar" accessibleText="Importación GPX pendiente de conexión" mnemonicParsing="false" onAction="#handleImportarPendiente" styleClass="outline-button pending-action" text="Importar actividad" />
             <Label fx:id="importStatusLabel" managed="false" styleClass="topbar-status" text="Importación pendiente" visible="false" />
+            <Button fx:id="btnImportar" accessibleText="Importación GPX pendiente de conexión" mnemonicParsing="false" onAction="#handleImportarPendiente" styleClass="outline-button pending-action" text="Importar actividad" />
             <MenuButton fx:id="userMenu" mnemonicParsing="false" styleClass="user-menu-button" text="Usuario">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#handlePerfil" text="Perfil" />

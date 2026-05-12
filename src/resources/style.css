@@ -111,11 +111,25 @@
     -fx-max-height: 0;
 }
 
-.auth-card {
+.auth-card,
+.profile-card,
+.metric-card,
+.activity-panel,
+.calendar-panel,
+.chart-panel,
+.map-preview-panel,
+.detail-side-panel,
+.detail-block,
+.home-empty-state,
+.history-empty,
+.shell-placeholder {
     -fx-background-color: -app-surface;
     -fx-background-radius: 10;
     -fx-border-color: -app-border;
     -fx-border-radius: 10;
+}
+
+.auth-card {
     -fx-padding: 28;
     -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.05), 14, 0.12, 0, 5);
 }
@@ -475,10 +489,6 @@
 }
 
 .shell-placeholder {
-    -fx-background-color: -app-surface;
-    -fx-background-radius: 10;
-    -fx-border-color: -app-border;
-    -fx-border-radius: 10;
     -fx-padding: 28;
     -fx-max-width: 460;
 }
@@ -497,22 +507,13 @@
     -fx-max-width: 1100;
 }
 
-.metric-card,
-.activity-panel,
-.calendar-panel,
-.chart-panel,
-.map-preview-panel,
-.detail-side-panel,
-.detail-block {
-    -fx-background-color: -app-surface;
-    -fx-background-radius: 10;
-    -fx-border-color: -app-border;
-    -fx-border-radius: 10;
-}
-
 .metric-card {
     -fx-padding: 18;
     -fx-min-width: 150;
+}
+
+.activity-panel {
+    -fx-padding: 22;
 }
 
 .metric-label {
@@ -555,7 +556,9 @@
     -fx-background-color: -app-primary-soft;
 }
 
-.activity-panel {
+.calendar-panel,
+.chart-panel,
+.map-preview-panel {
     -fx-padding: 22;
 }
 
@@ -563,12 +566,6 @@
     -fx-pref-width: 300;
     -fx-min-width: 280;
     -fx-max-width: 320;
-}
-
-.calendar-panel,
-.chart-panel,
-.map-preview-panel {
-    -fx-padding: 22;
 }
 
 .section-title {
@@ -789,10 +786,6 @@
 }
 
 .profile-card {
-    -fx-background-color: -app-surface;
-    -fx-background-radius: 10;
-    -fx-border-color: -app-border;
-    -fx-border-radius: 10;
     -fx-padding: 28;
     -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 12, 0.1, 0, 4);
 }
@@ -924,4 +917,34 @@
     -fx-font-size: 12px;
     -fx-font-weight: 700;
     -fx-padding: 5 9 5 9;
+}
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track-background,
+.scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: rgba(100, 116, 139, 0.35);
+    -fx-background-radius: 4;
+}
+
+.scroll-bar:vertical .thumb:hover,
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: rgba(100, 116, 139, 0.6);
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 0;
 }
