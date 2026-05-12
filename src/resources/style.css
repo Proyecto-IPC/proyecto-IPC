@@ -321,6 +321,42 @@
     -fx-text-fill: -app-text;
 }
 
+.history-root {
+    -fx-background-color: -app-bg;
+}
+
+.history-list {
+    -fx-background-color: transparent;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 6;
+}
+
+.history-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -app-text;
+    -fx-padding: 12 14 12 14;
+    -fx-border-color: transparent transparent -app-border transparent;
+}
+
+.history-list .list-cell:filled:selected {
+    -fx-background-color: -app-primary-soft;
+    -fx-text-fill: -app-text;
+}
+
+.history-cell {
+    -fx-font-size: 13px;
+}
+
+.history-empty {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
+    -fx-padding: 28;
+}
+
 .empty-state {
     -fx-background-color: rgba(255, 255, 255, 0.88);
     -fx-background-radius: 10;

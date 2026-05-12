@@ -77,13 +77,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleHistorial() {
-        mostrarShell();
-        activar(btnHistorial);
-        actualizarTopbar("Historial", "Sesiones y acceso reciente");
-        rootPane.setCenter(crearPlaceholder(
-                "Historial de sesiones",
-                "Aquí aparecerán tus sesiones cuando el historial esté conectado.",
-                "Pantalla base del rol Guardián. No invade actividades ni estadísticas reales."));
+        cargarVistaShell("HistorialSesionesView.fxml", "Historial", "Sesiones y acceso reciente", btnHistorial);
     }
 
     private void mostrarDashboard() {
