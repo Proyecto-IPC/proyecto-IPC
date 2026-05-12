@@ -22,7 +22,6 @@ public class ProfileViewController implements Initializable {
     @FXML private TextField txtAvatarPath;
     @FXML private Label lblFeedback;
     @FXML private Button btnGuardar;
-    @FXML private Button btnLogout;
 
     private User currentUser;
 
@@ -97,9 +96,4 @@ public class ProfileViewController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleLogout() {
-        SportActivityApp.getInstance().logout();
-        MainViewController.getInstancia().cargarVista("LoginView.fxml");
-    }
 }

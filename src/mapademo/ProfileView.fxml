@@ -5,6 +5,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -12,9 +13,11 @@
 
 <AnchorPane prefHeight="480.0" prefWidth="700.0" styleClass="profile-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ProfileViewController">
    <children>
-      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <VBox alignment="CENTER_LEFT" maxWidth="460.0" spacing="14.0" styleClass="profile-card">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="screen-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <VBox alignment="CENTER" minHeight="420.0" styleClass="profile-scroll-content">
+               <children>
+                  <VBox alignment="CENTER_LEFT" maxWidth="460.0" spacing="14.0" styleClass="profile-card">
                <children>
                   <Label styleClass="page-title" text="Mi perfil" />
                   <Label styleClass="muted-label" text="Actualiza tus datos de cuenta." />
@@ -52,15 +55,16 @@
                   <HBox spacing="10.0">
                      <children>
                         <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#handleGuardar" text="Guardar cambios" />
-                        <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handleLogout" styleClass="button-secundario" text="Cerrar sesión" />
                      </children>
                      <VBox.margin>
                         <Insets top="4.0" />
                      </VBox.margin>
                   </HBox>
                </children>
+                  </VBox>
+               </children>
             </VBox>
-         </children>
-      </VBox>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

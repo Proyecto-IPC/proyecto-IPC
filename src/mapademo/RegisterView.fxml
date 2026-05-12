@@ -4,6 +4,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -23,9 +24,11 @@
             </ImageView>
          </children>
       </VBox>
-      <VBox alignment="CENTER" fillWidth="false" spacing="15.0" styleClass="auth-form-panel" HBox.hgrow="ALWAYS">
-         <children>
-            <VBox alignment="CENTER_LEFT" maxWidth="390.0" spacing="12.0" styleClass="auth-card">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="auth-form-scroll" HBox.hgrow="ALWAYS">
+         <content>
+            <VBox alignment="CENTER" fillWidth="false" spacing="15.0" styleClass="auth-form-panel">
+               <children>
+                  <VBox alignment="CENTER_LEFT" maxWidth="390.0" spacing="12.0" styleClass="auth-card">
                <children>
                   <Label styleClass="titulo" text="Registro" />
                   <Label styleClass="muted-label" text="Crea tu cuenta con los datos requeridos." />
@@ -69,9 +72,11 @@
                   <Label styleClass="muted-label" text="¿Ya tienes cuenta?" />
                   <Button fx:id="btnIrLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
                </children>
+                  </VBox>
+                  <Label fx:id="lblError" styleClass="error" text=" " wrapText="true" />
+               </children>
             </VBox>
-            <Label fx:id="lblError" styleClass="error" text=" " wrapText="true" />
-         </children>
-      </VBox>
+         </content>
+      </ScrollPane>
    </children>
 </HBox>

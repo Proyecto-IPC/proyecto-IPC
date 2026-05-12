@@ -66,8 +66,6 @@ public class MapViewController implements Initializable {
     private Label emptyStateLabel;
     @FXML
     private VBox emptyStatePanel;
-    @FXML
-    private VBox zoomButtonGroup;
 
     private double zoomLevel = 1.0;
     private boolean mapLoaded;

@@ -42,7 +42,7 @@
                   <Label fx:id="emptyStateLabel" alignment="CENTER" styleClass="empty-state-text" text="Selecciona o importa una actividad para ver su recorrido sobre el mapa." wrapText="true" />
                </children>
             </VBox>
-            <VBox fx:id="zoomControls" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="8.0" styleClass="map-controls" StackPane.alignment="BOTTOM_RIGHT">
+            <VBox fx:id="zoomControls" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="map-control-group" StackPane.alignment="BOTTOM_RIGHT">
                <StackPane.margin>
                   <Insets bottom="16.0" right="16.0" />
                </StackPane.margin>
@@ -65,46 +65,42 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <VBox fx:id="zoomButtonGroup" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="zoom-button-group">
-                     <children>
-                        <Button fx:id="zoomInButton" accessibleText="Acercar mapa" alignment="CENTER" maxHeight="34.0" maxWidth="34.0" minHeight="34.0" minWidth="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="34.0" styleClass="map-control-button">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/icons/plus.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <tooltip>
-                              <Tooltip text="Acercar" />
-                           </tooltip>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                        <Button fx:id="zoomOutButton" accessibleText="Alejar mapa" alignment="CENTER" maxHeight="34.0" maxWidth="34.0" minHeight="34.0" minWidth="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="34.0" styleClass="map-control-button">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/icons/minus.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <tooltip>
-                              <Tooltip text="Alejar" />
-                           </tooltip>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                     </children>
-                  </VBox>
+                  <Button fx:id="zoomInButton" accessibleText="Acercar mapa" alignment="CENTER" maxHeight="34.0" maxWidth="34.0" minHeight="34.0" minWidth="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="34.0" styleClass="map-control-button">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/icons/plus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Acercar" />
+                     </tooltip>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="zoomOutButton" accessibleText="Alejar mapa" alignment="CENTER" maxHeight="34.0" maxWidth="34.0" minHeight="34.0" minWidth="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="34.0" styleClass="map-control-button">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/icons/minus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Alejar" />
+                     </tooltip>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
                </children>
             </VBox>
          </children>

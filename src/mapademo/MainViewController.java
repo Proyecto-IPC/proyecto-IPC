@@ -2,38 +2,38 @@ package mapademo;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import upv.ipc.sportlib.SportActivityApp;
 
 public class MainViewController implements Initializable {
 
     @FXML private BorderPane rootPane;
     @FXML private HBox topBar;
-    @FXML private VBox sideBar;
-    @FXML private Label lblTopTitle;
-    @FXML private Label lblTopContext;
     @FXML private Button btnImportar;
-    @FXML private Button btnDashboard;
-    @FXML private Button btnMapa;
-    @FXML private Button btnPerfil;
-    @FXML private Button btnHistorial;
 
     private static MainViewController instancia;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
+        btnImportar.setTooltip(new Tooltip("La importación GPX está pendiente de conexión."));
         cargarVista("LoginView.fxml");
     }
 
@@ -46,76 +46,179 @@ public class MainViewController implements Initializable {
             Pane vista = FXMLLoader.load(getClass().getResource(fxmlPath));
             if (esVistaAuth(fxmlPath)) {
                 ocultarShell();
-                rootPane.setCenter(vista);
             } else {
                 mostrarShell();
-                rootPane.setCenter(vista);
             }
+            rootPane.setCenter(vista);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void mostrarShellInicial() {
-        mostrarDashboard();
+        mostrarPantallaPrincipal();
     }
 
     @FXML
-    private void handleDashboard() {
-        mostrarDashboard();
-    }
-
-    @FXML
-    private void handleMapa() {
-        cargarVistaShell("MapView.fxml", "Mapa", "Revisa la ruta y los controles de zoom", btnMapa);
+    private void handleHome() {
+        mostrarPantallaPrincipal();
     }
 
     @FXML
     private void handlePerfil() {
-        cargarVistaShell("ProfileView.fxml", "Perfil", "Cuenta activa y cierre de sesión", btnPerfil);
+        cargarVista("ProfileView.fxml");
     }
 
     @FXML
     private void handleHistorial() {
-        cargarVistaShell("HistorialSesionesView.fxml", "Historial", "Sesiones y acceso reciente", btnHistorial);
+        cargarVista("HistorialSesionesView.fxml");
     }
 
-    private void mostrarDashboard() {
+    @FXML
+    private void handleLogout() {
+        SportActivityApp.getInstance().logout();
+        cargarVista("LoginView.fxml");
+    }
+
+    public void mostrarPantallaPrincipal() {
         mostrarShell();
-        activar(btnDashboard);
-        actualizarTopbar("Dashboard", "Resumen inicial y acceso rápido al mapa");
-        rootPane.setCenter(crearPlaceholder(
-                "Bienvenido a Running La Safor",
-                "Selecciona Mapa para revisar rutas o Perfil para ver tu cuenta.",
-                "La importación y las estadísticas reales quedan reservadas para sus roles."));
+        rootPane.setCenter(crearPantallaPrincipal());
     }
 
-    private void cargarVistaShell(String fxmlPath, String titulo, String contexto, Button activo) {
+    public void mostrarDetalleActividadPlaceholder() {
         mostrarShell();
-        activar(activo);
-        actualizarTopbar(titulo, contexto);
-        cargarVista(fxmlPath);
+        rootPane.setCenter(crearDetalleActividad(null));
     }
 
-    private VBox crearPlaceholder(String titulo, String texto, String detalle) {
-        Label title = new Label(titulo);
+    private Node crearPantallaPrincipal() {
+        VBox content = new VBox(22);
+        content.getStyleClass().add("home-page");
+
+        VBox header = new VBox(4);
+        Label title = new Label("Resumen general");
         title.getStyleClass().add("page-title");
+        Label subtitle = new Label("Resumen preparado para tus actividades importadas.");
+        subtitle.getStyleClass().add("muted-label");
+        header.getChildren().addAll(title, subtitle);
 
-        Label body = new Label(texto);
-        body.getStyleClass().add("placeholder-text");
-        body.setWrapText(true);
+        GridPane statsGrid = new GridPane();
+        statsGrid.setHgap(12);
+        statsGrid.setVgap(12);
+        statsGrid.getStyleClass().add("summary-grid");
+        String[][] stats = {
+            {"Distancia total", "-- km"},
+            {"Tiempo total", "--"},
+            {"Desnivel acumulado", "-- m"},
+            {"Actividades", "0"}
+        };
+        for (int i = 0; i < stats.length; i++) {
+            Node card = crearMetricCard(stats[i][0], stats[i][1]);
+            GridPane.setHgrow(card, Priority.ALWAYS);
+            statsGrid.add(card, i % 4, i / 4);
+        }
 
-        Label note = new Label(detalle);
-        note.getStyleClass().add("muted-label");
-        note.setWrapText(true);
+        VBox activityPanel = new VBox(14);
+        activityPanel.getStyleClass().add("activity-panel");
 
-        VBox box = new VBox(12, title, body, note);
-        box.setAlignment(Pos.CENTER_LEFT);
-        box.setMaxWidth(460);
-        box.setMaxHeight(Region.USE_PREF_SIZE);
-        box.getStyleClass().add("shell-placeholder");
-        BorderPane.setAlignment(box, Pos.CENTER);
-        return box;
+        HBox activityHeader = new HBox(10);
+        activityHeader.setAlignment(Pos.CENTER_LEFT);
+        Label activityTitle = new Label("Actividades");
+        activityTitle.getStyleClass().add("section-title");
+        Label activityHint = new Label("Lista básica");
+        activityHint.getStyleClass().add("status-pill");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        activityHeader.getChildren().addAll(activityTitle, activityHint, spacer);
+
+        VBox list = new VBox(8);
+        list.getStyleClass().add("activity-list-placeholder");
+        list.getChildren().addAll(
+                crearActividadPlaceholder("Actividad importada", "Abrirá el detalle con mapa cuando haya datos disponibles."),
+                crearActividadPlaceholder("Ruta reciente", "Espacio reservado para distancia, tiempo y ritmo."),
+                crearActividadPlaceholder("Entrenamiento guardado", "Sin datos reales todavía."));
+
+        VBox emptyState = new VBox(8);
+        emptyState.setAlignment(Pos.CENTER_LEFT);
+        emptyState.getStyleClass().add("home-empty-state");
+        Label emptyTitle = new Label("Aún no hay actividades");
+        emptyTitle.getStyleClass().add("empty-state-title");
+        Label emptyText = new Label("Cuando se importe una actividad, aparecerá en esta lista y se podrá abrir su detalle con el mapa.");
+        emptyText.getStyleClass().add("empty-state-text");
+        emptyText.setWrapText(true);
+        emptyState.getChildren().addAll(emptyTitle, emptyText);
+
+        activityPanel.getChildren().addAll(activityHeader, list, emptyState);
+        content.getChildren().addAll(header, statsGrid, activityPanel);
+
+        ScrollPane scroll = new ScrollPane(content);
+        scroll.setFitToWidth(true);
+        scroll.getStyleClass().add("main-scroll");
+        return scroll;
+    }
+
+    private Node crearDetalleActividad(Object activity) {
+        BorderPane detail = new BorderPane();
+        detail.getStyleClass().add("activity-detail");
+
+        try {
+            Pane mapView = FXMLLoader.load(getClass().getResource("MapView.fxml"));
+            detail.setCenter(mapView);
+        } catch (Exception e) {
+            detail.setCenter(crearPlaceholderError("No se pudo cargar el mapa."));
+        }
+
+        VBox side = new VBox(14);
+        side.getStyleClass().add("detail-side-panel");
+        side.getChildren().addAll(
+                crearDetailBlock("Stats", "Distancia, tiempo, ritmo y desnivel quedan listos para datos reales."),
+                crearDetailBlock("Desnivel", "Perfil pendiente de datos reales."),
+                crearDetailBlock("Velocidad", "Color por tramo pendiente de datos de velocidad."),
+                crearDetailBlock("Anotaciones", "Espacio preparado sin anotaciones guardadas."));
+        detail.setRight(side);
+        return detail;
+    }
+
+    private Node crearMetricCard(String label, String value) {
+        VBox card = new VBox(6);
+        card.getStyleClass().add("metric-card");
+        card.setMaxWidth(Double.MAX_VALUE);
+        Label labelNode = new Label(label);
+        labelNode.getStyleClass().add("metric-label");
+        Label valueNode = new Label(value);
+        valueNode.getStyleClass().add("metric-value");
+        card.getChildren().addAll(labelNode, valueNode);
+        return card;
+    }
+
+    private Node crearActividadPlaceholder(String title, String detail) {
+        VBox row = new VBox(3);
+        row.getStyleClass().add("activity-row-placeholder");
+        Label titleNode = new Label(title);
+        titleNode.getStyleClass().add("activity-row-title");
+        Label detailNode = new Label(detail);
+        detailNode.getStyleClass().add("muted-label");
+        detailNode.setWrapText(true);
+        row.getChildren().addAll(titleNode, detailNode);
+        return row;
+    }
+
+    private Node crearDetailBlock(String title, String body) {
+        VBox block = new VBox(6);
+        block.getStyleClass().add("detail-block");
+        Label titleNode = new Label(title);
+        titleNode.getStyleClass().add("section-title");
+        Label bodyNode = new Label(body);
+        bodyNode.getStyleClass().add("muted-label");
+        bodyNode.setWrapText(true);
+        block.getChildren().addAll(titleNode, bodyNode);
+        return block;
+    }
+
+    private Node crearPlaceholderError(String message) {
+        Label label = new Label(message);
+        label.getStyleClass().addAll(Arrays.asList("error", "shell-placeholder"));
+        BorderPane.setMargin(label, new Insets(24));
+        return label;
     }
 
     private boolean esVistaAuth(String fxmlPath) {
@@ -124,26 +227,11 @@ public class MainViewController implements Initializable {
 
     private void mostrarShell() {
         rootPane.setTop(topBar);
-        rootPane.setLeft(sideBar);
+        rootPane.setLeft(null);
     }
 
     private void ocultarShell() {
         rootPane.setTop(null);
         rootPane.setLeft(null);
-    }
-
-    private void actualizarTopbar(String titulo, String contexto) {
-        lblTopTitle.setText(titulo);
-        lblTopContext.setText(contexto);
-    }
-
-    private void activar(Button activo) {
-        List<Button> botones = Arrays.asList(btnDashboard, btnMapa, btnPerfil, btnHistorial);
-        for (Button boton : botones) {
-            boton.getStyleClass().remove("active");
-        }
-        if (!activo.getStyleClass().contains("active")) {
-            activo.getStyleClass().add("active");
-        }
     }
 }

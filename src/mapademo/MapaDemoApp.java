@@ -22,6 +22,8 @@ public class MapaDemoApp extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/resources/style.css").toExternalForm());
         stage.setTitle("Running La Safor");
+        stage.setMinWidth(1000);
+        stage.setMinHeight(650);
         stage.setScene(scene);
         stage.show();
     }
