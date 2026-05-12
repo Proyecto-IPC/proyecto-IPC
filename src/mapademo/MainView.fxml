@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -21,14 +18,7 @@
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="8.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/clubRunningLaSafor/logo.png" />
-                           </image>
-                           <viewport>
-                              <Rectangle2D height="360.0" minX="110.0" minY="285.0" width="1460.0" />
-                           </viewport>
-                        </ImageView>
+                        <fx:include source="LogoMark.fxml" />
                         <Label styleClass="home-glyph" text="⌂" />
                      </children>
                   </HBox>

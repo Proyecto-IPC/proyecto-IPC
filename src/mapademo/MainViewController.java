@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,6 +42,7 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
+        rootPane.setFocusTraversable(true);
         btnImportar.setTooltip(new Tooltip("Importación GPX pendiente de conexión."));
         importStatusTimer = new PauseTransition(Duration.seconds(2.4));
         importStatusTimer.setOnFinished(event -> {
@@ -128,6 +130,7 @@ public class MainViewController implements Initializable {
         mostrarShell();
         setActiveRail(btnNavResumen);
         rootPane.setCenter(loadDashboardView());
+        Platform.runLater(rootPane::requestFocus);
     }
 
     public void mostrarDetalleActividadPlaceholder() {

@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -22,7 +23,7 @@
    </rowConstraints>
    <children>
       <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="auth-image-panel" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" />
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="auth-form-scroll" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="auth-form-scroll" vbarPolicy="AS_NEEDED" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
          <content>
             <VBox alignment="CENTER" fillWidth="false" maxHeight="1.7976931348623157E308" spacing="15.0" styleClass="auth-form-panel">
                <children>
@@ -45,7 +46,7 @@
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                      <children>
                         <Label styleClass="field-label" text="Contraseña" />
-                        <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Mayúscula, minúscula, número y símbolo" />
+                        <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="8-20, mayúscula, minúscula, número y símbolo" />
                      </children>
                   </VBox>
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
@@ -57,17 +58,24 @@
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                      <children>
                         <Label styleClass="field-label" text="Fecha de nacimiento" />
-                        <DatePicker fx:id="dpBirthDate" maxWidth="1.7976931348623157E308" promptText="Selecciona fecha" />
+                        <HBox maxWidth="1.7976931348623157E308" spacing="8.0">
+                           <children>
+                              <TextField fx:id="txtBirthDay" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" promptText="Día" />
+                              <TextField fx:id="txtBirthMonth" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" promptText="Mes" />
+                              <TextField fx:id="txtBirthYear" maxWidth="1.7976931348623157E308" minWidth="96.0" promptText="Año" HBox.hgrow="ALWAYS" />
+                              <DatePicker fx:id="dpBirthDate" maxWidth="46.0" minWidth="46.0" prefWidth="46.0" promptText="" styleClass="date-picker-compact" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
-                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                  <VBox maxWidth="1.7976931348623157E308" onDragDropped="#handleAvatarDragDropped" onDragOver="#handleAvatarDragOver" styleClass="field-stack">
                      <children>
                         <Label styleClass="field-label" text="Avatar (opcional)" />
-                        <TextField fx:id="txtAvatarPath" maxWidth="1.7976931348623157E308" promptText="Ruta de imagen opcional" />
+                        <Button fx:id="btnSeleccionarAvatar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSeleccionarAvatar" onDragDropped="#handleAvatarDragDropped" onDragOver="#handleAvatarDragOver" styleClass="avatar-drop-zone" text="Selecciona o arrastra el archivo" />
                      </children>
                   </VBox>
                   <Button fx:id="btnRegistrar" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegistro" text="Crear cuenta" />
-                  <Label fx:id="lblError" maxWidth="1.7976931348623157E308" minHeight="42.0" styleClass="error" text=" " wrapText="true" />
+                  <Label fx:id="lblError" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="36.0" styleClass="error" text=" " wrapText="true" />
                   <Label styleClass="muted-label" text="¿Ya tienes cuenta?" />
                   <Button fx:id="btnIrLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
                </children>

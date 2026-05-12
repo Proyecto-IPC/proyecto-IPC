@@ -81,16 +81,19 @@
 
 .auth-form-panel {
     -fx-background-color: -app-surface;
-    -fx-padding: 40 20 40 20;
+    -fx-padding: 40 10 40 10;
 }
 
-.auth-form-scroll,
-.auth-form-scroll > .viewport,
 .screen-scroll,
 .screen-scroll > .viewport,
 .main-scroll,
 .main-scroll > .viewport {
     -fx-background-color: transparent;
+}
+
+.auth-form-scroll,
+.auth-form-scroll > .viewport {
+    -fx-background-color: -app-surface;
 }
 
 .auth-form-scroll,
@@ -100,6 +103,12 @@
     -fx-padding: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
+}
+
+.auth-form-scroll .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
 }
 
 .auth-card {
@@ -186,6 +195,38 @@
 .date-picker > .arrow-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
+}
+
+.date-picker-compact {
+    -fx-padding: 0;
+}
+
+.date-picker-compact > .text-field {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+.avatar-drop-zone {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 7;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-padding: 10 12 10 12;
+    -fx-text-fill: -app-muted;
+    -fx-font-weight: 400;
+    -fx-alignment: center-left;
+}
+
+.avatar-drop-zone:hover {
+    -fx-border-color: -app-primary;
+    -fx-background-color: -app-primary-soft;
+    -fx-text-fill: -app-primary;
+}
+
+.avatar-drop-zone:focused {
+    -fx-border-color: -app-primary;
+    -fx-border-width: 1.4;
 }
 
 .button {
@@ -360,6 +401,18 @@
     -fx-background-color: -app-primary-soft;
     -fx-border-color: -app-primary;
     -fx-border-width: 1.4;
+}
+
+.brand-logo-vector {
+    -fx-background-color: transparent;
+}
+
+.brand-logo-ink {
+    -fx-fill: -app-text;
+}
+
+.brand-logo-sun {
+    -fx-fill: -app-sand;
 }
 
 .home-glyph {
