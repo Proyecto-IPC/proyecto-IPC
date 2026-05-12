@@ -67,7 +67,7 @@
                      </children>
                   </VBox>
                   <Button fx:id="btnRegistrar" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegistro" text="Crear cuenta" />
-                  <Label fx:id="lblError" styleClass="error" text=" " wrapText="true" />
+                  <Label fx:id="lblError" maxWidth="1.7976931348623157E308" minHeight="42.0" styleClass="error" text=" " wrapText="true" />
                   <Label styleClass="muted-label" text="¿Ya tienes cuenta?" />
                   <Button fx:id="btnIrLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
                </children>

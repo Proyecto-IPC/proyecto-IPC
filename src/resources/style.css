@@ -230,8 +230,8 @@
 
 .button-secundario:hover,
 .outline-button:hover {
-    -fx-background-color: -app-coast-soft;
-    -fx-border-color: derive(-app-coast, 45%);
+    -fx-background-color: -app-primary-soft;
+    -fx-border-color: derive(-app-primary, 45%);
 }
 
 .button-secundario:focused,
@@ -254,11 +254,13 @@
 .error {
     -fx-text-fill: -app-danger;
     -fx-font-size: 13px;
+    -fx-line-spacing: 1;
 }
 
 .success {
     -fx-text-fill: -app-success;
     -fx-font-size: 13px;
+    -fx-line-spacing: 1;
 }
 
 .shell-topbar {

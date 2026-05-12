@@ -51,7 +51,7 @@
                         <TextField fx:id="txtAvatarPath" maxWidth="1.7976931348623157E308" promptText="Ruta de imagen opcional" />
                      </children>
                   </VBox>
-                  <Label fx:id="lblFeedback" styleClass="error" text=" " wrapText="true" />
+                  <Label fx:id="lblFeedback" maxWidth="1.7976931348623157E308" minHeight="28.0" styleClass="error" text=" " wrapText="true" />
                   <HBox spacing="10.0">
                      <children>
                         <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#handleGuardar" text="Guardar cambios" />
