@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -24,10 +25,10 @@
       </VBox>
       <VBox alignment="CENTER" fillWidth="false" spacing="15.0" styleClass="auth-form-panel" HBox.hgrow="ALWAYS">
          <children>
-            <VBox alignment="CENTER_LEFT" maxWidth="360.0" spacing="12.0" styleClass="auth-card">
+            <VBox alignment="CENTER_LEFT" maxWidth="390.0" spacing="12.0" styleClass="auth-card">
                <children>
                   <Label styleClass="titulo" text="Registro" />
-                  <Label styleClass="muted-label" text="Usa una contraseña segura para tu cuenta." />
+                  <Label styleClass="muted-label" text="Crea tu cuenta con los datos requeridos." />
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                      <children>
                         <Label styleClass="field-label" text="Usuario" />
@@ -36,8 +37,14 @@
                   </VBox>
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                      <children>
+                        <Label styleClass="field-label" text="Correo electrónico" />
+                        <TextField fx:id="txtEmail" maxWidth="1.7976931348623157E308" promptText="nombre@correo.com" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
                         <Label styleClass="field-label" text="Contraseña" />
-                        <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Mínimo 8 caracteres" />
+                        <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Mayúscula, minúscula, número y símbolo" />
                      </children>
                   </VBox>
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
@@ -46,12 +53,24 @@
                         <PasswordField fx:id="txtConfirm" maxWidth="1.7976931348623157E308" promptText="Repite la contraseña" />
                      </children>
                   </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Fecha de nacimiento" />
+                        <DatePicker fx:id="dpBirthDate" maxWidth="1.7976931348623157E308" promptText="Selecciona fecha" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Avatar (opcional)" />
+                        <TextField fx:id="txtAvatarPath" maxWidth="1.7976931348623157E308" promptText="Ruta de imagen opcional" />
+                     </children>
+                  </VBox>
                   <Button fx:id="btnRegistrar" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegistro" text="Crear cuenta" />
                   <Label styleClass="muted-label" text="¿Ya tienes cuenta?" />
                   <Button fx:id="btnIrLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIrLogin" styleClass="button-secundario" text="Iniciar sesión" />
                </children>
             </VBox>
-            <Label fx:id="lblError" styleClass="error" text=" " />
+            <Label fx:id="lblError" styleClass="error" text=" " wrapText="true" />
          </children>
       </VBox>
    </children>

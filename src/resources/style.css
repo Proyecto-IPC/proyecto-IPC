@@ -123,7 +123,8 @@
 }
 
 .text-field,
-.password-field {
+.password-field,
+.date-picker {
     -fx-background-color: -app-surface;
     -fx-background-radius: 7;
     -fx-border-color: -app-border;
@@ -135,14 +136,27 @@
 }
 
 .text-field:hover,
-.password-field:hover {
+.password-field:hover,
+.date-picker:hover {
     -fx-border-color: #b9c7c1;
 }
 
 .text-field:focused,
-.password-field:focused {
+.password-field:focused,
+.date-picker:focused {
     -fx-border-color: -app-coast;
     -fx-border-width: 1.2;
+}
+
+.date-picker > .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 .button {
@@ -206,6 +220,11 @@
 
 .error {
     -fx-text-fill: -app-danger;
+    -fx-font-size: 13px;
+}
+
+.success {
+    -fx-text-fill: -app-success;
     -fx-font-size: 13px;
 }
 
