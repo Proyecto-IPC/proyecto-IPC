@@ -1,22 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="mapademo.ProfileViewController">
+<AnchorPane prefHeight="480.0" prefWidth="700.0" styleClass="profile-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ProfileViewController">
    <children>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label styleClass="titulo" text="Mi Perfil" />
-            <Label fx:id="lblUsuario" text="Usuario" />
-            <Label fx:id="lblEmail" text="Email" />
-            <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handleLogout" styleClass="button-secundario" text="Cerrar Sesión" />
-         </children>
-      </VBox>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="screen-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <VBox alignment="CENTER" minHeight="420.0" styleClass="profile-scroll-content">
+               <children>
+                  <VBox alignment="CENTER_LEFT" maxWidth="460.0" spacing="14.0" styleClass="profile-card">
+               <children>
+                  <Label styleClass="page-title" text="Mi perfil" />
+                  <Label styleClass="muted-label" text="Actualiza tus datos de cuenta." />
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Usuario" />
+                        <Label fx:id="lblUsuario" styleClass="profile-value" text="No disponible" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Correo electrónico" />
+                        <TextField fx:id="txtEmail" maxWidth="1.7976931348623157E308" promptText="nombre@correo.com" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Nueva contraseña (opcional)" />
+                        <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Dejar vacío para mantener la actual" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Fecha de nacimiento" />
+                        <DatePicker fx:id="dpBirthDate" maxWidth="1.7976931348623157E308" promptText="Selecciona fecha" />
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     <children>
+                        <Label styleClass="field-label" text="Avatar (opcional)" />
+                        <TextField fx:id="txtAvatarPath" maxWidth="1.7976931348623157E308" promptText="Ruta de imagen opcional" />
+                     </children>
+                  </VBox>
+                  <Label fx:id="lblFeedback" maxWidth="1.7976931348623157E308" minHeight="28.0" styleClass="error" text=" " wrapText="true" />
+                  <HBox spacing="10.0">
+                     <children>
+                        <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#handleGuardar" text="Guardar cambios" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="4.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

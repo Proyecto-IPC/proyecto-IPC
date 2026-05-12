@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="main-scroll" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.DashboardViewController">
+   <content>
+      <VBox spacing="24.0" styleClass="home-page">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="16.0">
+               <children>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label styleClass="page-title" text="Resumen general" />
+                        <Label styleClass="muted-label" text="Base visual preparada para actividades importadas, sin datos reales conectados." />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Label styleClass="status-pill-muted" text="Datos pendientes" />
+               </children>
+            </HBox>
+            <GridPane fx:id="statsGrid" hgap="16.0" styleClass="summary-grid" vgap="16.0" />
+            <HBox spacing="20.0" styleClass="dashboard-body">
+               <children>
+                  <VBox spacing="16.0" styleClass="activity-panel" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label styleClass="section-title" text="Actividades previstas" />
+                              <Label styleClass="status-pill" text="Placeholder" />
+                              <Region HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <VBox fx:id="activityList" spacing="10.0" styleClass="activity-list-placeholder" />
+                        <VBox alignment="CENTER_LEFT" spacing="8.0" styleClass="home-empty-state">
+                           <children>
+                              <Label styleClass="empty-state-title" text="Sin datos reales todavía" />
+                              <Label styleClass="empty-state-text" text="Estos bloques solo reservan estructura. Importación, lista real y selección quedan para Analista." wrapText="true" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="18.0" styleClass="dashboard-side-stack">
+                     <children>
+                        <VBox spacing="12.0" styleClass="map-preview-panel">
+                           <children>
+                              <VBox spacing="3.0">
+                                 <children>
+                                    <Label styleClass="section-title" text="Última ruta" />
+                                    <Label styleClass="muted-label" text="Preview visual, pendiente de actividad real." wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <Pane fx:id="mapPreview" styleClass="mini-map-placeholder" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="12.0" styleClass="calendar-panel">
+                           <children>
+                              <VBox spacing="3.0">
+                                 <children>
+                                    <Label styleClass="section-title" text="Racha" />
+                                    <Label styleClass="muted-label" text="Heatmap visual, sin datos reales." wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <GridPane fx:id="calendarGrid" hgap="6.0" styleClass="calendar-grid" vgap="6.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="12.0" styleClass="chart-panel">
+                           <children>
+                              <VBox spacing="3.0">
+                                 <children>
+                                    <Label styleClass="section-title" text="Gráfica semanal" />
+                                    <Label styleClass="muted-label" text="Reservada para kilómetros reales por día." wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="chartBars" alignment="BOTTOM_LEFT" spacing="8.0" styleClass="chart-bars" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

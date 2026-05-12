@@ -1,30 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.MainViewController">
+<BorderPane fx:id="rootPane" prefHeight="650.0" prefWidth="1000.0" styleClass="app-shell" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.MainViewController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <HBox fx:id="topBar" alignment="CENTER_LEFT" spacing="12.0" styleClass="shell-topbar">
+         <children>
+            <Button fx:id="btnHome" accessibleText="Volver al resumen" mnemonicParsing="false" onAction="#handleHome" styleClass="shell-brand-button">
+               <graphic>
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <fx:include source="LogoMark.fxml" />
+                        <Label styleClass="home-glyph" text="⌂" />
+                     </children>
+                  </HBox>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Volver al resumen" />
+               </tooltip>
+            </Button>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnImportar" accessibleText="Importación GPX pendiente de conexión" mnemonicParsing="false" onAction="#handleImportarPendiente" styleClass="outline-button pending-action" text="Importar actividad" />
+            <Label fx:id="importStatusLabel" managed="false" styleClass="topbar-status" text="Importación pendiente" visible="false" />
+            <MenuButton fx:id="userMenu" mnemonicParsing="false" styleClass="user-menu-button" text="Usuario">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handlePerfil" text="Perfil" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleHistorial" text="Historial de sesiones" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLogout" text="Cerrar sesión" />
+               </items>
+            </MenuButton>
+         </children>
+      </HBox>
    </top>
+   <left>
+      <VBox fx:id="railNav" alignment="TOP_CENTER" spacing="8.0" styleClass="shell-rail">
+         <children>
+            <Button fx:id="btnNavResumen" accessibleText="Resumen" mnemonicParsing="false" onAction="#handleRailResumen" styleClass="rail-button" text="⌂">
+               <tooltip>
+                  <Tooltip text="Resumen" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnNavActividades" accessibleText="Actividades previstas" mnemonicParsing="false" onAction="#handleRailActividades" styleClass="rail-button" text="≡">
+               <tooltip>
+                  <Tooltip text="Actividades, pendiente de datos reales" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnNavPerfil" accessibleText="Perfil" mnemonicParsing="false" onAction="#handleRailPerfil" styleClass="rail-button" text="◉">
+               <tooltip>
+                  <Tooltip text="Perfil" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnNavHistorial" accessibleText="Historial de sesiones" mnemonicParsing="false" onAction="#handleRailHistorial" styleClass="rail-button" text="◷">
+               <tooltip>
+                  <Tooltip text="Historial de sesiones" />
+               </tooltip>
+            </Button>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>

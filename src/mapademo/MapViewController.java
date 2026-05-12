@@ -6,6 +6,7 @@ package mapademo;
 
 import java.io.File;
 import java.net.URL;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -25,8 +26,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.AccessibleRole;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.MouseButton;
+import javafx.util.Duration;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
@@ -64,21 +67,25 @@ public class MapViewController implements Initializable {
     @FXML
     private Label emptyStateLabel;
     @FXML
-    private VBox zoomButtonGroup;
+    private VBox emptyStatePanel;
+    @FXML
+    private Label zoomFeedbackLabel;
 
     private double zoomLevel = 1.0;
-    private static final String EMPTY_STATE_MESSAGE = "Selecciona una actividad para ver su recorrido";
-    private static final String MAP_LOAD_ERROR_MESSAGE = "No se pudo cargar el mapa de la actividad";
+    private boolean mapLoaded;
+    private PauseTransition zoomFeedbackTimer;
+    private static final String EMPTY_STATE_MESSAGE = "Selecciona o importa una actividad para ver su recorrido sobre el mapa.";
+    private static final String MAP_LOAD_ERROR_MESSAGE = "No se pudo cargar el mapa de la actividad. Revisa que exista un mapa compatible.";
     private static final double DEFAULT_MIN_ZOOM = 0.5;
     private static final double MAX_ZOOM = 2.5;
     private static final double ZOOM_STEP = 0.15;
     private static final double WHEEL_ZOOM_STEP = 0.025;
-    private static final Color ROUTE_COLOR = Color.BLUE;
-    private static final Color START_COLOR = Color.GREEN;
-    private static final Color END_COLOR = Color.RED;
-    private static final Color MARKER_BORDER_COLOR = Color.WHITE;
-    private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
-    private static final Color HIGHLIGHT_BORDER_COLOR = Color.BLACK;
+    private static final Color ROUTE_COLOR = Color.web("#2563eb");
+    private static final Color START_COLOR = Color.web("#168a57");
+    private static final Color END_COLOR = Color.web("#b9352f");
+    private static final Color MARKER_BORDER_COLOR = Color.web("#f8faf9");
+    private static final Color HIGHLIGHT_COLOR = Color.web("#d7aa4a");
+    private static final Color HIGHLIGHT_BORDER_COLOR = Color.web("#111816");
     private static final double ROUTE_WIDTH = 4.0;
     private static final double MARKER_RADIUS = 7.0;
     private static final double MARKER_BORDER_WIDTH = 2.0;
@@ -97,12 +104,18 @@ public class MapViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setMapControlsState(false, false);
+        configureAccessibility();
+        configureZoomFeedback();
 
         zoomInButton.setOnAction(event -> zoomIn());
         zoomOutButton.setOnAction(event -> zoomOut());
         centerRouteButton.setOnAction(event -> centerRoute());
 
         mapScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
+            if (!mapLoaded) {
+                return;
+            }
+
             if (event.getDeltaY() > 0) {
                 setZoomAt(zoomLevel + WHEEL_ZOOM_STEP, event.getX(), event.getY());
             } else if (event.getDeltaY() < 0) {
@@ -119,6 +132,20 @@ public class MapViewController implements Initializable {
         });
 
         setZoom(1.0);
+    }
+
+    private void configureAccessibility() {
+        zoomInButton.setAccessibleRole(AccessibleRole.BUTTON);
+        zoomOutButton.setAccessibleRole(AccessibleRole.BUTTON);
+        centerRouteButton.setAccessibleRole(AccessibleRole.BUTTON);
+    }
+
+    private void configureZoomFeedback() {
+        zoomFeedbackTimer = new PauseTransition(Duration.millis(900));
+        zoomFeedbackTimer.setOnFinished(event -> {
+            zoomFeedbackLabel.setVisible(false);
+            zoomFeedbackLabel.setManaged(false);
+        });
     }
 
     private void zoomIn(double step) {
@@ -173,6 +200,8 @@ public class MapViewController implements Initializable {
         // Aplica el nuevo scroll
         mapScrollPane.setHvalue(clamp(newH, 0, 1));
         mapScrollPane.setVvalue(clamp(newV, 0, 1));
+        updateZoomButtons();
+        showZoomFeedback();
     }
 
     private void setZoomAt(double zoom, double mouseX, double mouseY) {
@@ -204,6 +233,25 @@ public class MapViewController implements Initializable {
 
         mapScrollPane.setHvalue(clamp(newH, 0, 1));
         mapScrollPane.setVvalue(clamp(newV, 0, 1));
+        updateZoomButtons();
+        showZoomFeedback();
+    }
+
+    private void showZoomFeedback() {
+        if (!mapLoaded) {
+            return;
+        }
+
+        zoomFeedbackLabel.setText(Math.round(zoomLevel * 100) + "%");
+        zoomFeedbackLabel.setVisible(true);
+        zoomFeedbackLabel.setManaged(true);
+        zoomFeedbackTimer.playFromStart();
+    }
+
+    private void hideZoomFeedback() {
+        zoomFeedbackTimer.stop();
+        zoomFeedbackLabel.setVisible(false);
+        zoomFeedbackLabel.setManaged(false);
     }
 
     // Asegura que nunca se salga de los limites de ScrollPane
@@ -246,16 +294,19 @@ public class MapViewController implements Initializable {
 
         if (activity == null) {
             emptyStateLabel.setText(EMPTY_STATE_MESSAGE);
-            emptyStateLabel.setVisible(true);
+            emptyStatePanel.setVisible(true);
+            emptyStatePanel.setManaged(true);
             setMapControlsState(false, false);
             return;
         }
 
-        emptyStateLabel.setVisible(false);
+        emptyStatePanel.setVisible(false);
+        emptyStatePanel.setManaged(false);
 
         if (!loadMapForActivity(activity)) {
             emptyStateLabel.setText(MAP_LOAD_ERROR_MESSAGE);
-            emptyStateLabel.setVisible(true);
+            emptyStatePanel.setVisible(true);
+            emptyStatePanel.setManaged(true);
             setMapControlsState(false, false);
             return;
         }
@@ -308,6 +359,7 @@ public class MapViewController implements Initializable {
         projection = null;
         routeBounds = null;
         highlightedTrackPoint = null;
+        mapLoaded = false;
         zoomLevel = 1.0;
         zoomGroup.setScaleX(zoomLevel);
         zoomGroup.setScaleY(zoomLevel);
@@ -316,6 +368,7 @@ public class MapViewController implements Initializable {
         mapImageView.setImage(null);
         mapImageView.setFitWidth(0);
         mapImageView.setFitHeight(0);
+        hideZoomFeedback();
         // Borra todos los hijos del mapPane y deja unicamente mapImageView
         mapPane.getChildren().setAll(mapImageView);
     }
@@ -343,6 +396,7 @@ public class MapViewController implements Initializable {
         mapPane.setMaxSize(width, height);
 
         projection = new MapProjection(region, width, height);
+        mapLoaded = true;
         return true;
     }
 
@@ -374,9 +428,15 @@ public class MapViewController implements Initializable {
     }
 
     private void setMapControlsState(boolean hasMap, boolean hasRoute) {
+        mapLoaded = hasMap;
         centerRouteButton.setDisable(!hasRoute);
-        zoomInButton.setDisable(!hasMap);
-        zoomOutButton.setDisable(!hasMap);
+        updateZoomButtons();
+    }
+
+    private void updateZoomButtons() {
+        double minZoom = getMinZoom();
+        zoomInButton.setDisable(!mapLoaded || zoomLevel >= MAX_ZOOM - 0.001);
+        zoomOutButton.setDisable(!mapLoaded || zoomLevel <= minZoom + 0.001);
     }
 
     private void drawRouteMarker(TrackPoint trackPoint, Color color) {

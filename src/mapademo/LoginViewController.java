@@ -27,7 +27,7 @@ public class LoginViewController implements Initializable {
         String password = txtPassword.getText().trim();
 
         if (usuario.isEmpty() || password.isEmpty()) {
-            lblError.setText("Rellena todos los campos.");
+            lblError.setText("Introduce usuario y contraseña para continuar.");
             return;
         }
 
@@ -36,9 +36,9 @@ public class LoginViewController implements Initializable {
 
         if (exito) {
             lblError.setText("");
-            MainViewController.getInstancia().cargarVista("ProfileView.fxml");
+            MainViewController.getInstancia().mostrarShellInicial();
         } else {
-            lblError.setText("Usuario o contraseña incorrectos.");
+            lblError.setText("Usuario o contraseña incorrectos. Revisa los datos e inténtalo de nuevo.");
         }
     }
 

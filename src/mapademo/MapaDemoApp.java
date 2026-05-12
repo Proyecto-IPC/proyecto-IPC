@@ -18,10 +18,12 @@ public class MapaDemoApp extends Application {
     public void start(Stage stage) throws Exception {
         // Cargamos el MainShell (la carcasa principal con BorderPane)
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/clubRunningLaSafor/logo.png")));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/resources/style.css").toExternalForm());
         stage.setTitle("Running La Safor");
+        stage.setMinWidth(1000);
+        stage.setMinHeight(650);
         stage.setScene(scene);
         stage.show();
     }
