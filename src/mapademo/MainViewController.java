@@ -137,7 +137,7 @@ public class MainViewController implements Initializable {
     }
 
     private Node crearPantallaPrincipal() {
-        VBox content = new VBox(20);
+        VBox content = new VBox(24);
         content.getStyleClass().add("home-page");
 
         HBox header = new HBox(16);
@@ -155,8 +155,8 @@ public class MainViewController implements Initializable {
         header.getChildren().addAll(titleGroup, headerSpacer, dataState);
 
         GridPane statsGrid = new GridPane();
-        statsGrid.setHgap(12);
-        statsGrid.setVgap(12);
+        statsGrid.setHgap(16);
+        statsGrid.setVgap(16);
         statsGrid.getStyleClass().add("summary-grid");
         String[][] stats = {
             {"Distancia total", "-- km", "Sin actividades importadas"},
@@ -170,10 +170,10 @@ public class MainViewController implements Initializable {
             statsGrid.add(card, i % 4, i / 4);
         }
 
-        HBox dashboardBody = new HBox(16);
+        HBox dashboardBody = new HBox(20);
         dashboardBody.getStyleClass().add("dashboard-body");
 
-        VBox activityPanel = new VBox(14);
+        VBox activityPanel = new VBox(16);
         activityPanel.getStyleClass().add("activity-panel");
         HBox.setHgrow(activityPanel, Priority.ALWAYS);
 
@@ -187,7 +187,7 @@ public class MainViewController implements Initializable {
         HBox.setHgrow(spacer, Priority.ALWAYS);
         activityHeader.getChildren().addAll(activityTitle, activityHint, spacer);
 
-        VBox list = new VBox(8);
+        VBox list = new VBox(10);
         list.getStyleClass().add("activity-list-placeholder");
         list.getChildren().addAll(
                 crearActividadPlaceholder("Actividad importada", "Pendiente de GPX real y selección desde Analista", "-- km", "-- min", "--/km"),
@@ -205,7 +205,7 @@ public class MainViewController implements Initializable {
         emptyState.getChildren().addAll(emptyTitle, emptyText);
 
         activityPanel.getChildren().addAll(activityHeader, list, emptyState);
-        VBox sideStack = new VBox(16);
+        VBox sideStack = new VBox(18);
         sideStack.getStyleClass().add("dashboard-side-stack");
         sideStack.getChildren().addAll(crearMapPreviewPlaceholder(), crearCalendarioPlaceholder(), crearChartPlaceholder());
         dashboardBody.getChildren().addAll(activityPanel, sideStack);
@@ -359,21 +359,25 @@ public class MainViewController implements Initializable {
         panel.getStyleClass().add("map-preview-panel");
 
         VBox header = new VBox(3);
-        Label title = new Label("Detalle map-first");
+        Label title = new Label("Última ruta");
         title.getStyleClass().add("section-title");
-        Label subtitle = new Label("Vista reservada para abrir una ruta real.");
+        Label subtitle = new Label("Preview visual, pendiente de actividad real.");
         subtitle.getStyleClass().add("muted-label");
         subtitle.setWrapText(true);
         header.getChildren().addAll(title, subtitle);
 
         Pane preview = new Pane();
         preview.getStyleClass().add("mini-map-placeholder");
-        Region routeOne = crearRouteSegment(42, 70, 95, 5, -18);
-        Region routeTwo = crearRouteSegment(122, 49, 78, 5, 22);
-        Region routeThree = crearRouteSegment(184, 73, 54, 5, -30);
-        Region start = crearMapMarker("mini-map-start", 34, 67);
-        Region end = crearMapMarker("mini-map-end", 232, 49);
-        preview.getChildren().addAll(routeOne, routeTwo, routeThree, start, end);
+        Region routeOne = crearRouteSegment(62, 92, 78, 4, -20);
+        Region routeTwo = crearRouteSegment(126, 74, 64, 4, 22);
+        Region routeThree = crearRouteSegment(178, 96, 46, 4, -28);
+        Region start = crearMapMarker("mini-map-start", 54, 89);
+        Region end = crearMapMarker("mini-map-end", 218, 75);
+        Label zoomLabel = new Label("Zoom 1");
+        zoomLabel.getStyleClass().add("mini-map-zoom-label");
+        zoomLabel.setLayoutX(12);
+        zoomLabel.setLayoutY(12);
+        preview.getChildren().addAll(routeOne, routeTwo, routeThree, start, end, zoomLabel);
 
         panel.getChildren().addAll(header, preview);
         return panel;

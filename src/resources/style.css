@@ -287,34 +287,35 @@
 }
 
 .shell-rail {
-    -fx-background-color: -app-surface;
+    -fx-background-color: -app-bg;
     -fx-border-color: transparent -app-border transparent transparent;
     -fx-border-width: 0 1 0 0;
-    -fx-padding: 14 8 14 8;
-    -fx-pref-width: 58;
-    -fx-min-width: 58;
-    -fx-max-width: 58;
+    -fx-padding: 18 10 18 10;
+    -fx-pref-width: 64;
+    -fx-min-width: 64;
+    -fx-max-width: 64;
 }
 
 .rail-button {
     -fx-background-color: transparent;
-    -fx-background-radius: 8;
+    -fx-background-radius: 999;
     -fx-border-color: transparent;
-    -fx-border-radius: 8;
+    -fx-border-radius: 999;
     -fx-text-fill: -app-muted;
     -fx-font-size: 18px;
     -fx-font-weight: 700;
     -fx-padding: 0;
-    -fx-min-width: 38;
-    -fx-min-height: 38;
-    -fx-pref-width: 38;
-    -fx-pref-height: 38;
-    -fx-max-width: 38;
-    -fx-max-height: 38;
+    -fx-min-width: 42;
+    -fx-min-height: 42;
+    -fx-pref-width: 42;
+    -fx-pref-height: 42;
+    -fx-max-width: 42;
+    -fx-max-height: 42;
 }
 
 .rail-button:hover {
-    -fx-background-color: -app-surface-alt;
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-border;
     -fx-text-fill: -app-text;
 }
 
@@ -323,14 +324,14 @@
 }
 
 .rail-button:focused {
-    -fx-background-color: -app-primary-soft;
+    -fx-background-color: -app-surface;
     -fx-border-color: -app-primary;
     -fx-border-width: 1.4;
 }
 
 .rail-button.active {
-    -fx-background-color: -app-primary-soft;
-    -fx-border-color: derive(-app-primary, 45%);
+    -fx-background-color: -app-surface;
+    -fx-border-color: derive(-app-primary, 35%);
     -fx-text-fill: -app-primary;
 }
 
@@ -436,7 +437,7 @@
 
 .home-page {
     -fx-background-color: -app-bg;
-    -fx-padding: 26 30 30 30;
+    -fx-padding: 30 34 34 34;
 }
 
 .summary-grid {
@@ -457,7 +458,7 @@
 }
 
 .metric-card {
-    -fx-padding: 15 16 14 16;
+    -fx-padding: 18;
     -fx-min-width: 150;
 }
 
@@ -502,7 +503,7 @@
 }
 
 .activity-panel {
-    -fx-padding: 20;
+    -fx-padding: 22;
 }
 
 .dashboard-side-stack {
@@ -514,7 +515,7 @@
 .calendar-panel,
 .chart-panel,
 .map-preview-panel {
-    -fx-padding: 20;
+    -fx-padding: 22;
 }
 
 .section-title {
@@ -552,7 +553,7 @@
     -fx-background-radius: 8;
     -fx-border-color: -app-border;
     -fx-border-radius: 8;
-    -fx-padding: 12 13 12 13;
+    -fx-padding: 14;
 }
 
 .activity-row-marker {
@@ -631,17 +632,32 @@
 
 .mini-map-placeholder {
     -fx-background-color: -app-map-bg;
+    -fx-background-image: url("calderona.jpg");
+    -fx-background-size: 190%;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
     -fx-background-radius: 8;
     -fx-border-color: -app-border;
     -fx-border-radius: 8;
-    -fx-min-height: 120;
-    -fx-pref-height: 120;
-    -fx-max-height: 120;
+    -fx-min-height: 142;
+    -fx-pref-height: 142;
+    -fx-max-height: 142;
 }
 
 .mini-route-segment {
     -fx-background-color: -app-coast;
     -fx-background-radius: 999;
+}
+
+.mini-map-zoom-label {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 999;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 999;
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-padding: 4 8 4 8;
 }
 
 .mini-map-start,
