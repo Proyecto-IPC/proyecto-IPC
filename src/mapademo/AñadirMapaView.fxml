@@ -73,12 +73,12 @@
       </GridPane>
       <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="218.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancelar">
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#handleBotonCancelar" text="Cancelar">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#handleBotonAñadir" prefHeight="25.0" prefWidth="58.0" text="Añadir" />
+            <Button fx:id="btnAñadir" mnemonicParsing="false" onAction="#handleBotonAñadir" prefHeight="25.0" prefWidth="58.0" text="Añadir" />
          </children>
       </HBox>
    </children>
