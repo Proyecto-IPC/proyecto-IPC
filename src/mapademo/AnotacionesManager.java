@@ -1,52 +1,44 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mapademo;
-
-/**
- *
- * @author amira
- */
-
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
+import upv.ipc.sportlib.GeoPoint;
 
 public class AnotacionesManager {
 
-    // Lista para persistir las notas durante la ejecución
     private List<Anotacion> listaAnotaciones = new ArrayList<>();
+    private MapViewController mapController;
 
-    /**
-     * Este método será llamado por el hook setOnMapSecondaryClick 
-     * en MapViewController.
-     */
-    public void mostrarMenu(double lat, double lon) {
-        // 1. Crear un diálogo de entrada de texto sencillo
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Nueva Anotación");
-        dialog.setHeaderText("Añadir comentario en: " + lat + ", " + lon);
-        dialog.setContentText("Escribe tu nota aquí:");
-
-        // 2. Esperar la respuesta del usuario
-        Optional<String> result = dialog.showAndWait();
-
-        // 3. Si el usuario escribió algo, crear el objeto Anotacion
-        result.ifPresent(texto -> {
-            if (!texto.trim().isEmpty()) {
-                Anotacion nuevaNota = new Anotacion(lat, lon, texto);
-                listaAnotaciones.add(nuevaNota);
-                System.out.println("Anotación guardada con éxito.");
-            }
-        });
+    public void setMapController(MapViewController mvc) {
+        this.mapController = mvc;
+        mvc.setOnMapSecondaryClick(geoPoint -> mostrarMenu(geoPoint.getLatitude(), geoPoint.getLongitude()));
     }
 
-    /**
-     * Método opcional para obtener todas las notas y pintarlas en el mapa
-     */
+    public void mostrarMenu(double lat, double lon) {
+        ChoiceDialog<Anotacion.Tipo> tipoDialog = new ChoiceDialog<>(Anotacion.Tipo.NOTA, Anotacion.Tipo.values());
+        tipoDialog.setTitle("Nueva Anotación");
+        tipoDialog.setHeaderText("Selecciona el tipo de anotación");
+        tipoDialog.setContentText("Tipo:");
+
+        Optional<Anotacion.Tipo> tipo = tipoDialog.showAndWait();
+        if (tipo.isEmpty()) return;
+
+        TextInputDialog textDialog = new TextInputDialog();
+        textDialog.setTitle("Nueva Anotación");
+        textDialog.setHeaderText("Tipo: " + tipo.get() + " en " + lat + ", " + lon);
+        textDialog.setContentText("Nota:");
+
+        Optional<String> texto = textDialog.showAndWait();
+        if (texto.isEmpty() || texto.get().trim().isEmpty()) return;
+
+        Anotacion anotacion = new Anotacion(lat, lon, texto.get().trim(), tipo.get());
+        listaAnotaciones.add(anotacion);
+        System.out.println("Anotación guardada: " + anotacion.getTipo() + " - " + anotacion.getTexto());
+    }
+
     public List<Anotacion> getAnotaciones() {
         return listaAnotaciones;
     }

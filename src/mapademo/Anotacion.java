@@ -12,19 +12,24 @@ package mapademo;
 import java.io.Serializable;
 
 public class Anotacion implements Serializable {
-    private double x; 
-    private double y; 
-    private String texto;
 
-    public Anotacion(double x, double y, String texto) {
+    public enum Tipo { NOTA, FOTO, ALERTA }
+
+    private double x;
+    private double y;
+    private String texto;
+    private Tipo tipo;
+
+    public Anotacion(double x, double y, String texto, Tipo tipo) {
         this.x = x;
         this.y = y;
         this.texto = texto;
+        this.tipo = tipo;
     }
 
-    // Generar Getters y Setters (Alt+Insert en NetBeans)
     public double getX() { return x; }
     public double getY() { return y; }
     public String getTexto() { return texto; }
     public void setTexto(String texto) { this.texto = texto; }
+    public Tipo getTipo() { return tipo; }
 }
