@@ -27,6 +27,10 @@ public class AñadirMapaViewController implements Initializable {
     private TextField txtRutaImagen;
     @FXML
     private Button btnExaminar;
+    @FXML
+    private TextField txtLatNorte;
+    @FXML
+    private TextField txtLatSur;
 
     /**
      * Initializes the controller class.
@@ -52,11 +56,15 @@ public class AñadirMapaViewController implements Initializable {
     File selectedFile = fileChooser.showOpenDialog(btnExaminar.getScene().getWindow());
 
     if (selectedFile != null) {
-        // AQUÍ ESTÁ LA LÍNEA CLAVE: 
+ 
         // Ponemos la ruta absoluta del archivo en el TextField para que el usuario la vea
         txtRutaImagen.setText(selectedFile.getAbsolutePath());
     }
 }
+
+    @FXML
+    private void handleBotonAñadir(ActionEvent event) {
+    }
     }
     
 
