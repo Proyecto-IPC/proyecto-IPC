@@ -27,7 +27,7 @@
          <content>
             <VBox alignment="CENTER" fillWidth="false" maxHeight="1.7976931348623157E308" spacing="15.0" styleClass="auth-form-panel">
                <children>
-                  <VBox alignment="CENTER_LEFT" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="12.0" styleClass="auth-card">
+                  <VBox alignment="CENTER_LEFT" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" spacing="14.0" styleClass="auth-card">
                <children>
                   <Label styleClass="titulo" text="Registro" />
                   <Label styleClass="muted-label" text="Crea tu cuenta con los datos requeridos." />
@@ -68,7 +68,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox maxWidth="1.7976931348623157E308" onDragDropped="#handleAvatarDragDropped" onDragOver="#handleAvatarDragOver" styleClass="field-stack">
+                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                      <children>
                         <Label styleClass="field-label" text="Avatar (opcional)" />
                         <Button fx:id="btnSeleccionarAvatar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSeleccionarAvatar" onDragDropped="#handleAvatarDragDropped" onDragOver="#handleAvatarDragOver" styleClass="avatar-drop-zone" text="Selecciona o arrastra el archivo" />

@@ -8,9 +8,9 @@
     -app-border: #d9e1dc;
     -app-text: #111816;
     -app-muted: #65726c;
-    -app-primary: #158052;
-    -app-primary-hover: #116a45;
-    -app-primary-soft: #e8f5ef;
+    -app-primary: #059669;
+    -app-primary-hover: #047857;
+    -app-primary-soft: #d1fae5;
     -app-coast: #2563eb;
     -app-coast-soft: #eaf2ff;
     -app-sand: #d7aa4a;
@@ -35,15 +35,15 @@
     -app-border: #26352e;
     -app-text: #eef5f0;
     -app-muted: #9aa8a1;
-    -app-primary: #4ade9b;
-    -app-primary-hover: #35c786;
-    -app-primary-soft: #123024;
+    -app-primary: #34d399;
+    -app-primary-hover: #6ee7b7;
+    -app-primary-soft: #064e3b;
     -app-coast: #60a5fa;
     -app-coast-soft: #10233d;
     -app-sand: #e2be69;
     -app-danger: #f07167;
     -app-success: #5ee0a0;
-    -app-focus: rgba(74, 222, 155, 0.24);
+    -app-focus: rgba(52, 211, 153, 0.24);
 }
 
 .menu-bar {
@@ -197,7 +197,7 @@
 .password-field:focused,
 .date-picker:focused {
     -fx-border-color: -app-primary;
-    -fx-border-width: 1.4;
+    -fx-border-width: 1;
 }
 
 .date-picker > .text-field {
@@ -240,7 +240,7 @@
 
 .avatar-drop-zone:focused {
     -fx-border-color: -app-primary;
-    -fx-border-width: 1.4;
+    -fx-border-width: 1;
 }
 
 .button {
@@ -263,12 +263,14 @@
 }
 
 .button:pressed {
-    -fx-background-color: #0d4f37;
+    -fx-background-color: derive(-app-primary-hover, -10%);
+    -fx-effect: none;
+    -fx-translate-y: 1px;
 }
 
 .button:focused {
-    -fx-border-color: #0b3d2b;
-    -fx-border-width: 1.4;
+    -fx-border-color: -app-primary;
+    -fx-border-width: 1;
 }
 
 .button:disabled {
@@ -304,10 +306,23 @@
     -fx-border-color: derive(-app-primary, 45%);
 }
 
+.button-secundario:pressed,
+.outline-button:pressed {
+    -fx-background-color: derive(-app-surface-alt, -5%);
+    -fx-effect: none;
+    -fx-translate-y: 1px;
+}
+
 .button-secundario:focused,
 .outline-button:focused {
     -fx-background-color: -app-primary-soft;
     -fx-border-color: -app-primary;
+}
+
+.outline-button:disabled,
+.button-secundario:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
 }
 
 .ghost-button {
@@ -319,6 +334,15 @@
 .ghost-button:hover {
     -fx-background-color: -app-primary-soft;
     -fx-text-fill: -app-primary;
+}
+
+.ghost-button:pressed {
+    -fx-background-color: derive(-app-primary-soft, -5%);
+}
+
+.ghost-button:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
 }
 
 .error {
@@ -381,7 +405,12 @@
 .rail-button:focused {
     -fx-background-color: -app-surface;
     -fx-border-color: -app-primary;
-    -fx-border-width: 1.4;
+    -fx-border-width: 1;
+}
+
+.rail-button:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
 }
 
 .rail-button.active {
@@ -414,7 +443,7 @@
 .shell-brand-button:focused {
     -fx-background-color: -app-primary-soft;
     -fx-border-color: -app-primary;
-    -fx-border-width: 1.4;
+    -fx-border-width: 1;
 }
 
 .brand-logo-vector {
@@ -459,7 +488,12 @@
 .user-menu-button:focused {
     -fx-background-color: -app-primary-soft;
     -fx-border-color: -app-primary;
-    -fx-border-width: 1.4;
+    -fx-border-width: 1;
+}
+
+.user-menu-button:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
 }
 
 .user-menu-button .label {
@@ -895,12 +929,14 @@
 
 .map-control-button:pressed {
     -fx-background-color: derive(-app-surface-alt, -5%);
+    -fx-effect: none;
+    -fx-translate-y: 0;
 }
 
 .map-control-button:focused {
     -fx-background-color: -app-primary-soft;
-    -fx-border-color: -app-primary;
-    -fx-border-width: 1.4;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(5, 150, 105, 0.35), 4, 0, 0, 0);
 }
 
 .map-control-button:disabled {

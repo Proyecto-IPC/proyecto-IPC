@@ -28,6 +28,9 @@ public class DashboardViewController implements Initializable {
         populateMapPreview();
         populateStreak();
         populateChart();
+
+        AnimationBehavior.slideFadeIn(statsGrid);
+        AnimationBehavior.slideFadeIn(activityList);
     }
 
     private void populateMetrics() {

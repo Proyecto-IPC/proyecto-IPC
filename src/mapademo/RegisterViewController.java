@@ -47,6 +47,9 @@ public class RegisterViewController implements Initializable {
         lblError.setText("");
         installDateControls();
         btnSeleccionarAvatar.setTooltip(new Tooltip("Puedes arrastrar una imagen o seleccionarla desde el explorador."));
+        AnimationBehavior.installHover(btnRegistrar);
+        AnimationBehavior.installHover(btnIrLogin);
+        AnimationBehavior.installHover(btnSeleccionarAvatar);
     }
 
     @FXML

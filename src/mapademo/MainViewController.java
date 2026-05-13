@@ -30,6 +30,7 @@ public class MainViewController implements Initializable {
     @FXML private HBox topBar;
     @FXML private VBox railNav;
     @FXML private Button btnImportar;
+    @FXML private Button btnHome;
     @FXML private Label importStatusLabel;
     @FXML private Button btnNavResumen;
     @FXML private Button btnNavActividades;
@@ -49,6 +50,12 @@ public class MainViewController implements Initializable {
             importStatusLabel.setVisible(false);
             importStatusLabel.setManaged(false);
         });
+        AnimationBehavior.installHover(btnImportar);
+        AnimationBehavior.installHover(btnNavResumen);
+        AnimationBehavior.installHover(btnNavActividades);
+        AnimationBehavior.installHover(btnNavPerfil);
+        AnimationBehavior.installHover(btnNavHistorial);
+        AnimationBehavior.installHover(btnHome);
         cargarVista("LoginView.fxml");
     }
 

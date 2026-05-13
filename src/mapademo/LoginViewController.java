@@ -14,11 +14,14 @@ public class LoginViewController implements Initializable {
     @FXML private TextField txtUsuario;
     @FXML private PasswordField txtPassword;
     @FXML private Button btnLogin;
+    @FXML private Button btnIrRegistro;
     @FXML private Label lblError;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lblError.setText("");
+        AnimationBehavior.installHover(btnLogin);
+        AnimationBehavior.installHover(btnIrRegistro);
     }
 
     @FXML

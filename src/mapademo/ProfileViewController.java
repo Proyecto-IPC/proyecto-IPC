@@ -40,6 +40,7 @@ public class ProfileViewController implements Initializable {
         txtEmail.setText(currentUser.getEmail());
         dpBirthDate.setValue(currentUser.getBirthDate());
         txtAvatarPath.setText(currentUser.getAvatarPath() == null ? "" : currentUser.getAvatarPath());
+        AnimationBehavior.installHover(btnGuardar);
     }
 
     @FXML

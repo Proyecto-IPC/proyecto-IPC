@@ -7,13 +7,18 @@ package mapademo;
 import java.io.File;
 import java.net.URL;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.animation.Interpolator;
 import javafx.application.Platform;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds; // Para zoom centrado
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.CacheHint;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
@@ -21,7 +26,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image; // Para la imagen del mapa
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -98,6 +103,15 @@ public class MapViewController implements Initializable {
     private Circle highlightedTrackPoint;
     private Consumer<GeoPoint> mapSecondaryClickHandler;
 
+    // Premium zoom engine
+    private Timeline zoomTimeline;
+    private double targetZoom = 1.0;
+    private final DoubleProperty animatedZoom = new SimpleDoubleProperty(1.0);
+    private double pivotMouseX;
+    private double pivotMouseY;
+    private double pivotContentX;
+    private double pivotContentY;
+
     /**
      * Initializes the controller class.
      */
@@ -107,22 +121,50 @@ public class MapViewController implements Initializable {
         configureAccessibility();
         configureZoomFeedback();
 
+        // Listener that computes scroll position at 60fps during animation
+        animatedZoom.addListener((obs, oldVal, newVal) -> {
+            double currentZoom = newVal.doubleValue();
+            zoomLevel = currentZoom;
+            zoomGroup.setScaleX(currentZoom);
+            zoomGroup.setScaleY(currentZoom);
+
+            if (!mapLoaded) return;
+
+            Bounds viewport = mapScrollPane.getViewportBounds();
+            double unscaledWidth = mapPane.getWidth();
+            double unscaledHeight = mapPane.getHeight();
+
+            double scaledWidth = unscaledWidth * currentZoom;
+            double scaledHeight = unscaledHeight * currentZoom;
+
+            double maxScrollX = Math.max(0, scaledWidth - viewport.getWidth());
+            double maxScrollY = Math.max(0, scaledHeight - viewport.getHeight());
+
+            double newH = maxScrollX == 0 ? 0.5 : (pivotContentX * currentZoom - pivotMouseX) / maxScrollX;
+            double newV = maxScrollY == 0 ? 0.5 : (pivotContentY * currentZoom - pivotMouseY) / maxScrollY;
+
+            mapScrollPane.setHvalue(clamp(newH, 0, 1));
+            mapScrollPane.setVvalue(clamp(newV, 0, 1));
+
+            if (zoomFeedbackLabel.isVisible()) {
+                zoomFeedbackLabel.setText(Math.round(currentZoom * 100) + "%");
+            }
+        });
+
+        AnimationBehavior.installPressOnly(zoomInButton);
+        AnimationBehavior.installPressOnly(zoomOutButton);
+        AnimationBehavior.installPressOnly(centerRouteButton);
+
         zoomInButton.setOnAction(event -> zoomIn());
         zoomOutButton.setOnAction(event -> zoomOut());
         centerRouteButton.setOnAction(event -> centerRoute());
 
         mapScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
-            if (!mapLoaded) {
-                return;
-            }
-
-            if (event.getDeltaY() > 0) {
-                setZoomAt(zoomLevel + WHEEL_ZOOM_STEP, event.getX(), event.getY());
-            } else if (event.getDeltaY() < 0) {
-                setZoomAt(zoomLevel - WHEEL_ZOOM_STEP, event.getX(), event.getY());
-            }
-
+            if (!mapLoaded) return;
             event.consume();
+
+            double delta = (event.getDeltaY() > 0) ? WHEEL_ZOOM_STEP : -WHEEL_ZOOM_STEP;
+            animateZoomTo(targetZoom + delta, event.getX(), event.getY());
         });
 
         mapPane.setOnMouseClicked(event -> {
@@ -148,100 +190,58 @@ public class MapViewController implements Initializable {
         });
     }
 
-    private void zoomIn(double step) {
-        setZoom(zoomLevel + step);
-    }
-
-    private void zoomOut(double step) {
-        setZoom(zoomLevel - step);
-    }
-
     private void zoomIn() {
-        zoomIn(ZOOM_STEP);
+        Bounds viewport = mapScrollPane.getViewportBounds();
+        animateZoomTo(targetZoom + ZOOM_STEP, viewport.getWidth() / 2, viewport.getHeight() / 2);
     }
 
     private void zoomOut() {
-        zoomOut(ZOOM_STEP);
+        Bounds viewport = mapScrollPane.getViewportBounds();
+        animateZoomTo(targetZoom - ZOOM_STEP, viewport.getWidth() / 2, viewport.getHeight() / 2);
     }
 
-    private void setZoom(double zoom) {
-        // El zoom se mantiene entre sus limites
-        double newZoom = Math.max(getMinZoom(), Math.min(MAX_ZOOM, zoom));
+    private void animateZoomTo(double newZoom, double mouseX, double mouseY) {
+        double clampedZoom = Math.max(getMinZoom(), Math.min(MAX_ZOOM, newZoom));
+        if (clampedZoom == targetZoom) return;
 
-        // Rectangulo visible del ScrollPane
-        Bounds viewportBounds = mapScrollPane.getViewportBounds();
-        // Tamanyo total del contendido dentro del ScrollPane (mapa escalado)
-        Bounds contentBounds = contentGroup.getBoundsInLocal();
+        if (zoomTimeline != null && zoomTimeline.getStatus() == javafx.animation.Animation.Status.RUNNING) {
+            zoomTimeline.stop();
+        }
 
-        // Obtiene las dimensiones visibles y las del contenido
-        double viewportWidth = viewportBounds.getWidth();
-        double viewportHeight = viewportBounds.getHeight();
-        double contentWidth = contentBounds.getWidth();
-        double contentHeight = contentBounds.getHeight();
+        targetZoom = clampedZoom;
+        pivotMouseX = mouseX;
+        pivotMouseY = mouseY;
 
-        // Calcular el centro visible del ScrollPane
-        double centerX = mapScrollPane.getHvalue() * Math.max(contentWidth - viewportWidth, 0) + viewportWidth / 2;
-        double centerY = mapScrollPane.getVvalue() * Math.max(contentHeight - viewportHeight, 0) + viewportHeight / 2;
+        Bounds viewport = mapScrollPane.getViewportBounds();
+        double currentScaledWidth = mapPane.getWidth() * animatedZoom.get();
+        double currentScaledHeight = mapPane.getHeight() * animatedZoom.get();
 
-        // Ajusta el zoom solicitado a los limites permitidos
-        zoomLevel = newZoom;
-        zoomGroup.setScaleX(zoomLevel);
-        zoomGroup.setScaleY(zoomLevel);
+        double hValue = mapScrollPane.getHvalue();
+        double vValue = mapScrollPane.getVvalue();
 
-        // Mide el nuevo tamanyo del contenido tras el zoom
-        Bounds newContentBounds = contentGroup.getBoundsInLocal();
-        double newContentWidth = newContentBounds.getWidth();
-        double newContentHeight = newContentBounds.getHeight();
+        pivotContentX = (pivotMouseX + hValue * Math.max(0, currentScaledWidth - viewport.getWidth())) / animatedZoom.get();
+        pivotContentY = (pivotMouseY + vValue * Math.max(0, currentScaledHeight - viewport.getHeight())) / animatedZoom.get();
 
-        // Calcula la nueva posicion del scroll (H y V)
-        double newH = (centerX * (newContentWidth / contentWidth) - viewportWidth / 2) / Math.max(newContentWidth - viewportWidth, 1);
-        double newV = (centerY * (newContentHeight / contentHeight) - viewportHeight / 2) / Math.max(newContentHeight - viewportHeight, 1);
+        zoomTimeline = new Timeline(
+            new javafx.animation.KeyFrame(Duration.millis(150),
+                new javafx.animation.KeyValue(animatedZoom, targetZoom, Motion.SMOOTH)
+            )
+        );
 
-        // Aplica el nuevo scroll
-        mapScrollPane.setHvalue(clamp(newH, 0, 1));
-        mapScrollPane.setVvalue(clamp(newV, 0, 1));
-        updateZoomButtons();
-        showZoomFeedback();
-    }
+        zoomGroup.setCache(true);
+        zoomGroup.setCacheHint(CacheHint.SPEED);
 
-    private void setZoomAt(double zoom, double mouseX, double mouseY) {
-        double newZoom = Math.max(getMinZoom(), Math.min(MAX_ZOOM, zoom));
+        zoomTimeline.setOnFinished(e -> {
+            zoomGroup.setCache(false);
+            updateZoomButtons();
+        });
 
-        Bounds viewportBounds = mapScrollPane.getViewportBounds();
-
-        double viewportWidth = viewportBounds.getWidth();
-        double viewportHeight = viewportBounds.getHeight();
-
-        double oldContentWidth = contentGroup.getBoundsInLocal().getWidth();
-        double oldContentHeight = contentGroup.getBoundsInLocal().getHeight();
-
-        double contentX = mapScrollPane.getHvalue() * Math.max(oldContentWidth - viewportWidth, 0) + mouseX;
-        double contentY = mapScrollPane.getVvalue() * Math.max(oldContentHeight - viewportHeight, 0) + mouseY;
-
-        zoomLevel = newZoom;
-        zoomGroup.setScaleX(zoomLevel);
-        zoomGroup.setScaleY(zoomLevel);
-
-        double newContentWidth = contentGroup.getBoundsInLocal().getWidth();
-        double newContentHeight = contentGroup.getBoundsInLocal().getHeight();
-
-        double scaleX = newContentWidth / oldContentWidth;
-        double scaleY = newContentHeight / oldContentHeight;
-
-        double newH = (contentX * scaleX - mouseX) / Math.max(newContentWidth - viewportWidth, 1);
-        double newV = (contentY * scaleY - mouseY) / Math.max(newContentHeight - viewportHeight, 1);
-
-        mapScrollPane.setHvalue(clamp(newH, 0, 1));
-        mapScrollPane.setVvalue(clamp(newV, 0, 1));
-        updateZoomButtons();
+        zoomTimeline.play();
         showZoomFeedback();
     }
 
     private void showZoomFeedback() {
-        if (!mapLoaded) {
-            return;
-        }
-
+        if (!mapLoaded) return;
         zoomFeedbackLabel.setText(Math.round(zoomLevel * 100) + "%");
         zoomFeedbackLabel.setVisible(true);
         zoomFeedbackLabel.setManaged(true);
@@ -254,7 +254,6 @@ public class MapViewController implements Initializable {
         zoomFeedbackLabel.setManaged(false);
     }
 
-    // Asegura que nunca se salga de los limites de ScrollPane
     private double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
@@ -277,12 +276,8 @@ public class MapViewController implements Initializable {
     }
 
     private void handleMapSecondaryClick(double x, double y) {
-        if (projection == null || currentActivity == null) {
-            return;
-        }
-
+        if (projection == null || currentActivity == null) return;
         var geoPoint = projection.unproject(x, y);
-
         if (mapSecondaryClickHandler != null) {
             mapSecondaryClickHandler.accept(geoPoint);
         }
@@ -317,7 +312,7 @@ public class MapViewController implements Initializable {
 
         if (hasRoute) {
             Platform.runLater(() -> {
-                setZoom(1.0);
+                resetZoom();
                 centerRoute();
             });
         }
@@ -361,28 +356,25 @@ public class MapViewController implements Initializable {
         highlightedTrackPoint = null;
         mapLoaded = false;
         zoomLevel = 1.0;
-        zoomGroup.setScaleX(zoomLevel);
-        zoomGroup.setScaleY(zoomLevel);
+        targetZoom = 1.0;
+        animatedZoom.set(1.0);
+        zoomGroup.setScaleX(1.0);
+        zoomGroup.setScaleY(1.0);
         mapScrollPane.setHvalue(0);
         mapScrollPane.setVvalue(0);
         mapImageView.setImage(null);
         mapImageView.setFitWidth(0);
         mapImageView.setFitHeight(0);
         hideZoomFeedback();
-        // Borra todos los hijos del mapPane y deja unicamente mapImageView
         mapPane.getChildren().setAll(mapImageView);
     }
 
     private boolean loadMapForActivity(Activity activity) {
         MapRegion region = activity.getSuggestedMap();
-        if (region == null) {
-            return false;
-        }
+        if (region == null) return false;
 
         Image mapImage = new Image(new File(region.getImagePath()).toURI().toString());
-        if (mapImage.isError() || mapImage.getWidth() <= 0 || mapImage.getHeight() <= 0) {
-            return false;
-        }
+        if (mapImage.isError() || mapImage.getWidth() <= 0 || mapImage.getHeight() <= 0) return false;
 
         double width = mapImage.getWidth();
         double height = mapImage.getHeight();
@@ -401,13 +393,8 @@ public class MapViewController implements Initializable {
     }
 
     private void drawActivity(Activity activity) {
-        if (activity == null || projection == null) {
-            return;
-        }
-
-        if (activity.getTrackPoints() == null || activity.getTrackPoints().isEmpty()) {
-            return;
-        }
+        if (activity == null || projection == null) return;
+        if (activity.getTrackPoints() == null || activity.getTrackPoints().isEmpty()) return;
 
         Polyline routeLine = new Polyline();
         routeLine.setStrokeWidth(ROUTE_WIDTH);
@@ -419,8 +406,6 @@ public class MapViewController implements Initializable {
         }
 
         mapPane.getChildren().add(routeLine);
-
-        // Guarda el rectangulo que ocupa la ruta
         routeBounds = routeLine.getBoundsInLocal();
 
         drawRouteMarker(activity.getStartPoint(), START_COLOR);
@@ -435,29 +420,22 @@ public class MapViewController implements Initializable {
 
     private void updateZoomButtons() {
         double minZoom = getMinZoom();
-        zoomInButton.setDisable(!mapLoaded || zoomLevel >= MAX_ZOOM - 0.001);
-        zoomOutButton.setDisable(!mapLoaded || zoomLevel <= minZoom + 0.001);
+        zoomInButton.setDisable(!mapLoaded || targetZoom >= MAX_ZOOM - 0.001);
+        zoomOutButton.setDisable(!mapLoaded || targetZoom <= minZoom + 0.001);
     }
 
     private void drawRouteMarker(TrackPoint trackPoint, Color color) {
-        if (trackPoint == null || projection == null) {
-            return;
-        }
-
+        if (trackPoint == null || projection == null) return;
         Point2D point = projection.project(trackPoint);
-
         Circle marker = new Circle(point.getX(), point.getY(), MARKER_RADIUS);
         marker.setFill(color);
         marker.setStroke(MARKER_BORDER_COLOR);
         marker.setStrokeWidth(MARKER_BORDER_WIDTH);
-
         mapPane.getChildren().add(marker);
     }
 
     private void centerRoute() {
-        if (routeBounds == null) {
-            return;
-        }
+        if (routeBounds == null) return;
 
         double mapWidth = mapPane.getWidth() * zoomLevel;
         double mapHeight = mapPane.getHeight() * zoomLevel;
@@ -468,11 +446,64 @@ public class MapViewController implements Initializable {
         double centerX = routeBounds.getCenterX() * zoomLevel;
         double centerY = routeBounds.getCenterY() * zoomLevel;
 
-        double h = (centerX - viewportWidth / 2) / Math.max(mapWidth - viewportWidth, 1);
-        double v = (centerY - viewportHeight / 2) / Math.max(mapHeight - viewportHeight, 1);
+        double targetH = (centerX - viewportWidth / 2) / Math.max(mapWidth - viewportWidth, 1);
+        double targetV = (centerY - viewportHeight / 2) / Math.max(mapHeight - viewportHeight, 1);
+        double targetHClamped = clamp(targetH, 0, 1);
+        double targetVClamped = clamp(targetV, 0, 1);
 
-        mapScrollPane.setHvalue(clamp(h, 0, 1));
-        mapScrollPane.setVvalue(clamp(v, 0, 1));
+        Timeline centerTimeline = new Timeline();
+        centerTimeline.getKeyFrames().add(
+            new javafx.animation.KeyFrame(Duration.millis(250),
+                new javafx.animation.KeyValue(mapScrollPane.hvalueProperty(), targetHClamped, Interpolator.SPLINE(0.2, 0.8, 0.2, 1.0)),
+                new javafx.animation.KeyValue(mapScrollPane.vvalueProperty(), targetVClamped, Interpolator.SPLINE(0.2, 0.8, 0.2, 1.0))
+            )
+        );
+        centerTimeline.play();
+    }
+
+    private void resetZoom() {
+        if (zoomTimeline != null) zoomTimeline.stop();
+        targetZoom = 1.0;
+        zoomLevel = 1.0;
+        animatedZoom.set(1.0);
+        zoomGroup.setScaleX(1.0);
+        zoomGroup.setScaleY(1.0);
+        mapScrollPane.setHvalue(0.5);
+        mapScrollPane.setVvalue(0.5);
+        updateZoomButtons();
+    }
+
+    private void setZoom(double zoom) {
+        double newZoom = Math.max(getMinZoom(), Math.min(MAX_ZOOM, zoom));
+
+        Bounds viewportBounds = mapScrollPane.getViewportBounds();
+        Bounds contentBounds = contentGroup.getBoundsInLocal();
+
+        double viewportWidth = viewportBounds.getWidth();
+        double viewportHeight = viewportBounds.getHeight();
+        double contentWidth = contentBounds.getWidth();
+        double contentHeight = contentBounds.getHeight();
+
+        double centerX = mapScrollPane.getHvalue() * Math.max(contentWidth - viewportWidth, 0) + viewportWidth / 2;
+        double centerY = mapScrollPane.getVvalue() * Math.max(contentHeight - viewportHeight, 0) + viewportHeight / 2;
+
+        zoomLevel = newZoom;
+        targetZoom = newZoom;
+        animatedZoom.set(newZoom);
+        zoomGroup.setScaleX(zoomLevel);
+        zoomGroup.setScaleY(zoomLevel);
+
+        Bounds newContentBounds = contentGroup.getBoundsInLocal();
+        double newContentWidth = newContentBounds.getWidth();
+        double newContentHeight = newContentBounds.getHeight();
+
+        double newH = (centerX * (newContentWidth / contentWidth) - viewportWidth / 2) / Math.max(newContentWidth - viewportWidth, 1);
+        double newV = (centerY * (newContentHeight / contentHeight) - viewportHeight / 2) / Math.max(newContentHeight - viewportHeight, 1);
+
+        mapScrollPane.setHvalue(clamp(newH, 0, 1));
+        mapScrollPane.setVvalue(clamp(newV, 0, 1));
+        updateZoomButtons();
+        showZoomFeedback();
     }
 
 }
