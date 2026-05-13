@@ -39,6 +39,7 @@ public class MainViewController implements Initializable {
 
     private static MainViewController instancia;
     private PauseTransition importStatusTimer;
+    private AnotacionesManager anotacionesManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

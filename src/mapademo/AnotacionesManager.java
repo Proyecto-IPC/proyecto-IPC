@@ -1,16 +1,23 @@
 package mapademo;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
+import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.Annotation;
+import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.GeoPoint;
+import upv.ipc.sportlib.SportActivityApp;
 
 public class AnotacionesManager {
 
-    private List<Anotacion> listaAnotaciones = new ArrayList<>();
+    private Activity activity;
     private MapViewController mapController;
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public void setMapController(MapViewController mvc) {
         this.mapController = mvc;
@@ -18,28 +25,46 @@ public class AnotacionesManager {
     }
 
     public void mostrarMenu(double lat, double lon) {
-        ChoiceDialog<Anotacion.Tipo> tipoDialog = new ChoiceDialog<>(Anotacion.Tipo.NOTA, Anotacion.Tipo.values());
+        AnnotationType[] tipos = {AnnotationType.POINT, AnnotationType.LINE, AnnotationType.TEXT, AnnotationType.CIRCLE};
+        ChoiceDialog<AnnotationType> tipoDialog = new ChoiceDialog<>(AnnotationType.POINT, tipos);
         tipoDialog.setTitle("Nueva Anotación");
         tipoDialog.setHeaderText("Selecciona el tipo de anotación");
         tipoDialog.setContentText("Tipo:");
 
-        Optional<Anotacion.Tipo> tipo = tipoDialog.showAndWait();
+        Optional<AnnotationType> tipo = tipoDialog.showAndWait();
         if (tipo.isEmpty()) return;
 
         TextInputDialog textDialog = new TextInputDialog();
         textDialog.setTitle("Nueva Anotación");
         textDialog.setHeaderText("Tipo: " + tipo.get() + " en " + lat + ", " + lon);
-        textDialog.setContentText("Nota:");
+        textDialog.setContentText("Texto:");
 
         Optional<String> texto = textDialog.showAndWait();
         if (texto.isEmpty() || texto.get().trim().isEmpty()) return;
 
-        Anotacion anotacion = new Anotacion(lat, lon, texto.get().trim(), tipo.get());
-        listaAnotaciones.add(anotacion);
-        System.out.println("Anotación guardada: " + anotacion.getTipo() + " - " + anotacion.getTexto());
+        String color = colorPorTipo(tipo.get());
+        GeoPoint punto = new GeoPoint(lat, lon);
+        Annotation annotation = new Annotation(tipo.get(), texto.get().trim(), color, 2.0, java.util.List.of(punto));
+
+        if (activity != null) {
+            SportActivityApp.getInstance().addAnnotation(activity, annotation);
+            System.out.println("Anotación guardada: " + annotation.getType() + " - " + annotation.getText());
+        } else {
+            System.out.println("Sin actividad activa, anotación no persistida.");
+        }
     }
 
-    public List<Anotacion> getAnotaciones() {
-        return listaAnotaciones;
+    public java.util.List<Annotation> getAnotaciones() {
+        if (activity == null) return java.util.Collections.emptyList();
+        return activity.getAnnotations();
+    }
+
+    private String colorPorTipo(AnnotationType tipo) {
+        return switch (tipo) {
+            case POINT -> "#f59e0b";
+            case LINE -> "#3b82f6";
+            case TEXT -> "#10b981";
+            case CIRCLE -> "#8b5cf6";
+        };
     }
 }

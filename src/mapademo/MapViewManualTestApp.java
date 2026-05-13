@@ -29,9 +29,6 @@ public class MapViewManualTestApp extends Application {
         Parent root = loader.load();
         MapViewController controller = loader.getController();
 
-        anotacionesManager = new AnotacionesManager();
-        anotacionesManager.setMapController(controller);
-
         SportActivityApp app = SportActivityApp.getInstance();
         app.registerUser(
             "testmap",
@@ -45,6 +42,10 @@ public class MapViewManualTestApp extends Application {
 
         Activity activity = app.importActivity(new File("gpx/valencia_run.gpx"));
         controller.setActivity(activity);
+
+        anotacionesManager = new AnotacionesManager();
+        anotacionesManager.setMapController(controller);
+        anotacionesManager.setActivity(activity);
 
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
