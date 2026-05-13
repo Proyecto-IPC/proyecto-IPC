@@ -31,15 +31,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.scene.AccessibleRole;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
 import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.Annotation;
+import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.TrackPoint;
 import upv.ipc.sportlib.GeoPoint;
+import java.util.List;
 
 
 /**
@@ -102,6 +106,7 @@ public class MapViewController implements Initializable {
     private Bounds routeBounds;
     private Circle highlightedTrackPoint;
     private Consumer<GeoPoint> mapSecondaryClickHandler;
+    private java.util.List<javafx.scene.Node> annotationNodes = new java.util.ArrayList<>();
 
     // Premium zoom engine
     private Timeline zoomTimeline;
@@ -354,6 +359,7 @@ public class MapViewController implements Initializable {
         projection = null;
         routeBounds = null;
         highlightedTrackPoint = null;
+        annotationNodes.clear();
         mapLoaded = false;
         zoomLevel = 1.0;
         targetZoom = 1.0;
@@ -410,6 +416,7 @@ public class MapViewController implements Initializable {
 
         drawRouteMarker(activity.getStartPoint(), START_COLOR);
         drawRouteMarker(activity.getEndPoint(), END_COLOR);
+        drawAnnotations(activity.getAnnotations());
     }
 
     private void setMapControlsState(boolean hasMap, boolean hasRoute) {
@@ -432,6 +439,79 @@ public class MapViewController implements Initializable {
         marker.setStroke(MARKER_BORDER_COLOR);
         marker.setStrokeWidth(MARKER_BORDER_WIDTH);
         mapPane.getChildren().add(marker);
+    }
+
+    private void drawAnnotations(List<Annotation> annotations) {
+        if (annotations == null || projection == null) return;
+        for (Annotation annotation : annotations) {
+            if (annotation.getGeoPoints() == null || annotation.getGeoPoints().isEmpty()) continue;
+
+            Color color = Color.web(annotation.getColor() != null ? annotation.getColor() : "#f59e0b");
+            double strokeWidth = annotation.getStrokeWidth();
+
+            javafx.scene.Node node = switch (annotation.getType()) {
+                case POINT -> createAnnotationPoint(annotation, color);
+                case CIRCLE -> createAnnotationCircle(annotation, color, strokeWidth);
+                case LINE -> createAnnotationLine(annotation, color, strokeWidth);
+                case TEXT -> createAnnotationText(annotation, color);
+            };
+            annotationNodes.add(node);
+            mapPane.getChildren().add(node);
+        }
+    }
+
+    private Circle createAnnotationPoint(Annotation annotation, Color color) {
+        GeoPoint gp = annotation.getGeoPoints().get(0);
+        Point2D point = projection.project(gp);
+        Circle dot = new Circle(point.getX(), point.getY(), 6);
+        dot.setFill(color);
+        dot.setStroke(Color.web("#111816"));
+        dot.setStrokeWidth(1.5);
+        return dot;
+    }
+
+    private Circle createAnnotationCircle(Annotation annotation, Color color, double strokeWidth) {
+        GeoPoint gp = annotation.getGeoPoints().get(0);
+        Point2D center = projection.project(gp);
+        Circle circle = new Circle(center.getX(), center.getY(), 20);
+        circle.setFill(Color.TRANSPARENT);
+        circle.setStroke(color);
+        circle.setStrokeWidth(strokeWidth);
+        return circle;
+    }
+
+    private Polyline createAnnotationLine(Annotation annotation, Color color, double strokeWidth) {
+        Polyline line = new Polyline();
+        line.setStroke(color);
+        line.setStrokeWidth(strokeWidth);
+        for (GeoPoint gp : annotation.getGeoPoints()) {
+            Point2D point = projection.project(gp);
+            line.getPoints().addAll(point.getX(), point.getY());
+        }
+        return line;
+    }
+
+    private Text createAnnotationText(Annotation annotation, Color color) {
+        GeoPoint gp = annotation.getGeoPoints().get(0);
+        Point2D point = projection.project(gp);
+        Text text = new Text(point.getX() + 8, point.getY() - 10, annotation.getText());
+        text.setFill(color);
+        text.setFont(javafx.scene.text.Font.font("System", 11));
+        return text;
+    }
+
+    private String toHexString(Color color) {
+        return String.format("#%02X%02X%02X",
+            (int) (color.getRed() * 255),
+            (int) (color.getGreen() * 255),
+            (int) (color.getBlue() * 255));
+    }
+
+    public void refreshAnnotations(List<Annotation> annotations) {
+        if (projection == null) return;
+        annotationNodes.forEach(mapPane.getChildren()::remove);
+        annotationNodes.clear();
+        drawAnnotations(annotations);
     }
 
     private void centerRoute() {
