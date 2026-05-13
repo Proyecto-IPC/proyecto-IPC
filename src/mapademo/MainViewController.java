@@ -109,6 +109,12 @@ public class MainViewController implements Initializable {
     }
 
     @FXML
+    private void handleGestionMapas() {
+        setActiveRail(null);
+        cargarVista("AñadirMapaView.fxml");
+    }
+
+    @FXML
     private void handlePerfil() {
         setActiveRail(btnNavPerfil);
         cargarVista("ProfileView.fxml");

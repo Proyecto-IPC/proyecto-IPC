@@ -32,8 +32,7 @@
             <Button fx:id="btnImportar" accessibleText="Importación GPX pendiente de conexión" mnemonicParsing="false" onAction="#handleImportarPendiente" styleClass="outline-button pending-action" text="Importar actividad" />
             <MenuButton fx:id="userMenu" mnemonicParsing="false" styleClass="user-menu-button" text="Usuario">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handlePerfil" text="Perfil" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleHistorial" text="Historial de sesiones" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleGestionMapas" text="Gestión de mapas" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLogout" text="Cerrar sesión" />
                </items>
             </MenuButton>

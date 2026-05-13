@@ -14,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -33,6 +32,10 @@ public class AñadirMapaViewController implements Initializable {
     private TextField txtLatNorte;
     @FXML
     private TextField txtLatSur;
+    @FXML
+    private TextField txtLonEste;
+    @FXML
+    private TextField txtLonOeste;
     @FXML
     private Button btnCancelar;
     @FXML
@@ -71,56 +74,47 @@ public class AñadirMapaViewController implements Initializable {
     @FXML
     private void handleBotonAñadir(ActionEvent event) {
         try {
-        // 1. Validar que los campos de nombre, imagen y latitud no estén vacíos
         if (txtNombreMapa.getText().isEmpty() || txtRutaImagen.getText().isEmpty() ||
-            txtLatNorte.getText().isEmpty() || txtLatSur.getText().isEmpty()) {
-            
-            mostrarAlerta("Error", "Los campos Nombre, Imagen, Norte y Sur son obligatorios.");
+            txtLatNorte.getText().isEmpty() || txtLatSur.getText().isEmpty() ||
+            txtLonEste.getText().isEmpty() || txtLonOeste.getText().isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
             return;
         }
 
-        // 2. Convertir texto a números
         double latN = Double.parseDouble(txtLatNorte.getText());
         double latS = Double.parseDouble(txtLatSur.getText());
+        double lonE = Double.parseDouble(txtLonEste.getText());
+        double lonO = Double.parseDouble(txtLonOeste.getText());
 
-        // 3. Validación lógica: El Norte siempre debe estar por encima (ser mayor) que el Sur
         if (latS >= latN) {
             mostrarAlerta("Error de Coordenadas", "La Latitud Norte debe ser mayor que la Latitud Sur.");
             return;
         }
+        if (lonO >= lonE) {
+            mostrarAlerta("Error de Coordenadas", "La Longitud Este debe ser mayor que la Longitud Oeste.");
+            return;
+        }
 
-        // 4. Lógica de guardado
-        System.out.println("Registrando mapa con latitudes: N:" + latN + " S:" + latS);
-        
+        System.out.println("Registrando mapa: " + txtNombreMapa.getText() + " | lat: " + latN + "-" + latS + " | lon: " + lonO + "-" + lonE);
         mostrarAlerta("Éxito", "El mapa ha sido registrado correctamente.");
-        cerrarVentana();
+        MainViewController.getInstancia().mostrarPantallaPrincipal();
 
     } catch (NumberFormatException e) {
-        // Si el usuario escribe letras o usa comas en lugar de puntos
-        mostrarAlerta("Error de Formato", "Las latitudes deben ser números decimales (ejemplo: 40.41).");
+        mostrarAlerta("Error de Formato", "Las coordenadas deben ser números decimales (ejemplo: 40.41).");
+    }
     }
 
-    }
-
-    @FXML
+@FXML
     private void handleBotonCancelar(ActionEvent event) {
-        Stage stage = (Stage) btnCancelar.getScene().getWindow();
-    
-    
-    stage.close();
-}
+        MainViewController.getInstancia().mostrarPantallaPrincipal();
+    }
 
-    private void mostrarAlerta(String titulo, String mensaje) {
+private void mostrarAlerta(String titulo, String mensaje) {
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setTitle(titulo);
     alert.setHeaderText(null);
     alert.setContentText(mensaje);
     alert.showAndWait();
-    } 
-    
-    private void cerrarVentana() {
-    Stage stage = (Stage) btnAñadir.getScene().getWindow();
-    stage.close();
 }
 }
     
