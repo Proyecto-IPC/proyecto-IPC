@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="315.0" spacing="10.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="315.0" spacing="10.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.AñadirMapaViewController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -39,7 +39,7 @@
             <TextField fx:id="txtNombreMapa" prefHeight="25.0" prefWidth="143.0" GridPane.columnIndex="1" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="70.0" text="Imagen:" GridPane.rowIndex="1" />
             <TextField fx:id="txtRutaImagen" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Examinar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="btnExaminar" mnemonicParsing="false" onAction="#handleSeleccionarImagen" prefHeight="25.0" prefWidth="66.0" text="Examinar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </children>
