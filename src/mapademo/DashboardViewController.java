@@ -34,6 +34,8 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateMetrics() {
+        if (!statsGrid.getChildren().isEmpty()) return;
+
         String[][] stats = {
             {"Distancia total", "-- km", "Sin actividades importadas"},
             {"Tiempo total", "--", "Pendiente de GPX real"},
@@ -73,6 +75,8 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateActivities() {
+        if (!activityList.getChildren().isEmpty()) return;
+
         activityList.getChildren().addAll(
                 createActivityRow("Actividad importada", "Pendiente de GPX real y selección desde Analista", "-- km", "-- min", "--/km"),
                 createActivityRow("Ruta por revisar", "Espacio reservado para abrir detalle con mapa", "-- km", "-- min", "-- m"),
@@ -108,6 +112,8 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateMapPreview() {
+        if (!mapPreview.getChildren().isEmpty()) return;
+
         Region routeOne = createRouteSegment(62, 92, 78, 4, -20);
         Region routeTwo = createRouteSegment(126, 74, 64, 4, 22);
         Region routeThree = createRouteSegment(178, 96, 46, 4, -28);
@@ -141,6 +147,8 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateStreak() {
+        if (!calendarGrid.getChildren().isEmpty()) return;
+
         String[] labels = {"L", "M", "X", "J", "V", "S", "D"};
         for (int i = 0; i < labels.length; i++) {
             Label label = new Label(labels[i]);
@@ -156,6 +164,8 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateChart() {
+        if (!chartBars.getChildren().isEmpty()) return;
+
         String[] labels = {"L", "M", "X", "J", "V", "S", "D"};
         for (int i = 0; i < labels.length; i++) {
             VBox stack = new VBox(6);

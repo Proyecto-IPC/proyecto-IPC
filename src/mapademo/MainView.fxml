@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane" prefHeight="650.0" prefWidth="1000.0" styleClass="app-shell" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.MainViewController">
+<BorderPane fx:id="rootPane" prefHeight="650.0" prefWidth="1000.0" styleClass="app-shell" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.MainViewController">
    <top>
       <HBox fx:id="topBar" alignment="CENTER_LEFT" spacing="12.0" styleClass="shell-topbar">
          <children>
