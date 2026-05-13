@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.EstadisticasViewController">
+    <VBox spacing="25.0">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+
+        <Label text="Análisis de Rendimiento" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <BarChart fx:id="distanceChart" title="Kilómetros por Semana" prefHeight="300.0">
+            <xAxis><CategoryAxis label="Semana" side="BOTTOM" /></xAxis>
+            <yAxis><NumberAxis label="Distancia (km)" side="LEFT" /></yAxis>
+        </BarChart>
+
+        <LineChart fx:id="elevationChart" title="Perfil de Desnivel (Última Actividad)" prefHeight="300.0">
+            <xAxis><NumberAxis label="Puntos de track" side="BOTTOM" /></xAxis>
+            <yAxis><NumberAxis label="Elevación (m)" side="LEFT" /></yAxis>
+        </LineChart>
+    </VBox>
+</ScrollPane>
