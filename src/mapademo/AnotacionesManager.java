@@ -1,7 +1,6 @@
 package mapademo;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import upv.ipc.sportlib.Activity;
@@ -43,9 +42,20 @@ public class AnotacionesManager {
         Optional<String> texto = textDialog.showAndWait();
         if (texto.isEmpty() || texto.get().trim().isEmpty()) return;
 
-        String color = colorPorTipo(tipo.get());
-        GeoPoint punto = new GeoPoint(lat, lon);
-        Annotation annotation = new Annotation(tipo.get(), texto.get().trim(), color, 2.0, java.util.List.of(punto));
+        GeoPoint primerPunto = new GeoPoint(lat, lon);
+
+        if (tipo.get() == AnnotationType.LINE || tipo.get() == AnnotationType.CIRCLE) {
+            if (mapController != null) {
+                mapController.startPendingSecondPoint(primerPunto, tipo.get(), texto.get().trim(), null);
+            }
+        } else {
+            guardarAnotacion(tipo.get(), texto.get().trim(), java.util.List.of(primerPunto));
+        }
+    }
+
+    private void guardarAnotacion(AnnotationType tipo, String texto, java.util.List<GeoPoint> puntos) {
+        String color = colorPorTipo(tipo);
+        Annotation annotation = new Annotation(tipo, texto, color, 2.0, puntos);
 
         if (activity != null) {
             SportActivityApp.getInstance().addAnnotation(activity, annotation);

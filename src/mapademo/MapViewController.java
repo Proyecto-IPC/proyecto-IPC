@@ -21,6 +21,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -31,6 +32,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.scene.AccessibleRole;
 import javafx.scene.input.ScrollEvent;
@@ -79,6 +81,8 @@ public class MapViewController implements Initializable {
     private VBox emptyStatePanel;
     @FXML
     private Label zoomFeedbackLabel;
+    @FXML
+    private Label pendingToastLabel;
 
     private double zoomLevel = 1.0;
     private boolean mapLoaded;
@@ -107,6 +111,8 @@ public class MapViewController implements Initializable {
     private Circle highlightedTrackPoint;
     private Consumer<GeoPoint> mapSecondaryClickHandler;
     private java.util.List<javafx.scene.Node> annotationNodes = new java.util.ArrayList<>();
+    private Consumer<GeoPoint> pendingSecondPointHandler;
+    private javafx.scene.Node pendingMarker;
 
     // Premium zoom engine
     private Timeline zoomTimeline;
@@ -175,6 +181,8 @@ public class MapViewController implements Initializable {
         mapPane.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 handleMapSecondaryClick(event.getX(), event.getY());
+            } else if (event.getButton() == MouseButton.PRIMARY && pendingSecondPointHandler != null) {
+                handlePendingSecondPoint(event.getX(), event.getY());
             }
         });
 
@@ -286,6 +294,76 @@ public class MapViewController implements Initializable {
         if (mapSecondaryClickHandler != null) {
             mapSecondaryClickHandler.accept(geoPoint);
         }
+    }
+
+    private void handlePendingSecondPoint(double x, double y) {
+        if (pendingSecondPointHandler == null || projection == null) return;
+        var geoPoint = projection.unproject(x, y);
+        pendingSecondPointHandler.accept(geoPoint);
+        cancelPendingMode();
+    }
+
+    public void startPendingSecondPoint(GeoPoint firstPoint, AnnotationType tipo, String texto, Consumer<GeoPoint> onComplete) {
+        if (projection == null) return;
+        Point2D pt = projection.project(firstPoint);
+
+        Circle marker = new Circle(pt.getX(), pt.getY(), 8);
+        marker.setFill(Color.web("#fef08a"));
+        marker.setStroke(Color.web("#111816"));
+        marker.setStrokeWidth(2);
+        mapPane.getChildren().add(marker);
+        pendingMarker = marker;
+
+        String toastText = switch (tipo) {
+            case LINE -> "Clic de nuevo para marcar el final de la línea";
+            case CIRCLE -> "Clic de nuevo para marcar el radio del círculo";
+            default -> "Clic para definir el segundo punto";
+        };
+        pendingToastLabel.setText(toastText);
+        pendingToastLabel.setVisible(true);
+        pendingToastLabel.setManaged(true);
+
+        mapPane.getScene().setCursor(javafx.scene.Cursor.CROSSHAIR);
+
+        pendingSecondPointHandler = secondPoint -> {
+            GeoPoint[] puntos = {firstPoint, secondPoint};
+            Annotation annotation = new Annotation(tipo, texto, colorPorTipo(tipo), 2.0, java.util.List.of(puntos));
+            if (currentActivity != null) {
+                upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
+                try {
+                    var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
+                    if (refreshed != null) {
+                        refreshAnnotations(refreshed.getAnnotations());
+                    }
+                } catch (java.sql.SQLException e) {
+                    System.err.println("Error recargando actividad: " + e.getMessage());
+                }
+            }
+            System.out.println("Anotacion guardada: " + annotation.getType() + " - " + annotation.getText());
+            if (onComplete != null) onComplete.accept(secondPoint);
+        };
+    }
+
+    public void cancelPendingMode() {
+        if (pendingMarker != null) {
+            mapPane.getChildren().remove(pendingMarker);
+            pendingMarker = null;
+        }
+        pendingToastLabel.setVisible(false);
+        pendingToastLabel.setManaged(false);
+        if (mapPane.getScene() != null) {
+            mapPane.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+        }
+        pendingSecondPointHandler = null;
+    }
+
+    private String colorPorTipo(AnnotationType tipo) {
+        return switch (tipo) {
+            case POINT -> "#f59e0b";
+            case LINE -> "#3b82f6";
+            case TEXT -> "#10b981";
+            case CIRCLE -> "#8b5cf6";
+        };
     }
 
     public void setActivity(Activity activity) {
@@ -471,9 +549,12 @@ public class MapViewController implements Initializable {
     }
 
     private Circle createAnnotationCircle(Annotation annotation, Color color, double strokeWidth) {
-        GeoPoint gp = annotation.getGeoPoints().get(0);
-        Point2D center = projection.project(gp);
-        Circle circle = new Circle(center.getX(), center.getY(), 20);
+        GeoPoint gpCentro = annotation.getGeoPoints().get(0);
+        GeoPoint gpBorde = annotation.getGeoPoints().get(1);
+        Point2D center = projection.project(gpCentro);
+        Point2D edge = projection.project(gpBorde);
+        double radius = Math.hypot(edge.getX() - center.getX(), edge.getY() - center.getY());
+        Circle circle = new Circle(center.getX(), center.getY(), radius);
         circle.setFill(Color.TRANSPARENT);
         circle.setStroke(color);
         circle.setStrokeWidth(strokeWidth);
@@ -491,13 +572,36 @@ public class MapViewController implements Initializable {
         return line;
     }
 
-    private Text createAnnotationText(Annotation annotation, Color color) {
+    private javafx.scene.Node createAnnotationText(Annotation annotation, Color color) {
         GeoPoint gp = annotation.getGeoPoints().get(0);
         Point2D point = projection.project(gp);
-        Text text = new Text(point.getX() + 8, point.getY() - 10, annotation.getText());
-        text.setFill(color);
-        text.setFont(javafx.scene.text.Font.font("System", 11));
-        return text;
+        Text textNode = new Text(annotation.getText());
+        textNode.setFill(color);
+        textNode.setFont(javafx.scene.text.Font.font("System", 12));
+
+        Bounds b = textNode.getBoundsInLocal();
+        double textWidth = b.getWidth();
+        double textHeight = b.getHeight();
+        double pad = 3;
+        double rx = point.getX();
+        double ry = point.getY() - textHeight - 2;
+
+        Rectangle bg = new Rectangle(rx - pad, ry - pad, textWidth + pad * 2, textHeight + pad * 2);
+        bg.setFill(Color.web("#ffffff", 0.90));
+        bg.setStroke(Color.web("#d9e1dc"));
+        bg.setStrokeWidth(0.8);
+        bg.setArcWidth(3);
+        bg.setArcHeight(3);
+
+        textNode.setX(rx);
+        textNode.setY(ry + textHeight * 0.75);
+
+        bg.setMouseTransparent(true);
+        textNode.setMouseTransparent(true);
+
+        Group g = new Group(bg, textNode);
+        g.setMouseTransparent(true);
+        return g;
     }
 
     private String toHexString(Color color) {
