@@ -303,7 +303,7 @@ public class MapViewController implements Initializable {
         cancelPendingMode();
     }
 
-    public void startPendingSecondPoint(GeoPoint firstPoint, AnnotationType tipo, String texto, Consumer<GeoPoint> onComplete) {
+    public void startPendingSecondPoint(GeoPoint firstPoint, AnnotationType tipo, String texto, String colorHex, Consumer<GeoPoint> onComplete) {
         if (projection == null) return;
         Point2D pt = projection.project(firstPoint);
 
@@ -327,7 +327,7 @@ public class MapViewController implements Initializable {
 
         pendingSecondPointHandler = secondPoint -> {
             GeoPoint[] puntos = {firstPoint, secondPoint};
-            Annotation annotation = new Annotation(tipo, texto, colorPorTipo(tipo), 2.0, java.util.List.of(puntos));
+            Annotation annotation = new Annotation(tipo, texto, colorHex, 2.0, java.util.List.of(puntos));
             if (currentActivity != null) {
                 upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
                 try {

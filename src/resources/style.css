@@ -950,9 +950,9 @@
     -fx-border-color: rgba(39, 55, 47, 0.14);
     -fx-border-radius: 999;
     -fx-text-fill: -app-text;
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
     -fx-font-weight: 700;
-    -fx-padding: 5 9 5 9;
+    -fx-padding: 6 12 6 12;
 }
 
 .pending-toast {
