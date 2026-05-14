@@ -20,20 +20,15 @@ import upv.ipc.sportlib.SportActivityApp;
  * @author david
  */
 public class MapViewManualTestApp extends Application {
+
+    private AnotacionesManager anotacionesManager;
+
     @Override
     public void start(Stage stage) throws Exception {
-        // Para el desarrollo del motor de mapa.
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MapView.fxml"));
         Parent root = loader.load();
         MapViewController controller = loader.getController();
-        
-        controller.setOnMapSecondaryClick(geoPoint -> {
-            System.out.println(
-                "Click mapa: lat = " + geoPoint.getLatitude()
-                + ", lon = " + geoPoint.getLongitude()
-            );
-        });
-        
+
         SportActivityApp app = SportActivityApp.getInstance();
         app.registerUser(
             "testmap",
@@ -42,12 +37,16 @@ public class MapViewManualTestApp extends Application {
             LocalDate.of(2000, 1, 1),
             (String) null
         );
-        
+
         app.login("testmap", "Pass123!");
-        
+
         Activity activity = app.importActivity(new File("gpx/valencia_run.gpx"));
         controller.setActivity(activity);
-        
+
+        anotacionesManager = new AnotacionesManager();
+        anotacionesManager.setMapController(controller);
+        anotacionesManager.setActivity(activity);
+
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Scene scene = new Scene(root);
         stage.setTitle("Prueba manual - vista de mapa");

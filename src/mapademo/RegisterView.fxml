@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane prefHeight="650.0" prefWidth="1000.0" styleClass="auth-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
+<GridPane prefHeight="650.0" prefWidth="1000.0" styleClass="auth-root" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" percentWidth="66.0" />
       <ColumnConstraints hgrow="ALWAYS" percentWidth="34.0" />

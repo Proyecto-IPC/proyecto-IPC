@@ -39,6 +39,7 @@ public class MainViewController implements Initializable {
 
     private static MainViewController instancia;
     private PauseTransition importStatusTimer;
+    private AnotacionesManager anotacionesManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,6 +107,12 @@ public class MainViewController implements Initializable {
     @FXML
     private void handleRailHistorial() {
         handleHistorial();
+    }
+
+    @FXML
+    private void handleGestionMapas() {
+        setActiveRail(null);
+        cargarVista("AñadirMapaView.fxml");
     }
 
     @FXML
@@ -197,7 +204,16 @@ public class MainViewController implements Initializable {
         detail.getStyleClass().add("activity-detail");
 
         try {
-            Pane mapView = FXMLLoader.load(getClass().getResource("MapView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MapView.fxml"));
+            Pane mapView = loader.load();
+            MapViewController mapController = loader.getController();
+
+            if (activity instanceof upv.ipc.sportlib.Activity a) {
+                mapController.setActivity(a);
+                anotacionesManager.setActivity(a);
+            }
+
+            anotacionesManager.setMapController(mapController);
             detail.setCenter(mapView);
         } catch (Exception e) {
             detail.setCenter(crearPlaceholderError("No se pudo cargar el mapa."));
