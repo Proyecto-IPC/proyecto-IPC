@@ -142,10 +142,10 @@ public class MapViewController implements Initializable {
     );
 
     private static final java.util.Map<AnnotationType, Double> DEFAULT_STROKE = java.util.Map.of(
-        AnnotationType.POINT, 5.0,
-        AnnotationType.LINE, 2.5,
-        AnnotationType.TEXT, 10.0,
-        AnnotationType.CIRCLE, 2.5
+        AnnotationType.POINT, 8.0,
+        AnnotationType.LINE, 3.0,
+        AnnotationType.TEXT, 12.0,
+        AnnotationType.CIRCLE, 3.0
     );
 
     private record AnnotationTypeOption(AnnotationType tipo, String nombre) {
@@ -224,6 +224,15 @@ public class MapViewController implements Initializable {
             }
         });
 
+        mapArea.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_PRESSED, event -> {
+            if (annotationPanel.isVisible()) {
+                Bounds boundsInMapArea = annotationPanel.getBoundsInParent();
+                if (!boundsInMapArea.contains(event.getX(), event.getY())) {
+                    cerrarAnnotationPanel();
+                }
+            }
+        });
+
         annotationTipo.getItems().addAll(
             new AnnotationTypeOption(AnnotationType.POINT, "Punto"),
             new AnnotationTypeOption(AnnotationType.LINE, "Línea"),
@@ -241,6 +250,9 @@ public class MapViewController implements Initializable {
         annotationGuardar.setOnAction(event -> guardarAnotacionInline());
         annotationCancelar.setOnAction(event -> cerrarAnnotationPanel());
         annotationEliminar.setOnAction(event -> eliminarAnotacionInline());
+
+        annotationTam.setOnAction(event -> annotationTexto.requestFocus());
+        annotationTexto.setOnAction(event -> guardarAnotacionInline());
 
         setZoom(1.0);
     }
@@ -346,8 +358,8 @@ public class MapViewController implements Initializable {
 
     private void handleMapSecondaryClick(double x, double y) {
         if (projection == null || currentActivity == null) return;
-        double unscaledX = x / zoomLevel;
-        double unscaledY = y / zoomLevel;
+        double unscaledX = x;
+        double unscaledY = y;
 
         Point2D localInMapArea = mapArea.sceneToLocal(mapPane.localToScene(x, y));
         lastClickX = localInMapArea.getX();
@@ -378,14 +390,14 @@ public class MapViewController implements Initializable {
                 Point2D pt = projection.project(gp);
                 double radius = Math.max(ann.getStrokeWidth(), 3.0);
                 double dist = Math.hypot(x - pt.getX(), y - pt.getY());
-                return dist <= radius + 5;
+                return dist <= radius + 2.5;
             }
             case LINE: {
                 if (ann.getGeoPoints().size() < 2) return false;
                 Point2D p1 = projection.project(ann.getGeoPoints().get(0));
                 Point2D p2 = projection.project(ann.getGeoPoints().get(1));
                 double dist = pointToLineDistance(x, y, p1.getX(), p1.getY(), p2.getX(), p2.getY());
-                return dist <= 8;
+                return dist <= 4;
             }
             case CIRCLE: {
                 if (ann.getGeoPoints().size() < 2) return false;
@@ -393,7 +405,7 @@ public class MapViewController implements Initializable {
                 Point2D edge = projection.project(ann.getGeoPoints().get(1));
                 double radius = Math.hypot(edge.getX() - center.getX(), edge.getY() - center.getY());
                 double dist = Math.hypot(x - center.getX(), y - center.getY());
-                return dist <= radius + 5 || Math.abs(dist - radius) <= 8;
+                return Math.abs(dist - radius) <= 4;
             }
             case TEXT: {
                 GeoPoint gp = ann.getGeoPoints().get(0);
@@ -402,7 +414,7 @@ public class MapViewController implements Initializable {
                 Text t = new Text(ann.getText());
                 t.setFont(javafx.scene.text.Font.font("System", fontSize));
                 Bounds b = t.getBoundsInLocal();
-                double pad = 3;
+                double pad = 4;
                 double rx = pt.getX();
                 double ry = pt.getY() - b.getHeight() - 2;
                 Rectangle rect = new Rectangle(rx - pad, ry - pad, b.getWidth() + pad * 2, b.getHeight() + pad * 2);
@@ -461,6 +473,7 @@ public class MapViewController implements Initializable {
                 try {
                     var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
                     if (refreshed != null) {
+                        currentActivity = refreshed;
                         refreshAnnotations(refreshed.getAnnotations());
                     }
                 } catch (java.sql.SQLException e) {
@@ -786,7 +799,7 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
 
         double panelWidth = 210;
         double panelHeight = 220;
-        double margin = 10;
+        double margin = 5;
 
         double x = lastClickX + margin;
         double y = lastClickY - panelHeight - margin;
@@ -852,6 +865,7 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
                 try {
                     var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
                     if (refreshed != null) {
+                        currentActivity = refreshed;
                         refreshAnnotations(refreshed.getAnnotations());
                     }
                 } catch (java.sql.SQLException e) {
@@ -868,6 +882,7 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         try {
             var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
             if (refreshed != null) {
+                currentActivity = refreshed;
                 refreshAnnotations(refreshed.getAnnotations());
             }
         } catch (java.sql.SQLException e) {
