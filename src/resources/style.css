@@ -345,6 +345,75 @@
     -fx-cursor: default;
 }
 
+.primary-button {
+    -fx-background-color: -app-primary;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 6 14 6 14;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: -app-primary-hover;
+}
+
+.secondary-button {
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-text-fill: -app-text;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 6 14 6 14;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: derive(-app-surface, -5%);
+}
+
+.danger-button {
+    -fx-background-color: -app-danger;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 6 14 6 14;
+    -fx-cursor: hand;
+}
+
+.danger-button:hover {
+    -fx-background-color: derive(-app-danger, -10%);
+}
+
+.annotation-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 12 16 12 16;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.15), 12, 0.1, 0, 4);
+}
+
+.annotation-form {
+    -fx-background-color: transparent;
+    -fx-hgap: 8;
+    -fx-vgap: 8;
+}
+
+.annotation-form .label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-text-fill: -app-text;
+}
+
+
 .error {
     -fx-text-fill: -app-danger;
     -fx-font-size: 13px;

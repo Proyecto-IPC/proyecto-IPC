@@ -12,6 +12,7 @@ import javafx.animation.Interpolator;
 import javafx.application.Platform;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -83,6 +84,22 @@ public class MapViewController implements Initializable {
     private Label zoomFeedbackLabel;
     @FXML
     private Label pendingToastLabel;
+    @FXML
+    private VBox annotationPanel;
+    @FXML
+    private javafx.scene.control.ChoiceBox<AnnotationTypeOption> annotationTipo;
+    @FXML
+    private javafx.scene.control.ColorPicker annotationColor;
+    @FXML
+    private javafx.scene.control.TextField annotationTam;
+    @FXML
+    private javafx.scene.control.TextField annotationTexto;
+    @FXML
+    private Button annotationGuardar;
+    @FXML
+    private Button annotationCancelar;
+    @FXML
+    private Button annotationEliminar;
 
     private double zoomLevel = 1.0;
     private boolean mapLoaded;
@@ -109,10 +126,31 @@ public class MapViewController implements Initializable {
     private MapProjection projection;
     private Bounds routeBounds;
     private Circle highlightedTrackPoint;
-    private Consumer<GeoPoint> mapSecondaryClickHandler;
+    private BiConsumer<GeoPoint, Annotation> mapSecondaryClickHandler;
     private java.util.List<javafx.scene.Node> annotationNodes = new java.util.ArrayList<>();
     private Consumer<GeoPoint> pendingSecondPointHandler;
     private javafx.scene.Node pendingMarker;
+    private Annotation editingAnnotation;
+    private double editingLat, editingLon;
+    private double lastClickX, lastClickY;
+
+    private static final java.util.Map<AnnotationType, String> DEFAULT_COLORS = java.util.Map.of(
+        AnnotationType.POINT, "#f59e0b",
+        AnnotationType.LINE, "#47e4e4",
+        AnnotationType.TEXT, "#993300",
+        AnnotationType.CIRCLE, "#8066cc"
+    );
+
+    private static final java.util.Map<AnnotationType, Double> DEFAULT_STROKE = java.util.Map.of(
+        AnnotationType.POINT, 5.0,
+        AnnotationType.LINE, 2.5,
+        AnnotationType.TEXT, 10.0,
+        AnnotationType.CIRCLE, 2.5
+    );
+
+    private record AnnotationTypeOption(AnnotationType tipo, String nombre) {
+        @Override public String toString() { return nombre; }
+    }
 
     // Premium zoom engine
     private Timeline zoomTimeline;
@@ -185,6 +223,24 @@ public class MapViewController implements Initializable {
                 handlePendingSecondPoint(event.getX(), event.getY());
             }
         });
+
+        annotationTipo.getItems().addAll(
+            new AnnotationTypeOption(AnnotationType.POINT, "Punto"),
+            new AnnotationTypeOption(AnnotationType.LINE, "Línea"),
+            new AnnotationTypeOption(AnnotationType.TEXT, "Texto"),
+            new AnnotationTypeOption(AnnotationType.CIRCLE, "Círculo")
+        );
+        annotationTipo.setValue(annotationTipo.getItems().get(0));
+        annotationTipo.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && editingAnnotation == null) {
+                annotationColor.setValue(Color.web(DEFAULT_COLORS.get(newVal.tipo())));
+                annotationTam.setText(String.valueOf(DEFAULT_STROKE.get(newVal.tipo())));
+            }
+        });
+
+        annotationGuardar.setOnAction(event -> guardarAnotacionInline());
+        annotationCancelar.setOnAction(event -> cerrarAnnotationPanel());
+        annotationEliminar.setOnAction(event -> eliminarAnotacionInline());
 
         setZoom(1.0);
     }
@@ -290,10 +346,82 @@ public class MapViewController implements Initializable {
 
     private void handleMapSecondaryClick(double x, double y) {
         if (projection == null || currentActivity == null) return;
-        var geoPoint = projection.unproject(x, y);
+        double unscaledX = x / zoomLevel;
+        double unscaledY = y / zoomLevel;
+
+        Point2D localInMapArea = mapArea.sceneToLocal(mapPane.localToScene(x, y));
+        lastClickX = localInMapArea.getX();
+        lastClickY = localInMapArea.getY();
+
+        var geoPoint = projection.unproject(unscaledX, unscaledY);
+        Annotation hitAnnotation = hitTestAnnotation(unscaledX, unscaledY);
         if (mapSecondaryClickHandler != null) {
-            mapSecondaryClickHandler.accept(geoPoint);
+            mapSecondaryClickHandler.accept(geoPoint, hitAnnotation);
         }
+    }
+
+    private Annotation hitTestAnnotation(double x, double y) {
+        if (currentActivity == null || currentActivity.getAnnotations() == null) return null;
+        for (Annotation ann : currentActivity.getAnnotations()) {
+            if (ann.getGeoPoints() == null || ann.getGeoPoints().isEmpty()) continue;
+            if (isPointInsideAnnotation(x, y, ann)) {
+                return ann;
+            }
+        }
+        return null;
+    }
+
+    private boolean isPointInsideAnnotation(double x, double y, Annotation ann) {
+        switch (ann.getType()) {
+            case POINT: {
+                GeoPoint gp = ann.getGeoPoints().get(0);
+                Point2D pt = projection.project(gp);
+                double radius = Math.max(ann.getStrokeWidth(), 3.0);
+                double dist = Math.hypot(x - pt.getX(), y - pt.getY());
+                return dist <= radius + 5;
+            }
+            case LINE: {
+                if (ann.getGeoPoints().size() < 2) return false;
+                Point2D p1 = projection.project(ann.getGeoPoints().get(0));
+                Point2D p2 = projection.project(ann.getGeoPoints().get(1));
+                double dist = pointToLineDistance(x, y, p1.getX(), p1.getY(), p2.getX(), p2.getY());
+                return dist <= 8;
+            }
+            case CIRCLE: {
+                if (ann.getGeoPoints().size() < 2) return false;
+                Point2D center = projection.project(ann.getGeoPoints().get(0));
+                Point2D edge = projection.project(ann.getGeoPoints().get(1));
+                double radius = Math.hypot(edge.getX() - center.getX(), edge.getY() - center.getY());
+                double dist = Math.hypot(x - center.getX(), y - center.getY());
+                return dist <= radius + 5 || Math.abs(dist - radius) <= 8;
+            }
+            case TEXT: {
+                GeoPoint gp = ann.getGeoPoints().get(0);
+                Point2D pt = projection.project(gp);
+                double fontSize = Math.max(ann.getStrokeWidth(), 8.0);
+                Text t = new Text(ann.getText());
+                t.setFont(javafx.scene.text.Font.font("System", fontSize));
+                Bounds b = t.getBoundsInLocal();
+                double pad = 3;
+                double rx = pt.getX();
+                double ry = pt.getY() - b.getHeight() - 2;
+                Rectangle rect = new Rectangle(rx - pad, ry - pad, b.getWidth() + pad * 2, b.getHeight() + pad * 2);
+                return rect.contains(x, y);
+            }
+            default:
+                return false;
+        }
+    }
+
+    private double pointToLineDistance(double px, double py, double x1, double y1, double x2, double y2) {
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        if (dx == 0 && dy == 0) return Math.hypot(px - x1, py - y1);
+        double t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy);
+        t = Math.max(0, Math.min(1, t));
+        double nearX = x1 + t * dx;
+        double nearY = y1 + t * dy;
+        return Math.hypot(px - nearX, py - nearY);
     }
 
     private void handlePendingSecondPoint(double x, double y) {
@@ -303,7 +431,7 @@ public class MapViewController implements Initializable {
         cancelPendingMode();
     }
 
-    public void startPendingSecondPoint(GeoPoint firstPoint, AnnotationType tipo, String texto, String colorHex, Consumer<GeoPoint> onComplete) {
+    public void startPendingSecondPoint(GeoPoint firstPoint, AnnotationType tipo, String texto, String colorHex, double strokeWidth, Consumer<GeoPoint> onComplete) {
         if (projection == null) return;
         Point2D pt = projection.project(firstPoint);
 
@@ -327,7 +455,7 @@ public class MapViewController implements Initializable {
 
         pendingSecondPointHandler = secondPoint -> {
             GeoPoint[] puntos = {firstPoint, secondPoint};
-            Annotation annotation = new Annotation(tipo, texto, colorHex, 2.0, java.util.List.of(puntos));
+            Annotation annotation = new Annotation(tipo, texto, colorHex, strokeWidth, java.util.List.of(puntos));
             if (currentActivity != null) {
                 upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
                 try {
@@ -342,6 +470,10 @@ public class MapViewController implements Initializable {
             System.out.println("Anotacion guardada: " + annotation.getType() + " - " + annotation.getText());
             if (onComplete != null) onComplete.accept(secondPoint);
         };
+    }
+
+    public void startPendingSecondPointEditando(GeoPoint firstPoint, AnnotationType tipo, String texto, String colorHex, double strokeWidth, Consumer<GeoPoint> onComplete) {
+        startPendingSecondPoint(firstPoint, tipo, texto, colorHex, strokeWidth, onComplete);
     }
 
     public void cancelPendingMode() {
@@ -401,7 +533,7 @@ public class MapViewController implements Initializable {
         }
     }
 
-    public void setOnMapSecondaryClick(Consumer<GeoPoint> handler) {
+    public void setOnMapSecondaryClick(BiConsumer<GeoPoint, Annotation> handler) {
         mapSecondaryClickHandler = handler;
     }
 
@@ -541,7 +673,8 @@ public class MapViewController implements Initializable {
     private Circle createAnnotationPoint(Annotation annotation, Color color) {
         GeoPoint gp = annotation.getGeoPoints().get(0);
         Point2D point = projection.project(gp);
-        Circle dot = new Circle(point.getX(), point.getY(), 6);
+        double radius = Math.max(annotation.getStrokeWidth(), 3.0);
+        Circle dot = new Circle(point.getX(), point.getY(), radius);
         dot.setFill(color);
         dot.setStroke(Color.web("#111816"));
         dot.setStrokeWidth(1.5);
@@ -575,9 +708,10 @@ public class MapViewController implements Initializable {
     private javafx.scene.Node createAnnotationText(Annotation annotation, Color color) {
         GeoPoint gp = annotation.getGeoPoints().get(0);
         Point2D point = projection.project(gp);
+        double fontSize = Math.max(annotation.getStrokeWidth(), 8.0);
         Text textNode = new Text(annotation.getText());
         textNode.setFill(color);
-        textNode.setFont(javafx.scene.text.Font.font("System", 12));
+        textNode.setFont(javafx.scene.text.Font.font("System", fontSize));
 
         Bounds b = textNode.getBoundsInLocal();
         double textWidth = b.getWidth();
@@ -616,6 +750,138 @@ public class MapViewController implements Initializable {
         annotationNodes.forEach(mapPane.getChildren()::remove);
         annotationNodes.clear();
         drawAnnotations(annotations);
+    }
+
+    private void abrirAnnotationPanel(double lat, double lon, Annotation existing) {
+        editingLat = lat;
+        editingLon = lon;
+        editingAnnotation = existing;
+
+        if (existing != null) {
+            for (AnnotationTypeOption opt : annotationTipo.getItems()) {
+                if (opt.tipo() == existing.getType()) {
+                    annotationTipo.setValue(opt);
+                    break;
+                }
+            }
+            annotationColor.setValue(Color.web(existing.getColor()));
+            annotationTam.setText(String.valueOf(existing.getStrokeWidth()));
+            annotationTexto.setText(existing.getText().equals("Sin descripción") ? "" : existing.getText());
+            annotationEliminar.setVisible(true);
+            annotationEliminar.setManaged(true);
+        } else {
+            AnnotationTypeOption opt = annotationTipo.getValue();
+            if (opt != null) {
+                annotationColor.setValue(Color.web(DEFAULT_COLORS.get(opt.tipo())));
+                annotationTam.setText(String.valueOf(DEFAULT_STROKE.get(opt.tipo())));
+            }
+            annotationTexto.clear();
+            annotationEliminar.setVisible(false);
+            annotationEliminar.setManaged(false);
+        }
+
+StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
+        StackPane.setMargin(annotationPanel, javafx.geometry.Insets.EMPTY);
+        annotationPanel.setMaxSize(javafx.scene.layout.Region.USE_PREF_SIZE, javafx.scene.layout.Region.USE_PREF_SIZE);
+
+        double panelWidth = 210;
+        double panelHeight = 220;
+        double margin = 10;
+
+        double x = lastClickX + margin;
+        double y = lastClickY - panelHeight - margin;
+
+        if (x + panelWidth > mapArea.getWidth() - margin) {
+            x = lastClickX - panelWidth - margin;
+        }
+        if (y < margin) {
+            y = lastClickY + margin;
+        }
+
+        x = Math.max(margin, Math.min(x, mapArea.getWidth() - panelWidth - margin));
+        y = Math.max(margin, Math.min(y, mapArea.getHeight() - panelHeight - margin));
+
+        annotationPanel.setTranslateX(x);
+        annotationPanel.setTranslateY(y);
+        annotationPanel.setVisible(true);
+        annotationPanel.setManaged(true);
+        annotationTexto.requestFocus();
+    }
+
+    private void cerrarAnnotationPanel() {
+        annotationPanel.setVisible(false);
+        annotationPanel.setManaged(false);
+        editingAnnotation = null;
+    }
+
+    private void guardarAnotacionInline() {
+        AnnotationTypeOption selectedOpt = annotationTipo.getValue();
+        if (selectedOpt == null) return;
+        AnnotationType tipo = selectedOpt.tipo();
+        Color color = annotationColor.getValue();
+        String texto = annotationTexto.getText().trim();
+        if (texto.isEmpty()) texto = "Sin descripción";
+
+        double tam;
+        try {
+            tam = Double.parseDouble(annotationTam.getText());
+            if (tam < 0.5) tam = 0.5;
+            if (tam > 50) tam = 50;
+        } catch (NumberFormatException e) {
+            tam = DEFAULT_STROKE.getOrDefault(tipo, 2.0);
+        }
+
+        String colorHex = String.format("#%02X%02X%02X",
+            (int)(color.getRed() * 255),
+            (int)(color.getGreen() * 255),
+            (int)(color.getBlue() * 255));
+
+        if (editingAnnotation != null) {
+            upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
+        }
+
+        GeoPoint geoPoint = new GeoPoint(editingLat, editingLon);
+
+        if (tipo == AnnotationType.LINE || tipo == AnnotationType.CIRCLE) {
+            cerrarAnnotationPanel();
+            startPendingSecondPointEditando(geoPoint, tipo, texto, colorHex, tam, null);
+        } else {
+            Annotation annotation = new Annotation(tipo, texto, colorHex, tam, java.util.List.of(geoPoint));
+            if (currentActivity != null) {
+                upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
+                try {
+                    var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
+                    if (refreshed != null) {
+                        refreshAnnotations(refreshed.getAnnotations());
+                    }
+                } catch (java.sql.SQLException e) {
+                    System.err.println("Error recargando actividad: " + e.getMessage());
+                }
+            }
+            cerrarAnnotationPanel();
+        }
+    }
+
+    private void eliminarAnotacionInline() {
+        if (editingAnnotation == null) return;
+        upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
+        try {
+            var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
+            if (refreshed != null) {
+                refreshAnnotations(refreshed.getAnnotations());
+            }
+        } catch (java.sql.SQLException e) {
+            System.err.println("Error recargando actividad: " + e.getMessage());
+        }
+        cerrarAnnotationPanel();
+    }
+
+    public void setAnnotationClickHandler(BiConsumer<GeoPoint, Annotation> handler) {
+        this.mapSecondaryClickHandler = handler;
+    }
+
+    public void showAnnotationPanel(double lat, double lon, Annotation existing) {
+        abrirAnnotationPanel(lat, lon, existing);
     }
 
     private void centerRoute() {
