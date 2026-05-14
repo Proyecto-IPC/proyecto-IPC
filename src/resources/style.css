@@ -347,6 +347,71 @@
     -fx-cursor: default;
 }
 
+.ghost-danger-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -app-danger;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-padding: 6 8 6 8;
+    -fx-background-radius: 7;
+}
+
+.ghost-danger-button:hover {
+    -fx-background-color: rgba(185, 53, 47, 0.08);
+    -fx-text-fill: derive(-app-danger, -10%);
+}
+
+.ghost-danger-button:pressed {
+    -fx-background-color: rgba(185, 53, 47, 0.15);
+}
+
+.text-area {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 7;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #8b9892;
+}
+
+.text-area:hover {
+    -fx-border-color: #b9c7c1;
+}
+
+.text-area:focused {
+    -fx-border-color: -app-primary;
+    -fx-border-width: 1;
+}
+
+.text-area .content {
+    -fx-background-color: -app-surface;
+}
+
+.text-area .viewport {
+    -fx-background-color: transparent;
+}
+
+.annotation-panel .spinner {
+    -fx-background-radius: 7;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-background-color: -app-surface;
+}
+
+.annotation-panel .spinner:focused {
+    -fx-border-color: -app-primary;
+}
+
+.annotation-panel .spinner .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 4 8 4 8;
+}
+
 .primary-button {
     -fx-background-color: -app-primary;
     -fx-background-radius: 7;
