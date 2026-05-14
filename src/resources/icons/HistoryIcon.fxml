@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+
+<Pane minHeight="24.0" minWidth="24.0" prefHeight="24.0" prefWidth="24.0" maxHeight="24.0" maxWidth="24.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <SVGPath 
+            content="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.959 8.959 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8h-1.5z" 
+            fill="#1E1E1E" 
+            translateX="-0.5" 
+            scaleX="0.90" 
+            scaleY="0.90" 
+        />
+    </children>
+</Pane>

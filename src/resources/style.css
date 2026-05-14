@@ -284,6 +284,7 @@
     -fx-background-color: -app-surface;
     -fx-border-color: -app-border;
     -fx-text-fill: -app-text;
+    -fx-font-size: 13px;
 }
 
 .pending-action {
@@ -351,7 +352,7 @@
     -fx-background-radius: 7;
     -fx-border-radius: 7;
     -fx-text-fill: white;
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-font-weight: 600;
     -fx-padding: 6 14 6 14;
     -fx-cursor: hand;
@@ -367,7 +368,7 @@
     -fx-border-radius: 7;
     -fx-border-width: 1;
     -fx-text-fill: -app-text;
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-font-weight: 600;
     -fx-padding: 6 14 6 14;
     -fx-cursor: hand;
@@ -431,8 +432,8 @@
     -fx-background-color: -app-surface;
     -fx-border-color: transparent transparent -app-border transparent;
     -fx-border-width: 0 0 1 0;
-    -fx-padding: 12 18 12 18;
-    -fx-min-height: 58;
+    -fx-padding: 8 18 8 18;
+    -fx-min-height: 52;
 }
 
 .shell-rail {
@@ -460,6 +461,49 @@
     -fx-pref-height: 42;
     -fx-max-width: 42;
     -fx-max-height: 42;
+}
+
+.rail-icon,
+.rail-icon-user,
+.rail-icon-dashboard,
+.rail-icon-activity,
+.rail-icon-history {
+    -fx-min-width: 22;
+    -fx-min-height: 22;
+    -fx-pref-width: 22;
+    -fx-pref-height: 22;
+    -fx-max-width: 22;
+    -fx-max-height: 22;
+}
+
+.rail-icon-user > SVGPath {
+    -fx-fill: currentColor;
+}
+
+.rail-icon-dashboard > SVGPath {
+    -fx-fill: currentColor;
+}
+
+.rail-icon-history > SVGPath {
+    -fx-fill: currentColor;
+}
+
+.rail-icon-activity > SVGPath {
+    -fx-stroke: currentColor;
+    -fx-stroke-width: 2;
+    -fx-fill: none;
+}
+
+.rail-icon-user,
+.rail-icon-dashboard,
+.rail-icon-activity,
+.rail-icon-history {
+    -fx-min-width: 22px;
+    -fx-min-height: 22px;
+    -fx-pref-width: 22px;
+    -fx-pref-height: 22px;
+    -fx-max-width: 22px;
+    -fx-max-height: 22px;
 }
 
 .rail-button:hover {
@@ -542,6 +586,7 @@
     -fx-background-color: -app-surface;
     -fx-border-color: -app-border;
     -fx-text-fill: -app-text;
+    -fx-font-size: 13px;
     -fx-background-radius: 7;
     -fx-border-radius: 7;
     -fx-padding: 7 12 7 12;

@@ -19,7 +19,6 @@
                   <HBox alignment="CENTER_LEFT" spacing="8.0">
                      <children>
                         <fx:include source="LogoMark.fxml" />
-                        <Label styleClass="home-glyph" text="⌂" />
                      </children>
                   </HBox>
                </graphic>
@@ -31,6 +30,9 @@
             <Label fx:id="importStatusLabel" managed="false" styleClass="topbar-status" text="Importación pendiente" visible="false" />
             <Button fx:id="btnImportar" accessibleText="Importación GPX pendiente de conexión" mnemonicParsing="false" onAction="#handleImportarPendiente" styleClass="outline-button pending-action" text="Importar actividad" />
             <MenuButton fx:id="userMenu" mnemonicParsing="false" styleClass="user-menu-button" text="Usuario">
+               <graphic>
+                  <fx:include source="../resources/icons/UserIcon.fxml" />
+               </graphic>
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleGestionMapas" text="Gestión de mapas" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLogout" text="Cerrar sesión" />
@@ -42,22 +44,34 @@
    <left>
       <VBox fx:id="railNav" alignment="TOP_CENTER" spacing="8.0" styleClass="shell-rail">
          <children>
-            <Button fx:id="btnNavResumen" accessibleText="Resumen" mnemonicParsing="false" onAction="#handleRailResumen" styleClass="rail-button" text="⌂">
+            <Button fx:id="btnNavResumen" accessibleText="Resumen" mnemonicParsing="false" onAction="#handleRailResumen" styleClass="rail-button">
+               <graphic>
+                  <fx:include source="../resources/icons/DashboardIcon.fxml" />
+               </graphic>
                <tooltip>
                   <Tooltip text="Resumen" />
                </tooltip>
             </Button>
-            <Button fx:id="btnNavActividades" accessibleText="Actividades previstas" mnemonicParsing="false" onAction="#handleRailActividades" styleClass="rail-button" text="≡">
+            <Button fx:id="btnNavActividades" accessibleText="Actividades previstas" mnemonicParsing="false" onAction="#handleRailActividades" styleClass="rail-button">
+               <graphic>
+                  <fx:include source="../resources/icons/ActivityIcon.fxml" />
+               </graphic>
                <tooltip>
                   <Tooltip text="Actividades, pendiente de datos reales" />
                </tooltip>
             </Button>
-            <Button fx:id="btnNavPerfil" accessibleText="Perfil" mnemonicParsing="false" onAction="#handleRailPerfil" styleClass="rail-button" text="◉">
+            <Button fx:id="btnNavPerfil" accessibleText="Perfil" mnemonicParsing="false" onAction="#handleRailPerfil" styleClass="rail-button">
+               <graphic>
+                  <fx:include source="../resources/icons/UserIcon.fxml" />
+               </graphic>
                <tooltip>
                   <Tooltip text="Perfil" />
                </tooltip>
             </Button>
-            <Button fx:id="btnNavHistorial" accessibleText="Historial de sesiones" mnemonicParsing="false" onAction="#handleRailHistorial" styleClass="rail-button" text="◷">
+            <Button fx:id="btnNavHistorial" accessibleText="Historial de sesiones" mnemonicParsing="false" onAction="#handleRailHistorial" styleClass="rail-button">
+               <graphic>
+                  <fx:include source="../resources/icons/HistoryIcon.fxml" />
+               </graphic>
                <tooltip>
                   <Tooltip text="Historial de sesiones" />
                </tooltip>
