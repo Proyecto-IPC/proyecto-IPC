@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="480.0" prefWidth="700.0" styleClass="map-form-root" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.AñadirMapaViewController">
@@ -31,7 +32,7 @@
                               <Label styleClass="field-label" text="Imagen" />
                               <HBox spacing="8.0">
                                  <children>
-                                    <TextField fx:id="txtRutaImagen" editable="false" maxWidth="1.7976931348623157E308" promptText="Sin imagen seleccionada" />
+                                    <TextField fx:id="txtRutaImagen" editable="false" HBox.hgrow="ALWAYS" promptText="Sin imagen seleccionada" />
                                     <Button fx:id="btnExaminar" mnemonicParsing="false" onAction="#handleSeleccionarImagen" text="Examinar" />
                                  </children>
                               </HBox>
@@ -43,16 +44,16 @@
                            <children>
                               <HBox spacing="8.0">
                                  <children>
-                                    <VBox HBox.hgrow="ALWAYS" styleClass="field-stack">
+                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label styleClass="field-label" text="Latitud mínima (Sur)" />
-                                          <TextField fx:id="txtLatSur" maxWidth="1.7976931348623157E308" promptText="Ej: 38.72" />
+                                          <TextField fx:id="txtLatSur" maxWidth="1.7976931348623157E308" promptText="Ej: 39.33" />
                                        </children>
                                     </VBox>
-                                    <VBox HBox.hgrow="ALWAYS" styleClass="field-stack">
+                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label alignment="CENTER_RIGHT" styleClass="field-label" text="Latitud máxima (Norte)" />
-                                          <TextField fx:id="txtLatNorte" maxWidth="1.7976931348623157E308" promptText="Ej: 39.02" />
+                                          <TextField fx:id="txtLatNorte" maxWidth="1.7976931348623157E308" promptText="Ej: 39.87" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -63,16 +64,16 @@
                            <children>
                               <HBox spacing="8.0">
                                  <children>
-                                    <VBox HBox.hgrow="ALWAYS" styleClass="field-stack">
+                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label styleClass="field-label" text="Longitud mínima (Oeste)" />
-                                          <TextField fx:id="txtLonOeste" maxWidth="1.7976931348623157E308" promptText="Ej: -0.45" />
+                                          <TextField fx:id="txtLonOeste" maxWidth="1.7976931348623157E308" promptText="Ej: -0.50" />
                                        </children>
                                     </VBox>
-                                    <VBox HBox.hgrow="ALWAYS" styleClass="field-stack">
+                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label alignment="CENTER_RIGHT" styleClass="field-label" text="Longitud máxima (Este)" />
-                                          <TextField fx:id="txtLonEste" maxWidth="1.7976931348623157E308" promptText="Ej: 0.10" />
+                                          <TextField fx:id="txtLonEste" maxWidth="1.7976931348623157E308" promptText="Ej: 0.11" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -80,10 +81,11 @@
                            </children>
                         </VBox>
                         <Label fx:id="lblFeedback" maxWidth="1.7976931348623157E308" minHeight="28.0" styleClass="error" text=" " wrapText="true" />
-                        <HBox spacing="10.0">
+                        <HBox maxWidth="1.7976931348623157E308" spacing="10.0" alignment="BASELINE_LEFT">
                            <children>
-                              <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#handleBotonCancelar" styleClass="secondary-button" text="Cancelar" />
-                              <Button fx:id="btnAñadir" defaultButton="true" mnemonicParsing="false" onAction="#handleBotonAñadir" text="Añadir mapa" />
+                              <Button fx:id="btnAñadir" defaultButton="true" mnemonicParsing="false" onAction="#handleBotonAñadir" prefHeight="36.0" prefWidth="120.0" styleClass="primary-button" text="Añadir mapa" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnCancelar" cancelButton="true" mnemonicParsing="false" onAction="#handleBotonCancelar" prefHeight="36.0" prefWidth="120.0" styleClass="secondary-button" text="Cancelar" />
                            </children>
                            <VBox.margin>
                               <Insets top="4.0" />
