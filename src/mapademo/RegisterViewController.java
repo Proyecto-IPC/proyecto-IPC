@@ -19,6 +19,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 
@@ -36,6 +37,7 @@ public class RegisterViewController implements Initializable {
     @FXML private Button btnRegistrar;
     @FXML private Button btnIrLogin;
     @FXML private Label lblError;
+    @FXML private Label lblInfoPassword;
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu")
             .withResolverStyle(ResolverStyle.STRICT);
@@ -50,6 +52,11 @@ public class RegisterViewController implements Initializable {
         AnimationBehavior.installHover(btnRegistrar);
         AnimationBehavior.installHover(btnIrLogin);
         AnimationBehavior.installHover(btnSeleccionarAvatar);
+
+        Tooltip passwordTooltip = new Tooltip("La contraseña debe incluir:\n• Entre 8 y 20 caracteres\n• Una letra mayúscula\n• Una letra minúscula\n• Un número\n• Un símbolo");
+        passwordTooltip.setShowDelay(javafx.util.Duration.millis(200));
+        passwordTooltip.setShowDuration(Duration.INDEFINITE);
+        lblInfoPassword.setTooltip(passwordTooltip);
     }
 
     @FXML

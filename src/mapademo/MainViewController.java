@@ -1,5 +1,6 @@
 package mapademo;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.prefs.Preferences;
@@ -23,6 +24,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import upv.ipc.sportlib.SportActivityApp;
 
@@ -153,9 +155,29 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleImportarPendiente() {
-        importStatusLabel.setVisible(true);
-        importStatusLabel.setManaged(true);
-        importStatusTimer.playFromStart();
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Seleccionar archivo GPX");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos GPX", "*.gpx"));
+
+        File archivo = chooser.showOpenDialog(btnImportar.getScene().getWindow());
+        if (archivo != null) {
+            try {
+                upv.ipc.sportlib.Activity nueva = SportActivityApp.getInstance().importActivity(archivo);
+                if (nueva != null) {
+                    importStatusLabel.setText("Importado: " + nueva.getName());
+                    importStatusLabel.setVisible(true);
+                    importStatusLabel.setManaged(true);
+                    importStatusTimer.playFromStart();
+                    mostrarDetalleActividad(nueva);
+                }
+            } catch (Exception e) {
+                importStatusLabel.setText("Error al importar");
+                importStatusLabel.setVisible(true);
+                importStatusLabel.setManaged(true);
+                importStatusTimer.playFromStart();
+                e.printStackTrace();
+            }
+        }
     }
 
     public void mostrarPantallaPrincipal() {

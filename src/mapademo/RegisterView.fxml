@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 
 <GridPane prefHeight="650.0" prefWidth="1000.0" styleClass="auth-root" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.RegisterViewController">
    <columnConstraints>
@@ -43,12 +44,21 @@
                         <TextField fx:id="txtEmail" maxWidth="1.7976931348623157E308" promptText="nombre@correo.com" />
                      </children>
                   </VBox>
-                  <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
-                     <children>
-                        <Label styleClass="field-label" text="Contraseña" />
-                        <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="8-20, mayúscula, minúscula, número y símbolo" />
-                     </children>
-                  </VBox>
+<VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                      <children>
+                         <HBox alignment="CENTER_LEFT" spacing="6.0">
+                            <children>
+                               <Label styleClass="field-label" text="Contraseña" />
+                               <Label fx:id="lblInfoPassword" styleClass="info-icon-container">
+                                  <graphic>
+                                     <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" styleClass="info-icon-svg" />
+                                  </graphic>
+                               </Label>
+                            </children>
+                         </HBox>
+                         <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" promptText="Escribe tu contraseña" />
+                      </children>
+                   </VBox>
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                      <children>
                         <Label styleClass="field-label" text="Confirmar contraseña" />
