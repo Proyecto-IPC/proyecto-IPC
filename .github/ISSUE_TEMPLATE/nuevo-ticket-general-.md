@@ -8,7 +8,9 @@ assignees: ''
 ---
 
 ## ¿De qué trata este issue?
+Escribe aquí...
 
 ## ¿Qué esperabas que pasara o cuál es tu solución ideal?
+
 
 ## Contexto, pasos o capturas de pantalla (opcional)
