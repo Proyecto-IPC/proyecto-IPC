@@ -1,49 +1,49 @@
 /* Running La Safor - UI foundation */
 
+/* --- PALETA ESTILO LINEAR --- */
 .root {
-    -app-bg: #f8faf9;
-    -app-surface: #ffffff;
-    -app-surface-alt: #f3f6f4;
-    -app-map-bg: #eef3f0;
-    -app-border: #d9e1dc;
-    -app-text: #111816;
-    -app-muted: #65726c;
+    -app-bg: #F7F8FA;
+    -app-surface: #FFFFFF;
+    -app-surface-alt: #F1F2F4;
+    -app-map-bg: #EAECEF;
+    -app-border: #E5E7EB;
+    -app-text: #191A1B;
+    -app-muted: #6B7280;
     -app-primary: #059669;
     -app-primary-hover: #047857;
-    -app-primary-soft: #d1fae5;
-    -app-coast: #2563eb;
-    -app-coast-soft: #eaf2ff;
-    -app-sand: #d7aa4a;
-    -app-danger: #b9352f;
-    -app-success: #168a57;
-    -app-focus: rgba(21, 128, 82, 0.2);
+    -app-primary-soft: #ECFDF5;
+    -app-coast: #3B82F6;
+    -app-coast-soft: #EFF6FF;
+    -app-sand: #F59E0B;
+    -app-danger: #EF4444;
+    -app-success: #10B981;
+    -app-focus: rgba(5, 150, 105, 0.15);
 
     -fx-font-family: "Segoe UI", "Inter", "Arial", sans-serif;
     -fx-background-color: -app-bg;
     -fx-text-fill: -app-text;
 }
 
-.app-shell {
-    -fx-background-color: -app-bg;
+.theme-dark {
+    -app-bg: #111214;
+    -app-surface: #1C1D1F;
+    -app-surface-alt: #26272B;
+    -app-map-bg: #0A0A0B;
+    -app-border: #2E3033;
+    -app-text: #EDEDED;
+    -app-muted: #9CA3AF;
+    -app-primary: #10B981;
+    -app-primary-hover: #34D399;
+    -app-primary-soft: #1B2C24;
+    -app-coast: #60A5FA;
+    -app-coast-soft: #17263B;
+    -app-sand: #FBBF24;
+    -app-danger: #F87171;
+    -app-success: #34D399;
 }
 
-.theme-dark {
-    -app-bg: #090f0c;
-    -app-surface: #111815;
-    -app-surface-alt: #17231d;
-    -app-map-bg: #0e1713;
-    -app-border: #26352e;
-    -app-text: #eef5f0;
-    -app-muted: #9aa8a1;
-    -app-primary: #34d399;
-    -app-primary-hover: #6ee7b7;
-    -app-primary-soft: #064e3b;
-    -app-coast: #60a5fa;
-    -app-coast-soft: #10233d;
-    -app-sand: #e2be69;
-    -app-danger: #f07167;
-    -app-success: #5ee0a0;
-    -app-focus: rgba(52, 211, 153, 0.24);
+.app-shell {
+    -fx-background-color: -app-bg;
 }
 
 .menu-bar {
@@ -125,9 +125,10 @@
 .history-empty,
 .shell-placeholder {
     -fx-background-color: -app-surface;
-    -fx-background-radius: 10;
+    -fx-background-radius: 6;
     -fx-border-color: -app-border;
-    -fx-border-radius: 10;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
 }
 
 .auth-card {
@@ -175,30 +176,47 @@
 
 .text-field,
 .password-field,
-.date-picker {
-    -fx-background-color: -app-surface;
-    -fx-background-radius: 7;
-    -fx-border-color: -app-border;
-    -fx-border-radius: 7;
+.date-picker,
+.text-area,
+.annotation-panel .spinner {
+    -fx-background-color: -app-surface-alt;
+    -fx-background-radius: 5;
+    -fx-border-color: transparent;
+    -fx-border-radius: 5;
     -fx-border-width: 1;
-    -fx-padding: 8 11 8 11;
-    -fx-font-size: 14px;
-    -fx-prompt-text-fill: #8b9892;
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
+    -fx-padding: 7 10 7 10;
+    -fx-font-size: 13px;
+    -fx-prompt-text-fill: -app-muted;
 }
 
 .text-field:hover,
 .password-field:hover,
-.date-picker:hover {
-    -fx-border-color: #b9c7c1;
+.date-picker:hover,
+.text-area:hover,
+.annotation-panel .spinner:hover {
+    -fx-border-color: -app-border;
 }
 
 .text-field:focused,
 .password-field:focused,
-.date-picker:focused {
+.date-picker:focused,
+.text-area:focused,
+.annotation-panel .spinner:focused {
+    -fx-background-color: -app-surface;
     -fx-border-color: -app-primary;
-    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, -app-focus, 0, 0, 0, 3);
+}
+
+.text-area .content,
+.text-area .viewport {
+    -fx-background-color: transparent;
+}
+
+.annotation-panel .spinner .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+    -fx-padding: 2 6 2 6;
 }
 
 .date-picker > .text-field {
@@ -411,43 +429,48 @@
 
 .primary-button {
     -fx-background-color: -app-primary;
-    -fx-background-radius: 7;
-    -fx-border-radius: 7;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-font-size: 13px;
     -fx-font-weight: 600;
-    -fx-padding: 6 14 6 14;
+    -fx-padding: 6 12 6 12;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.04), 2, 0, 0, 1);
 }
 
 .primary-button:hover {
     -fx-background-color: -app-primary-hover;
 }
 
-.secondary-button {
+.secondary-button,
+.outline-button {
     -fx-background-color: -app-surface;
     -fx-border-color: -app-border;
-    -fx-border-radius: 7;
-    -fx-border-width: 1;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
     -fx-text-fill: -app-text;
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
-    -fx-padding: 6 14 6 14;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-padding: 6 12 6 12;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 2, 0, 0, 1);
 }
 
-.secondary-button:hover {
-    -fx-background-color: derive(-app-surface, -5%);
+.secondary-button:hover,
+.outline-button:hover {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: -app-border;
 }
 
 .danger-button {
     -fx-background-color: -app-danger;
-    -fx-background-radius: 7;
-    -fx-border-radius: 7;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
     -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-font-weight: 600;
-    -fx-padding: 6 14 6 14;
+    -fx-padding: 6 12 6 12;
     -fx-cursor: hand;
 }
 
@@ -456,13 +479,17 @@
 }
 
 .annotation-panel {
-    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-color: -app-surface;
     -fx-background-radius: 8;
-    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-color: -app-border;
     -fx-border-radius: 8;
     -fx-border-width: 1;
     -fx-padding: 12 16 12 16;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.15), 12, 0.1, 0, 4);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 16, 0.0, 0, 6);
+}
+
+.theme-dark .annotation-panel {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 16, 0.0, 0, 6);
 }
 
 .annotation-form {
@@ -1188,4 +1215,155 @@
 .scroll-bar .decrement-button {
     -fx-opacity: 0;
     -fx-padding: 0;
+}
+
+/* ==========================================================================
+   BARRA SUPERIOR PREMIUM (34px Bloqueados)
+   ========================================================================== */
+
+.theme-switch-wrapper {
+    -fx-background-color: -app-surface-alt;
+    -fx-background-radius: 999;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 999;
+    -fx-border-width: 1px;
+    -fx-padding: 2px;
+    -fx-spacing: 2px;
+    -fx-min-height: 34px;
+    -fx-max-height: 34px;
+}
+
+.theme-switch-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+    -fx-min-width: 28px;
+    -fx-min-height: 28px;
+    -fx-max-width: 28px;
+    -fx-max-height: 28px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.theme-switch-btn:hover {
+    -fx-background-color: rgba(0,0,0,0.04);
+}
+
+.theme-dark .theme-switch-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.06);
+}
+
+.theme-switch-btn.active,
+.theme-switch-btn.active:hover {
+    -fx-background-color: -app-surface;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 4, 0, 0, 2);
+}
+
+.icon-sun, .icon-moon {
+    -fx-stroke: -app-muted;
+    -fx-stroke-width: 2;
+    -fx-fill: transparent;
+    -fx-scale-x: 0.75;
+    -fx-scale-y: 0.75;
+}
+
+.theme-switch-btn.active .icon-sun {
+    -fx-fill: -app-text !important;
+    -fx-stroke: -app-text !important;
+}
+
+.theme-switch-btn.active .icon-moon {
+    -fx-fill: -app-text !important;
+    -fx-stroke: none;
+}
+
+.user-profile-menu {
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+    -fx-border-width: 0;
+    -fx-padding: 0 8 0 4;
+    -fx-min-height: 34px;
+    -fx-pref-height: 34px;
+    -fx-max-height: 34px;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.user-profile-menu:hover {
+    -fx-background-color: -app-surface-alt;
+}
+
+.nickname-label {
+    -fx-text-fill: -app-text;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-translate-y: 1px;
+}
+
+.icon-user-avatar {
+    -fx-fill: -app-muted;
+}
+
+.user-profile-menu .arrow {
+    -fx-background-color: -app-muted;
+}
+
+/* ==========================================================================
+   FIXES DE CONTRASTE Y VISIBILIDAD (Modo Oscuro)
+   ========================================================================== */
+
+.rail-button SVGPath {
+    -fx-fill: -app-muted;
+}
+
+.rail-button:hover SVGPath,
+.rail-button.active SVGPath {
+    -fx-fill: -app-primary;
+}
+
+.rail-button {
+    -fx-text-fill: -app-muted;
+}
+
+.rail-button:hover,
+.rail-button.active {
+    -fx-text-fill: -app-primary;
+}
+
+.text-input,
+.text-field,
+.text-area,
+.password-field,
+.spinner .text-field {
+    -fx-text-fill: -app-text !important;
+}
+
+.choice-box .label,
+.combo-box .label {
+    -fx-text-fill: -app-text !important;
+}
+
+.context-menu,
+.choice-box-popup-menu {
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-border;
+    -fx-border-width: 1px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-padding: 4px 0px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 4);
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-padding: 6px 16px;
+}
+
+.menu-item:hover,
+.menu-item:focused {
+    -fx-background-color: -app-surface-alt;
+}
+
+.menu-item .label {
+    -fx-text-fill: -app-text;
+    -fx-font-size: 13px;
 }

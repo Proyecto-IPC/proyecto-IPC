@@ -2,6 +2,7 @@ package mapademo;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.prefs.Preferences;
 import java.util.ResourceBundle;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -36,6 +37,14 @@ public class MainViewController implements Initializable {
     @FXML private Button btnNavActividades;
     @FXML private Button btnNavPerfil;
     @FXML private Button btnNavHistorial;
+    @FXML private Button btnLightMode;
+    @FXML private Button btnDarkMode;
+    @FXML private Label userNicknameLabel;
+    @FXML private javafx.scene.shape.SVGPath defaultUserIcon;
+    @FXML private javafx.scene.image.ImageView userAvatarImage;
+
+    private boolean isDarkMode = false;
+    private Preferences prefs;
 
     private static MainViewController instancia;
     private PauseTransition importStatusTimer;
@@ -57,6 +66,12 @@ public class MainViewController implements Initializable {
         AnimationBehavior.installHover(btnNavPerfil);
         AnimationBehavior.installHover(btnNavHistorial);
         AnimationBehavior.installHover(btnHome);
+
+        prefs = Preferences.userNodeForPackage(MainViewController.class);
+        isDarkMode = prefs.getBoolean("darkMode", false);
+        aplicarTemaVisual();
+        actualizarPerfilUsuario();
+
         cargarVista("LoginView.fxml");
     }
 
@@ -280,6 +295,7 @@ public class MainViewController implements Initializable {
     private void mostrarShell() {
         rootPane.setTop(topBar);
         rootPane.setLeft(railNav);
+        actualizarPerfilUsuario();
     }
 
     private void ocultarShell() {
@@ -303,5 +319,72 @@ public class MainViewController implements Initializable {
                 button.getStyleClass().add("active");
             }
         }
+    }
+
+    @FXML
+    private void setLightMode() {
+        if (!isDarkMode) return;
+        isDarkMode = false;
+        prefs.putBoolean("darkMode", false);
+        aplicarTemaVisual();
+    }
+
+    @FXML
+    private void setDarkMode() {
+        if (isDarkMode) return;
+        isDarkMode = true;
+        prefs.putBoolean("darkMode", true);
+        aplicarTemaVisual();
+    }
+
+    private void aplicarTemaVisual() {
+        if (isDarkMode) {
+            if (!rootPane.getStyleClass().contains("theme-dark")) {
+                rootPane.getStyleClass().add("theme-dark");
+            }
+            btnDarkMode.getStyleClass().add("active");
+            btnLightMode.getStyleClass().remove("active");
+        } else {
+            rootPane.getStyleClass().remove("theme-dark");
+            btnLightMode.getStyleClass().add("active");
+            btnDarkMode.getStyleClass().remove("active");
+        }
+    }
+
+    public void actualizarPerfilUsuario() {
+        upv.ipc.sportlib.User currentUser = SportActivityApp.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            userNicknameLabel.setText(currentUser.getNickName());
+
+            String avatarPath = currentUser.getAvatarPath();
+            if (avatarPath != null && !avatarPath.trim().isEmpty()) {
+                try {
+                    String uri = avatarPath.startsWith("http") || avatarPath.startsWith("file:")
+                        ? avatarPath
+                        : new java.io.File(avatarPath).toURI().toString();
+
+                    javafx.scene.image.Image avatar = new javafx.scene.image.Image(uri, 24, 24, false, true);
+
+                    if (!avatar.isError()) {
+                        userAvatarImage.setImage(avatar);
+                        javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(12, 12, 12);
+                        userAvatarImage.setClip(clip);
+                        userAvatarImage.setVisible(true);
+                        userAvatarImage.setManaged(true);
+                        defaultUserIcon.setVisible(false);
+                        defaultUserIcon.setManaged(false);
+                        return;
+                    }
+                } catch (Exception e) {
+                    System.err.println("No se pudo cargar el avatar: " + e.getMessage());
+                }
+            }
+        }
+
+        userAvatarImage.setVisible(false);
+        userAvatarImage.setManaged(false);
+        defaultUserIcon.setVisible(true);
+        defaultUserIcon.setManaged(true);
     }
 }
