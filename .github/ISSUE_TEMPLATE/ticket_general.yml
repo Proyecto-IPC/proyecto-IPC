@@ -1,0 +1,34 @@
+name: "Nuevo Ticket"
+description: "Reporta un problema, sugiere una mejora o haz una pregunta general."
+title: "[Ticket]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Gracias por tomarte el tiempo de abrir un ticket. Por favor, proporciona la mayor cantidad de detalles posible para que podamos ayudarte rápidamente."
+      
+  - type: textarea
+    id: problem_description
+    attributes:
+      label: "Descripción del problema o idea"
+      description: "Explica de forma clara y directa qué está fallando, qué te gustaría mejorar o cuál es tu duda."
+      placeholder: "Ejemplo: Cuando hago clic en el botón de guardar en el perfil, la aplicación no hace nada..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: "Comportamiento esperado o solución ideal"
+      description: "Si es un error, ¿qué debería haber pasado? Si es una mejora, ¿cómo debería funcionar?"
+      placeholder: "El botón debería guardar los cambios inmediatamente y mostrar un mensaje de éxito."
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps_and_context
+    attributes:
+      label: "(Opcional) Contexto adicional, pasos y capturas"
+      description: "Si reportas un error, numera los pasos exactos para reproducirlo. Puedes arrastrar y soltar imágenes directamente en esta caja."
+      placeholder: "Pasos:\n1. Abrir la pestaña Perfil.\n2. Cambiar el correo.\n3. Hacer clic en Guardar.\n\n(Adjunta capturas si es necesario)"
+    validations:
+      required: false
