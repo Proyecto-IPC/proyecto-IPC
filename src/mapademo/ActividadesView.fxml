@@ -1,39 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" stylesheets="@/resources/style.css"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="mapademo.ActividadesViewController">
+<VBox spacing="20" styleClass="main-container" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ActividadesViewController">
+   <children>
+      <BorderPane>
+         <left>
+            <Label styleClass="page-title" text="Mis Actividades" BorderPane.alignment="CENTER_LEFT" />
+         </left>
+         <center>
+            <HBox alignment="CENTER" styleClass="segmented-control">
+               <children>
+                  <ToggleButton fx:id="btnViewLista" styleClass="segmented-button" text="Lista" />
+                  <ToggleButton fx:id="btnViewStats" styleClass="segmented-button" text="Estadísticas" />
+               </children>
+            </HBox>
+         </center>
+         <right>
+            <Button fx:id="btnImportar" onAction="#handleImportar" styleClass="primary-button" text="+ Importar GPX" BorderPane.alignment="CENTER_RIGHT" />
+         </right>
+      </BorderPane>
 
-    <VBox spacing="20" styleClass="home-page">
-
-        <!-- CABECERA -->
-        <VBox spacing="4">
-            <Label text="Actividades" styleClass="page-title"/>
-            <Label text="Tus rutas importadas desde archivos GPX."
-                   styleClass="muted-label" wrapText="true"/>
-        </VBox>
-
-        <!-- BOTÓN IMPORTAR -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button fx:id="btnImportar" text="＋ Importar GPX"
-                    onAction="#handleImportar" styleClass="btn-primary"/>
-            <Label fx:id="lblEstado" styleClass="muted-label"/>
-        </HBox>
-
-        <!-- LISTA DE ACTIVIDADES -->
-        <VBox fx:id="listaActividades" spacing="12"/>
-
-        <!-- ESTADO VACÍO -->
-        <VBox fx:id="emptyState" spacing="8" alignment="CENTER_LEFT"
-              styleClass="home-empty-state">
-            <Label text="Sin actividades" styleClass="empty-state-title"/>
-            <Label text="Importa un archivo GPX para ver tus rutas aquí."
-                   styleClass="empty-state-text" wrapText="true"/>
-        </VBox>
-
-    </VBox>
-</ScrollPane>
+      <StackPane VBox.vgrow="ALWAYS">
+         <children>
+            <VBox fx:id="containerLista" spacing="10">
+               <ScrollPane fx:id="scrollActividades" fitToWidth="true" styleClass="transparent-scroll" VBox.vgrow="ALWAYS">
+                  <content>
+                     <VBox fx:id="listaActividades" spacing="10" />
+                  </content>
+               </ScrollPane>
+               <VBox fx:id="emptyState" alignment="CENTER" visible="false" managed="false">
+                   <Label text="No hay actividades. ¡Importa tu primer GPX!" styleClass="muted-label"/>
+               </VBox>
+            </VBox>
+            
+            <VBox fx:id="containerStats" spacing="20" visible="false">
+               <HBox spacing="20" VBox.vgrow="ALWAYS">
+                   <BarChart fx:id="barChartKm" animated="false" minWidth="0" minHeight="0" HBox.hgrow="ALWAYS">
+                       <xAxis><CategoryAxis label="Meses" /></xAxis>
+                       <yAxis><NumberAxis label="Km Totales" /></yAxis>
+                   </BarChart>
+                   <LineChart fx:id="lineChartDesnivel" animated="false" minWidth="0" minHeight="0" HBox.hgrow="ALWAYS">
+                       <xAxis><CategoryAxis label="Día" /></xAxis>
+                       <yAxis><NumberAxis label="Desnivel (m)" /></yAxis>
+                   </LineChart>
+               </HBox>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+</VBox>

@@ -2,13 +2,22 @@ package mapademo;
 
 import java.io.File;
 import java.net.URL;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -19,99 +28,147 @@ import upv.ipc.sportlib.SportActivityApp;
 
 public class ActividadesViewController implements Initializable {
 
-    @FXML private VBox listaActividades;
+    @FXML private ToggleButton btnViewLista;
+    @FXML private ToggleButton btnViewStats;
+    @FXML private VBox containerLista;
+    @FXML private VBox containerStats;
     @FXML private VBox emptyState;
+    @FXML private ScrollPane scrollActividades;
+    @FXML private VBox listaActividades;
     @FXML private Button btnImportar;
-    @FXML private Label lblEstado;
+    
+    @FXML @SuppressWarnings("unchecked") private BarChart barChartKm;
+    @FXML @SuppressWarnings("unchecked") private LineChart lineChartDesnivel;
+
+    private static boolean preferStatsView = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Al abrir la pantalla, carga las actividades que ya tiene el usuario
         cargarActividades();
+
+        ToggleGroup group = new ToggleGroup();
+        btnViewLista.setToggleGroup(group);
+        btnViewStats.setToggleGroup(group);
+
+        if (preferStatsView) {
+            btnViewStats.setSelected(true);
+            btnViewStats.getStyleClass().add("selected");
+            mostrarEstadisticas();
+        } else {
+            btnViewLista.setSelected(true);
+            btnViewLista.getStyleClass().add("selected");
+            mostrarLista();
+        }
+
+        btnViewLista.setOnAction(e -> {
+            preferStatsView = false;
+            btnViewLista.getStyleClass().add("selected");
+            btnViewStats.getStyleClass().remove("selected");
+            mostrarLista();
+        });
+
+        btnViewStats.setOnAction(e -> {
+            preferStatsView = true;
+            btnViewStats.getStyleClass().add("selected");
+            btnViewLista.getStyleClass().remove("selected");
+            mostrarEstadisticas();
+        });
     }
 
-    // ─── Carga la lista de actividades del usuario actual ───────────────────
+    private void mostrarLista() {
+        containerStats.setVisible(false);
+        containerLista.setVisible(true);
+        boolean isEmpty = listaActividades.getChildren().isEmpty();
+        emptyState.setVisible(isEmpty);
+        emptyState.setManaged(isEmpty);
+        scrollActividades.setVisible(!isEmpty);
+        scrollActividades.setManaged(!isEmpty);
+    }
+
+    private void mostrarEstadisticas() {
+        containerLista.setVisible(false);
+        containerStats.setVisible(true);
+        poblarGraficos();
+    }
+
+    private void poblarGraficos() {
+        barChartKm.getData().clear();
+        lineChartDesnivel.getData().clear();
+
+        List<Activity> actividades = SportActivityApp.getInstance().getUserActivities();
+        if (actividades == null || actividades.isEmpty()) return;
+
+        XYChart.Series<String, Number> serieKm = new XYChart.Series<>();
+        TreeMap<YearMonth, Double> kmPorMes = new TreeMap<>();
+
+        double acumuladoDesnivel = 0;
+        XYChart.Series<String, Number> serieDesnivel = new XYChart.Series<>();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM");
+
+        for (Activity act : actividades) {
+            java.time.LocalDate localDate = act.getStartTime().toLocalDate();
+            if (localDate == null) continue;
+
+            YearMonth mes = YearMonth.from(localDate);
+            kmPorMes.merge(mes, act.getTotalDistance() / 1000.0, Double::sum);
+
+            acumuladoDesnivel += act.getElevationGain();
+            serieDesnivel.getData().add(new XYChart.Data<>(localDate.format(formatter), Math.round(acumuladoDesnivel)));
+        }
+
+        for (var entry : kmPorMes.entrySet()) {
+            serieKm.getData().add(new XYChart.Data<>(entry.getKey().toString(), entry.getValue()));
+        }
+
+        barChartKm.getData().add(serieKm);
+        lineChartDesnivel.getData().add(serieDesnivel);
+    }
+
     private void cargarActividades() {
         listaActividades.getChildren().clear();
 
-        List<Activity> actividades = SportActivityApp.getInstance()
-                                        .getCurrentUser()
-                                        .getActivities();
-
+        List<Activity> actividades = SportActivityApp.getInstance().getUserActivities();
         if (actividades == null || actividades.isEmpty()) {
-            // Muestra el mensaje de "sin actividades"
             emptyState.setVisible(true);
             emptyState.setManaged(true);
+            scrollActividades.setVisible(false);
+            scrollActividades.setManaged(false);
         } else {
-            // Oculta el estado vacío y muestra cada actividad
             emptyState.setVisible(false);
             emptyState.setManaged(false);
+            scrollActividades.setVisible(true);
+            scrollActividades.setManaged(true);
             for (Activity act : actividades) {
                 listaActividades.getChildren().add(crearFilaActividad(act));
             }
         }
     }
 
-    // ─── Cuando el usuario pulsa "Importar GPX" ─────────────────────────────
-    @FXML
-    private void handleImportar() {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Seleccionar archivo GPX");
-        chooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Archivos GPX", "*.gpx")
-        );
-
-        File archivo = chooser.showOpenDialog(btnImportar.getScene().getWindow());
-
-        if (archivo != null) {
-            try {
-                // ✅ Correcto: recibe File, no String
-                Activity nueva = SportActivityApp.getInstance()
-                                    .importActivity(archivo);
-
-                if (nueva != null) {
-                    lblEstado.setText("✓ Importado: " + nueva.getName());
-                    cargarActividades(); // Recarga la lista
-                } else {
-                    lblEstado.setText("✗ No se pudo importar el archivo");
-                }
-            } catch (Exception e) {
-                lblEstado.setText("✗ Error: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
-
-    // ─── Crea visualmente una fila para cada actividad ───────────────────────
     private HBox crearFilaActividad(Activity act) {
         HBox fila = new HBox(10);
         fila.getStyleClass().add("activity-row-placeholder");
         fila.setAlignment(Pos.CENTER_LEFT);
-        fila.setFocusTraversable(false); // ← AÑADE ESTA LÍNEA
+        fila.setFocusTraversable(false);
 
-        // Marcador de color a la izquierda
         Region marker = new Region();
         marker.getStyleClass().add("activity-row-marker");
 
-        // Contenido de texto
         VBox body = new VBox(4);
         HBox.setHgrow(body, Priority.ALWAYS);
 
         Label nombre = new Label(act.getName() != null ? act.getName() : "Actividad sin nombre");
         nombre.getStyleClass().add("activity-row-title");
 
-        // Chips con distancia, tiempo y ritmo
         HBox chips = new HBox(6);
         chips.getChildren().addAll(
             crearChip(String.format("%.1f km", act.getTotalDistance() / 1000.0)),
             crearChip(formatearTiempo(act.getDuration().toSeconds())),
-            crearChip(String.format("%d m desnivel", (int) act.getElevationGain()))
+            crearChip(String.format("%d m", (int) act.getElevationGain()))
         );
 
         body.getChildren().addAll(nombre, chips);
         fila.getChildren().addAll(marker, body);
 
-        // Al hacer clic en una actividad, navega al mapa con esa actividad
         fila.setOnMouseClicked(e -> {
             MainViewController.getInstancia().mostrarDetalleActividad(act);
         });
@@ -125,11 +182,28 @@ public class ActividadesViewController implements Initializable {
         return chip;
     }
 
-    // Convierte segundos a "1h 23min" o "45min"
     private String formatearTiempo(long segundos) {
         long horas = segundos / 3600;
         long minutos = (segundos % 3600) / 60;
         if (horas > 0) return horas + "h " + minutos + "min";
         return minutos + "min";
+    }
+
+    @FXML
+    private void handleImportar() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Seleccionar archivo GPX");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos GPX", "*.gpx"));
+
+        File archivo = chooser.showOpenDialog(btnImportar.getScene().getWindow());
+        if (archivo != null) {
+            try {
+                Activity nueva = SportActivityApp.getInstance().importActivity(archivo);
+                cargarActividades();
+                if (preferStatsView) poblarGraficos();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
