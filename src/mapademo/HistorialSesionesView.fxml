@@ -2,27 +2,32 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="520.0" prefWidth="760.0" styleClass="history-root" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.HistorialSesionesViewController">
+<VBox spacing="24" styleClass="home-page" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.HistorialSesionesViewController">
    <children>
-      <VBox spacing="16.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="24.0">
+      
+      <VBox spacing="4">
          <children>
-            <VBox spacing="4.0">
-               <children>
-                  <Label styleClass="page-title" text="Historial de sesiones" />
-                  <Label styleClass="muted-label" text="Revisa tus accesos y actividad básica de uso." />
-               </children>
-            </VBox>
-            <VBox fx:id="emptyState" alignment="CENTER" spacing="6.0" styleClass="history-empty">
+            <Label styleClass="page-title" text="Historial de sesiones" />
+            <Label styleClass="muted-label" text="Revisa tus accesos y actividad básica de uso." />
+         </children>
+      </VBox>
+
+      <StackPane VBox.vgrow="ALWAYS">
+         <children>
+            
+            <ListView fx:id="sessionsList" styleClass="history-list" />
+            
+            <VBox fx:id="emptyState" alignment="CENTER" managed="false" spacing="12" styleClass="home-empty-state" visible="false">
                <children>
                   <Label styleClass="empty-state-title" text="Sin sesiones registradas" />
                   <Label styleClass="empty-state-text" text="Cuando inicies y cierres sesión, aparecerán aquí los accesos guardados por la librería." wrapText="true" />
                </children>
             </VBox>
-            <ListView fx:id="sessionsList" VBox.vgrow="ALWAYS" styleClass="history-list" />
+            
          </children>
-      </VBox>
+      </StackPane>
    </children>
-</AnchorPane>
+</VBox>
