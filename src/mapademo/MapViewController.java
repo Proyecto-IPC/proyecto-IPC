@@ -479,15 +479,7 @@ public class MapViewController implements Initializable {
             Annotation annotation = new Annotation(tipo, texto, colorHex, strokeWidth, java.util.List.of(puntos));
             if (currentActivity != null) {
                 upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
-                try {
-                    var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
-                    if (refreshed != null) {
-                        currentActivity = refreshed;
-                        refreshAnnotations(refreshed.getAnnotations());
-                    }
-                } catch (java.sql.SQLException e) {
-                    System.err.println("Error recargando actividad: " + e.getMessage());
-                }
+                recargarActividad();
             }
             System.out.println("Anotacion guardada: " + annotation.getType() + " - " + annotation.getText());
             if (onComplete != null) onComplete.accept(secondPoint);
@@ -509,6 +501,20 @@ public class MapViewController implements Initializable {
             mapPane.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
         }
         pendingSecondPointHandler = null;
+    }
+
+    private void recargarActividad() {
+        if (currentActivity != null) {
+            try {
+                var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
+                if (refreshed != null) {
+                    currentActivity = refreshed;
+                    refreshAnnotations(refreshed.getAnnotations());
+                }
+            } catch (java.sql.SQLException e) {
+                System.err.println("Error recargando actividad: " + e.getMessage());
+            }
+        }
     }
 
     private String colorPorTipo(AnnotationType tipo) {
@@ -823,8 +829,8 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         x = Math.max(margin, Math.min(x, mapArea.getWidth() - panelWidth - margin));
         y = Math.max(margin, Math.min(y, mapArea.getHeight() - panelHeight - margin));
 
-        annotationPanel.setTranslateX(x);
-        annotationPanel.setTranslateY(y);
+        annotationPanel.setTranslateX(Math.round(x));
+        annotationPanel.setTranslateY(Math.round(y));
         annotationPanel.setVisible(true);
         annotationPanel.setManaged(true);
         annotationTexto.requestFocus();
@@ -851,29 +857,33 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
             (int)(color.getGreen() * 255),
             (int)(color.getBlue() * 255));
 
-        if (editingAnnotation != null) {
+        if (editingAnnotation != null && editingAnnotation.getType() == tipo) {
+            List<GeoPoint> puntosOriginales = editingAnnotation.getGeoPoints();
             upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
+
+            Annotation actualizada = new Annotation(tipo, texto, colorHex, tam, puntosOriginales);
+            upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, actualizada);
+
+            recargarActividad();
+            cerrarAnnotationPanel();
+            return;
         }
 
-        GeoPoint geoPoint = new GeoPoint(editingLat, editingLon);
+        GeoPoint puntoInicial;
+        if (editingAnnotation != null) {
+            puntoInicial = editingAnnotation.getGeoPoints().get(0);
+            upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
+        } else {
+            puntoInicial = new GeoPoint(editingLat, editingLon);
+        }
 
         if (tipo == AnnotationType.LINE || tipo == AnnotationType.CIRCLE) {
             cerrarAnnotationPanel();
-            startPendingSecondPointEditando(geoPoint, tipo, texto, colorHex, tam, null);
+            startPendingSecondPointEditando(puntoInicial, tipo, texto, colorHex, tam, null);
         } else {
-            Annotation annotation = new Annotation(tipo, texto, colorHex, tam, java.util.List.of(geoPoint));
-            if (currentActivity != null) {
-                upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
-                try {
-                    var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
-                    if (refreshed != null) {
-                        currentActivity = refreshed;
-                        refreshAnnotations(refreshed.getAnnotations());
-                    }
-                } catch (java.sql.SQLException e) {
-                    System.err.println("Error recargando actividad: " + e.getMessage());
-                }
-            }
+            Annotation annotation = new Annotation(tipo, texto, colorHex, tam, java.util.List.of(puntoInicial));
+            upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
+            recargarActividad();
             cerrarAnnotationPanel();
         }
     }
@@ -881,15 +891,7 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
     private void eliminarAnotacionInline() {
         if (editingAnnotation == null) return;
         upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
-        try {
-            var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
-            if (refreshed != null) {
-                currentActivity = refreshed;
-                refreshAnnotations(refreshed.getAnnotations());
-            }
-        } catch (java.sql.SQLException e) {
-            System.err.println("Error recargando actividad: " + e.getMessage());
-        }
+        recargarActividad();
         cerrarAnnotationPanel();
     }
 

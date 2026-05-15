@@ -152,7 +152,7 @@
                                     <Insets top="4.0" />
                                  </padding>
                               </Label>
-                              <TextArea fx:id="annotationTexto" prefRowCount="2" prefWidth="170.0" wrapText="true" />
+                              <TextArea fx:id="annotationTexto" prefRowCount="2" prefWidth="170.0" wrapText="true" cache="false" />
                            </children>
                         </HBox>
                      </children>
