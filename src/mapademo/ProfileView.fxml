@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="480.0" prefWidth="700.0" styleClass="profile-root" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ProfileViewController">
@@ -52,14 +53,16 @@
                      </children>
                   </VBox>
                   <Label fx:id="lblFeedback" maxWidth="1.7976931348623157E308" minHeight="28.0" styleClass="error" text=" " wrapText="true" />
-                  <HBox spacing="10.0">
-                     <children>
-                        <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#handleGuardar" text="Guardar cambios" />
-                     </children>
-                     <VBox.margin>
-                        <Insets top="4.0" />
-                     </VBox.margin>
-                  </HBox>
+<HBox maxWidth="1.7976931348623157E308" spacing="10.0" alignment="BASELINE_LEFT">
+                      <children>
+                         <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#handleGuardar" prefHeight="36.0" prefWidth="140.0" styleClass="primary-button" text="Guardar cambios" />
+                         <Region HBox.hgrow="ALWAYS" />
+                         <Button fx:id="btnCancelar" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelar" prefHeight="36.0" prefWidth="120.0" styleClass="secondary-button" text="Cancelar" />
+                      </children>
+                      <VBox.margin>
+                         <Insets top="4.0" />
+                      </VBox.margin>
+                   </HBox>
                </children>
                   </VBox>
                </children>

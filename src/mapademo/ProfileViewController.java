@@ -22,8 +22,12 @@ public class ProfileViewController implements Initializable {
     @FXML private TextField txtAvatarPath;
     @FXML private Label lblFeedback;
     @FXML private Button btnGuardar;
+    @FXML private Button btnCancelar;
 
     private User currentUser;
+    private String initialEmail;
+    private LocalDate initialBirthDate;
+    private String initialAvatarPath;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -37,10 +41,15 @@ public class ProfileViewController implements Initializable {
         }
 
         lblUsuario.setText(currentUser.getNickName());
-        txtEmail.setText(currentUser.getEmail());
-        dpBirthDate.setValue(currentUser.getBirthDate());
-        txtAvatarPath.setText(currentUser.getAvatarPath() == null ? "" : currentUser.getAvatarPath());
+        initialEmail = currentUser.getEmail();
+        initialBirthDate = currentUser.getBirthDate();
+        initialAvatarPath = currentUser.getAvatarPath() == null ? "" : currentUser.getAvatarPath();
+
+        txtEmail.setText(initialEmail);
+        dpBirthDate.setValue(initialBirthDate);
+        txtAvatarPath.setText(initialAvatarPath);
         AnimationBehavior.installHover(btnGuardar);
+        AnimationBehavior.installHover(btnCancelar);
     }
 
     @FXML
@@ -91,10 +100,23 @@ public class ProfileViewController implements Initializable {
             txtPassword.clear();
             lblFeedback.getStyleClass().setAll("success");
             lblFeedback.setText("Perfil actualizado.");
+
+            initialEmail = currentUser.getEmail();
+            initialBirthDate = currentUser.getBirthDate();
+            initialAvatarPath = currentUser.getAvatarPath() == null ? "" : currentUser.getAvatarPath();
         } else {
             lblFeedback.getStyleClass().setAll("error");
             lblFeedback.setText("No se ha podido actualizar el perfil.");
         }
+    }
+
+    @FXML
+    private void handleCancelar() {
+        txtEmail.setText(initialEmail);
+        dpBirthDate.setValue(initialBirthDate);
+        txtAvatarPath.setText(initialAvatarPath);
+        txtPassword.clear();
+        lblFeedback.setText("");
     }
 
 }

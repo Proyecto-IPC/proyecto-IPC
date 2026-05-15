@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.SVGPath?>
+
+<StackPane minHeight="24.0" minWidth="24.0" prefHeight="24.0" prefWidth="24.0" maxHeight="24.0" maxWidth="24.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <Group>
+        <SVGPath 
+            content="M3 12h4l3 -9l5 18l3 -9h4" 
+            fill="TRANSPARENT" 
+            stroke="#1E1E1E" 
+            
+            strokeWidth="2.3" 
+            
+            strokeLineCap="ROUND" 
+            strokeLineJoin="ROUND"
+            
+            scaleX="0.85" 
+            scaleY="0.85" 
+        />
+    </Group>
+</StackPane>

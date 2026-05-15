@@ -8,16 +8,15 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -120,47 +119,57 @@
 </Button>
                 </children>
              </VBox>
-             <VBox fx:id="annotationPanel" managed="false" spacing="8" styleClass="annotation-panel" visible="false" StackPane.alignment="TOP_RIGHT">
-                <StackPane.margin>
-                   <Insets bottom="16.0" right="16.0" top="60.0" />
-                </StackPane.margin>
-                <children>
-                   <GridPane hgap="8" styleClass="annotation-form" vgap="6">
-                      <columnConstraints>
-                         <ColumnConstraints minWidth="70" />
-                         <ColumnConstraints minWidth="120" />
-                      </columnConstraints>
-                      <rowConstraints>
-                         <RowConstraints />
-                         <RowConstraints />
-                         <RowConstraints />
-                         <RowConstraints />
-                      </rowConstraints>
-                      <children>
-                         <Label text="Tipo:" GridPane.valignment="CENTER" />
-                         <ChoiceBox fx:id="annotationTipo" maxWidth="130.0" prefWidth="130.0" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
-                         <Label text="Color:" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                         <ColorPicker fx:id="annotationColor" maxWidth="130.0" prefWidth="130.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                         <Label text="Tamaño:" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                         <HBox alignment="CENTER_LEFT" spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                            <children>
-                               <TextField fx:id="annotationTam" prefWidth="80.0" />
-                               <Label text="px" />
-                            </children>
-                         </HBox>
-                         <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                         <TextField fx:id="annotationTexto" maxWidth="130.0" prefWidth="130.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                      </children>
-                   </GridPane>
-                   <HBox alignment="CENTER_RIGHT" spacing="6">
-                      <children>
-                         <Button fx:id="annotationCancelar" mnemonicParsing="false" styleClass="secondary-button" text="Cancelar" />
-                         <Button fx:id="annotationGuardar" mnemonicParsing="false" styleClass="primary-button" text="Guardar" />
-                         <Button fx:id="annotationEliminar" mnemonicParsing="false" styleClass="danger-button" text="Eliminar" visible="false" />
-                      </children>
-                   </HBox>
-                </children>
-             </VBox>
+<VBox fx:id="annotationPanel" managed="false" spacing="12" styleClass="annotation-panel" visible="false" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+               <children>
+                  <VBox spacing="8" styleClass="annotation-form">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                           <children>
+                              <Label prefWidth="85.0" text="Tipo:" />
+                              <ChoiceBox fx:id="annotationTipo" prefWidth="170.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                           <children>
+                              <Label prefWidth="85.0" text="Color:" />
+                              <ColorPicker fx:id="annotationColor" prefWidth="170.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                           <children>
+                              <Label prefWidth="85.0" text="Tamaño:" />
+                              <Spinner fx:id="annotationTam" editable="true" prefWidth="95.0" />
+                              <Label text="px" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_LEFT" spacing="8">
+                           <children>
+                              <Label prefWidth="85.0" text="Descripción:">
+                                 <padding>
+                                    <Insets top="4.0" />
+                                 </padding>
+                              </Label>
+                              <TextArea fx:id="annotationTexto" prefRowCount="2" prefWidth="170.0" wrapText="true" cache="false" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER_LEFT" spacing="8">
+                     <children>
+                        <Button fx:id="annotationEliminar" mnemonicParsing="false" styleClass="ghost-danger-button" text="✖ Eliminar" visible="false" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Button fx:id="annotationCancelar" mnemonicParsing="false" styleClass="secondary-button" text="Cancelar" />
+                        <Button fx:id="annotationGuardar" mnemonicParsing="false" styleClass="primary-button" text="Guardar" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="4.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
           </children>
        </StackPane>
     </center>

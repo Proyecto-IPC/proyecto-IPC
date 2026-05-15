@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.transform.Affine?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.SVGPath?>
 
-<Pane minHeight="30.0" minWidth="118.0" prefHeight="30.0" prefWidth="118.0" maxHeight="30.0" maxWidth="118.0" styleClass="brand-logo-vector" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane minHeight="45.0" minWidth="160.0" prefHeight="45.0" prefWidth="160.0" maxHeight="45.0" maxWidth="160.0" styleClass="brand-logo-vector" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Group>
-         <transforms>
-            <Affine mxx="0.0808" myy="0.0808" tx="-8.888" ty="-23.028" />
-         </transforms>
+      
+      <Group scaleX="0.11" scaleY="0.11">
          <children>
             <SVGPath id="Mountains" styleClass="brand-logo-ink" content="m287.8 398.3c-11.7 9.4-28 22.5-36.2 28.9l-14.8 11.8-17.9-9.1c-13.1-6.6-18.6-9-20.3-8.5-1.2 0.3-14.4 10.3-29.2 22.2-14.8 11.9-32.8 26.5-40.1 32.3-7.2 5.8-13 10.7-12.8 10.9 0.3 0.3 35.8-19.1 48-26.3 30.6-18.2 40.8-23.6 43-23.1 1.3 0.3 11.8 4.9 23.5 10.1l21.2 9.5 18.1-17.4c17-16.2 33.2-30.8 41.8-37.7l3.7-2.9 20.9 19.9 20.8 20 2.7-3.2c2.4-2.9 2.9-3.1 5.5-2.1 1.5 0.7 8.8 3.7 16.2 6.8 7.3 3.1 13.7 5.6 14.3 5.6 1 0-8.5-8.2-26.5-22.7l-11.8-9.6-3.1 2.3-3 2.2 0.7-4 0.6-4-9.8-7.4c-18.5-14-30-21.8-32.1-21.8-1.2 0-11.2 7.4-23.4 17.3z" />
             <SVGPath id="Sun" styleClass="brand-logo-sun" content="m295.54 317.6c-30.3 10.28-53.1 41.97-52.54 73.11 0.28 20.01 4.73 31.96 5 13.34 0.56-36.97 29.47-72 64.49-78.39 14.46-2.5 35.86 2.78 53.65 13.62 13.62 8.34 15.01 8.62 11.12 2.78-14.73-22.79-53.65-34.47-81.72-24.46z" />
@@ -23,4 +20,4 @@
          </children>
       </Group>
    </children>
-</Pane>
+</StackPane>

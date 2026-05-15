@@ -120,6 +120,7 @@
 .map-preview-panel,
 .detail-side-panel,
 .detail-block,
+.map-form-card,
 .home-empty-state,
 .history-empty,
 .shell-placeholder {
@@ -283,6 +284,7 @@
     -fx-background-color: -app-surface;
     -fx-border-color: -app-border;
     -fx-text-fill: -app-text;
+    -fx-font-size: 13px;
 }
 
 .pending-action {
@@ -345,12 +347,74 @@
     -fx-cursor: default;
 }
 
+.ghost-danger-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -app-danger;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-padding: 6 8 6 8;
+    -fx-background-radius: 7;
+}
+
+.ghost-danger-button:hover {
+    -fx-background-color: rgba(185, 53, 47, 0.08);
+    -fx-text-fill: derive(-app-danger, -10%);
+}
+
+.ghost-danger-button:pressed {
+    -fx-background-color: rgba(185, 53, 47, 0.15);
+}
+
+.text-area {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 7;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #8b9892;
+}
+
+.text-area:hover {
+    -fx-border-color: #b9c7c1;
+}
+
+.text-area:focused {
+    -fx-border-color: -app-primary;
+    -fx-border-width: 1;
+}
+
+.text-area .viewport,
+.text-area .content {
+    -fx-background-color: -app-surface;
+}
+
+.annotation-panel .spinner {
+    -fx-background-radius: 7;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-background-color: -app-surface;
+}
+
+.annotation-panel .spinner:focused {
+    -fx-border-color: -app-primary;
+}
+
+.annotation-panel .spinner .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 4 8 4 8;
+}
+
 .primary-button {
     -fx-background-color: -app-primary;
     -fx-background-radius: 7;
     -fx-border-radius: 7;
     -fx-text-fill: white;
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-font-weight: 600;
     -fx-padding: 6 14 6 14;
     -fx-cursor: hand;
@@ -366,7 +430,7 @@
     -fx-border-radius: 7;
     -fx-border-width: 1;
     -fx-text-fill: -app-text;
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-font-weight: 600;
     -fx-padding: 6 14 6 14;
     -fx-cursor: hand;
@@ -430,8 +494,8 @@
     -fx-background-color: -app-surface;
     -fx-border-color: transparent transparent -app-border transparent;
     -fx-border-width: 0 0 1 0;
-    -fx-padding: 12 18 12 18;
-    -fx-min-height: 58;
+    -fx-padding: 8 18 8 18;
+    -fx-min-height: 52;
 }
 
 .shell-rail {
@@ -459,6 +523,49 @@
     -fx-pref-height: 42;
     -fx-max-width: 42;
     -fx-max-height: 42;
+}
+
+.rail-icon,
+.rail-icon-user,
+.rail-icon-dashboard,
+.rail-icon-activity,
+.rail-icon-history {
+    -fx-min-width: 22;
+    -fx-min-height: 22;
+    -fx-pref-width: 22;
+    -fx-pref-height: 22;
+    -fx-max-width: 22;
+    -fx-max-height: 22;
+}
+
+.rail-icon-user > SVGPath {
+    -fx-fill: currentColor;
+}
+
+.rail-icon-dashboard > SVGPath {
+    -fx-fill: currentColor;
+}
+
+.rail-icon-history > SVGPath {
+    -fx-fill: currentColor;
+}
+
+.rail-icon-activity > SVGPath {
+    -fx-stroke: currentColor;
+    -fx-stroke-width: 2;
+    -fx-fill: none;
+}
+
+.rail-icon-user,
+.rail-icon-dashboard,
+.rail-icon-activity,
+.rail-icon-history {
+    -fx-min-width: 22px;
+    -fx-min-height: 22px;
+    -fx-pref-width: 22px;
+    -fx-pref-height: 22px;
+    -fx-max-width: 22px;
+    -fx-max-height: 22px;
 }
 
 .rail-button:hover {
@@ -541,6 +648,7 @@
     -fx-background-color: -app-surface;
     -fx-border-color: -app-border;
     -fx-text-fill: -app-text;
+    -fx-font-size: 13px;
     -fx-background-radius: 7;
     -fx-border-radius: 7;
     -fx-padding: 7 12 7 12;
@@ -896,6 +1004,19 @@
 .profile-value {
     -fx-font-size: 14px;
     -fx-text-fill: -app-text;
+}
+
+.map-form-root {
+    -fx-background-color: -app-bg;
+}
+
+.map-form-scroll-content {
+    -fx-padding: 32;
+}
+
+.map-form-card {
+    -fx-padding: 28;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 12, 0.1, 0, 4);
 }
 
 .history-root {

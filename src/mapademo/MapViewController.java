@@ -91,9 +91,9 @@ public class MapViewController implements Initializable {
     @FXML
     private javafx.scene.control.ColorPicker annotationColor;
     @FXML
-    private javafx.scene.control.TextField annotationTam;
+    private javafx.scene.control.Spinner<Double> annotationTam;
     @FXML
-    private javafx.scene.control.TextField annotationTexto;
+    private javafx.scene.control.TextArea annotationTexto;
     @FXML
     private Button annotationGuardar;
     @FXML
@@ -240,19 +240,28 @@ public class MapViewController implements Initializable {
             new AnnotationTypeOption(AnnotationType.CIRCLE, "Círculo")
         );
         annotationTipo.setValue(annotationTipo.getItems().get(0));
+        var valueFactory = new javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory(1.0, 50.0, 2.0, 1.0);
+        valueFactory.setConverter(new javafx.util.StringConverter<Double>() {
+            @Override
+            public String toString(Double value) {
+                return value == null ? "" : String.format(java.util.Locale.US, "%.1f", value);
+            }
+            @Override
+            public Double fromString(String string) {
+                try { return Double.parseDouble(string); } catch (Exception e) { return 2.0; }
+            }
+        });
+        annotationTam.setValueFactory(valueFactory);
         annotationTipo.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && editingAnnotation == null) {
                 annotationColor.setValue(Color.web(DEFAULT_COLORS.get(newVal.tipo())));
-                annotationTam.setText(String.valueOf(DEFAULT_STROKE.get(newVal.tipo())));
+                annotationTam.getValueFactory().setValue(DEFAULT_STROKE.get(newVal.tipo()));
             }
         });
 
         annotationGuardar.setOnAction(event -> guardarAnotacionInline());
         annotationCancelar.setOnAction(event -> cerrarAnnotationPanel());
         annotationEliminar.setOnAction(event -> eliminarAnotacionInline());
-
-        annotationTam.setOnAction(event -> annotationTexto.requestFocus());
-        annotationTexto.setOnAction(event -> guardarAnotacionInline());
 
         setZoom(1.0);
     }
@@ -470,15 +479,7 @@ public class MapViewController implements Initializable {
             Annotation annotation = new Annotation(tipo, texto, colorHex, strokeWidth, java.util.List.of(puntos));
             if (currentActivity != null) {
                 upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
-                try {
-                    var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
-                    if (refreshed != null) {
-                        currentActivity = refreshed;
-                        refreshAnnotations(refreshed.getAnnotations());
-                    }
-                } catch (java.sql.SQLException e) {
-                    System.err.println("Error recargando actividad: " + e.getMessage());
-                }
+                recargarActividad();
             }
             System.out.println("Anotacion guardada: " + annotation.getType() + " - " + annotation.getText());
             if (onComplete != null) onComplete.accept(secondPoint);
@@ -500,6 +501,20 @@ public class MapViewController implements Initializable {
             mapPane.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
         }
         pendingSecondPointHandler = null;
+    }
+
+    private void recargarActividad() {
+        if (currentActivity != null) {
+            try {
+                var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
+                if (refreshed != null) {
+                    currentActivity = refreshed;
+                    refreshAnnotations(refreshed.getAnnotations());
+                }
+            } catch (java.sql.SQLException e) {
+                System.err.println("Error recargando actividad: " + e.getMessage());
+            }
+        }
     }
 
     private String colorPorTipo(AnnotationType tipo) {
@@ -778,7 +793,7 @@ public class MapViewController implements Initializable {
                 }
             }
             annotationColor.setValue(Color.web(existing.getColor()));
-            annotationTam.setText(String.valueOf(existing.getStrokeWidth()));
+            annotationTam.getValueFactory().setValue(existing.getStrokeWidth());
             annotationTexto.setText(existing.getText().equals("Sin descripción") ? "" : existing.getText());
             annotationEliminar.setVisible(true);
             annotationEliminar.setManaged(true);
@@ -786,7 +801,7 @@ public class MapViewController implements Initializable {
             AnnotationTypeOption opt = annotationTipo.getValue();
             if (opt != null) {
                 annotationColor.setValue(Color.web(DEFAULT_COLORS.get(opt.tipo())));
-                annotationTam.setText(String.valueOf(DEFAULT_STROKE.get(opt.tipo())));
+                annotationTam.getValueFactory().setValue(DEFAULT_STROKE.get(opt.tipo()));
             }
             annotationTexto.clear();
             annotationEliminar.setVisible(false);
@@ -797,8 +812,8 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         StackPane.setMargin(annotationPanel, javafx.geometry.Insets.EMPTY);
         annotationPanel.setMaxSize(javafx.scene.layout.Region.USE_PREF_SIZE, javafx.scene.layout.Region.USE_PREF_SIZE);
 
-        double panelWidth = 210;
-        double panelHeight = 220;
+        double panelWidth = 290;
+        double panelHeight = 270;
         double margin = 5;
 
         double x = lastClickX + margin;
@@ -814,8 +829,8 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         x = Math.max(margin, Math.min(x, mapArea.getWidth() - panelWidth - margin));
         y = Math.max(margin, Math.min(y, mapArea.getHeight() - panelHeight - margin));
 
-        annotationPanel.setTranslateX(x);
-        annotationPanel.setTranslateY(y);
+        annotationPanel.setTranslateX(Math.round(x));
+        annotationPanel.setTranslateY(Math.round(y));
         annotationPanel.setVisible(true);
         annotationPanel.setManaged(true);
         annotationTexto.requestFocus();
@@ -835,43 +850,40 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         String texto = annotationTexto.getText().trim();
         if (texto.isEmpty()) texto = "Sin descripción";
 
-        double tam;
-        try {
-            tam = Double.parseDouble(annotationTam.getText());
-            if (tam < 0.5) tam = 0.5;
-            if (tam > 50) tam = 50;
-        } catch (NumberFormatException e) {
-            tam = DEFAULT_STROKE.getOrDefault(tipo, 2.0);
-        }
+        double tam = annotationTam.getValue();
 
         String colorHex = String.format("#%02X%02X%02X",
             (int)(color.getRed() * 255),
             (int)(color.getGreen() * 255),
             (int)(color.getBlue() * 255));
 
-        if (editingAnnotation != null) {
+        if (editingAnnotation != null && editingAnnotation.getType() == tipo) {
+            List<GeoPoint> puntosOriginales = editingAnnotation.getGeoPoints();
             upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
+
+            Annotation actualizada = new Annotation(tipo, texto, colorHex, tam, puntosOriginales);
+            upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, actualizada);
+
+            recargarActividad();
+            cerrarAnnotationPanel();
+            return;
         }
 
-        GeoPoint geoPoint = new GeoPoint(editingLat, editingLon);
+        GeoPoint puntoInicial;
+        if (editingAnnotation != null) {
+            puntoInicial = editingAnnotation.getGeoPoints().get(0);
+            upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
+        } else {
+            puntoInicial = new GeoPoint(editingLat, editingLon);
+        }
 
         if (tipo == AnnotationType.LINE || tipo == AnnotationType.CIRCLE) {
             cerrarAnnotationPanel();
-            startPendingSecondPointEditando(geoPoint, tipo, texto, colorHex, tam, null);
+            startPendingSecondPointEditando(puntoInicial, tipo, texto, colorHex, tam, null);
         } else {
-            Annotation annotation = new Annotation(tipo, texto, colorHex, tam, java.util.List.of(geoPoint));
-            if (currentActivity != null) {
-                upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
-                try {
-                    var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
-                    if (refreshed != null) {
-                        currentActivity = refreshed;
-                        refreshAnnotations(refreshed.getAnnotations());
-                    }
-                } catch (java.sql.SQLException e) {
-                    System.err.println("Error recargando actividad: " + e.getMessage());
-                }
-            }
+            Annotation annotation = new Annotation(tipo, texto, colorHex, tam, java.util.List.of(puntoInicial));
+            upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
+            recargarActividad();
             cerrarAnnotationPanel();
         }
     }
@@ -879,15 +891,7 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
     private void eliminarAnotacionInline() {
         if (editingAnnotation == null) return;
         upv.ipc.sportlib.SportActivityApp.getInstance().removeAnnotation(editingAnnotation);
-        try {
-            var refreshed = upv.ipc.sportlib.SportActivityApp.getInstance().getActivityById(currentActivity.getId());
-            if (refreshed != null) {
-                currentActivity = refreshed;
-                refreshAnnotations(refreshed.getAnnotations());
-            }
-        } catch (java.sql.SQLException e) {
-            System.err.println("Error recargando actividad: " + e.getMessage());
-        }
+        recargarActividad();
         cerrarAnnotationPanel();
     }
 
