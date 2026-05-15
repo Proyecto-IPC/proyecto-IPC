@@ -24,6 +24,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import upv.ipc.sportlib.SportActivityApp;
+import javafx.scene.Parent;
 
 public class MainViewController implements Initializable {
 
@@ -53,6 +54,7 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
+        anotacionesManager = new AnotacionesManager(); 
         rootPane.setFocusTraversable(true);
         btnImportar.setTooltip(new Tooltip("Importación GPX pendiente de conexión."));
         importStatusTimer = new PauseTransition(Duration.seconds(2.4));
@@ -81,7 +83,7 @@ public class MainViewController implements Initializable {
 
     public void cargarVista(String fxmlPath) {
         try {
-            Pane vista = FXMLLoader.load(getClass().getResource(fxmlPath));
+            Parent vista = FXMLLoader.load(getClass().getResource(fxmlPath));
             if (esVistaAuth(fxmlPath)) {
                 ocultarShell();
                 setActiveRail(null);
@@ -111,7 +113,9 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleRailActividades() {
-        mostrarActividadesPlaceholder();
+        System.out.println("Cargando vista de actividades..."); // Esto es para ver si el clic funciona
+        cargarVista("ActividadesView.fxml");
+        setActiveRail(btnNavActividades);
     }
 
     @FXML
@@ -121,7 +125,8 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleRailHistorial() {
-        handleHistorial();
+        cargarVista("EstadisticasView.fxml");
+        setActiveRail(btnNavHistorial);
     }
 
     @FXML
@@ -231,6 +236,7 @@ public class MainViewController implements Initializable {
             anotacionesManager.setMapController(mapController);
             detail.setCenter(mapView);
         } catch (Exception e) {
+            e.printStackTrace(); // Añade esto
             detail.setCenter(crearPlaceholderError("No se pudo cargar el mapa."));
         }
 
@@ -305,9 +311,13 @@ public class MainViewController implements Initializable {
 
     private void updateRailForView(String fxmlPath) {
         if ("ProfileView.fxml".equals(fxmlPath)) {
-            setActiveRail(btnNavPerfil);
+        setActiveRail(btnNavPerfil);
         } else if ("HistorialSesionesView.fxml".equals(fxmlPath)) {
-            setActiveRail(btnNavHistorial);
+        setActiveRail(btnNavHistorial);
+        } else if ("ActividadesView.fxml".equals(fxmlPath)) {
+        setActiveRail(btnNavActividades);
+        } else if ("EstadisticasView.fxml".equals(fxmlPath)) {
+        setActiveRail(btnNavHistorial); 
         }
     }
 
@@ -353,19 +363,15 @@ public class MainViewController implements Initializable {
 
     public void actualizarPerfilUsuario() {
         upv.ipc.sportlib.User currentUser = SportActivityApp.getInstance().getCurrentUser();
-
         if (currentUser != null) {
             userNicknameLabel.setText(currentUser.getNickName());
-
             String avatarPath = currentUser.getAvatarPath();
             if (avatarPath != null && !avatarPath.trim().isEmpty()) {
                 try {
                     String uri = avatarPath.startsWith("http") || avatarPath.startsWith("file:")
                         ? avatarPath
                         : new java.io.File(avatarPath).toURI().toString();
-
                     javafx.scene.image.Image avatar = new javafx.scene.image.Image(uri, 24, 24, false, true);
-
                     if (!avatar.isError()) {
                         userAvatarImage.setImage(avatar);
                         javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(12, 12, 12);
@@ -381,10 +387,16 @@ public class MainViewController implements Initializable {
                 }
             }
         }
-
         userAvatarImage.setVisible(false);
         userAvatarImage.setManaged(false);
         defaultUserIcon.setVisible(true);
         defaultUserIcon.setManaged(true);
+    }
+
+    public void mostrarDetalleActividad(upv.ipc.sportlib.Activity activity) {
+        mostrarShell();
+        setActiveRail(btnNavActividades);
+        rootPane.setCenter(crearDetalleActividad(activity));
+        Platform.runLater(rootPane::requestFocus);
     }
 }

@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.EstadisticasViewController">
-    <VBox spacing="25.0">
-        <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-        </padding>
+<ScrollPane fitToWidth="true" stylesheets="@/resources/style.css"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="mapademo.ActividadesViewController">
 
-        <Label text="Análisis de Rendimiento" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <VBox spacing="20" styleClass="home-page">
 
-        <BarChart fx:id="distanceChart" title="Kilómetros por Semana" prefHeight="300.0">
-            <xAxis><CategoryAxis label="Semana" side="BOTTOM" /></xAxis>
-            <yAxis><NumberAxis label="Distancia (km)" side="LEFT" /></yAxis>
-        </BarChart>
+        <!-- CABECERA -->
+        <VBox spacing="4">
+            <Label text="Actividades" styleClass="page-title"/>
+            <Label text="Tus rutas importadas desde archivos GPX."
+                   styleClass="muted-label" wrapText="true"/>
+        </VBox>
 
-        <LineChart fx:id="elevationChart" title="Perfil de Desnivel (Última Actividad)" prefHeight="300.0">
-            <xAxis><NumberAxis label="Puntos de track" side="BOTTOM" /></xAxis>
-            <yAxis><NumberAxis label="Elevación (m)" side="LEFT" /></yAxis>
-        </LineChart>
+        <!-- BOTÓN IMPORTAR -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button fx:id="btnImportar" text="＋ Importar GPX"
+                    onAction="#handleImportar" styleClass="btn-primary"/>
+            <Label fx:id="lblEstado" styleClass="muted-label"/>
+        </HBox>
+
+        <!-- LISTA DE ACTIVIDADES -->
+        <VBox fx:id="listaActividades" spacing="12"/>
+
+        <!-- ESTADO VACÍO -->
+        <VBox fx:id="emptyState" spacing="8" alignment="CENTER_LEFT"
+              styleClass="home-empty-state">
+            <Label text="Sin actividades" styleClass="empty-state-title"/>
+            <Label text="Importa un archivo GPX para ver tus rutas aquí."
+                   styleClass="empty-state-text" wrapText="true"/>
+        </VBox>
+
     </VBox>
 </ScrollPane>

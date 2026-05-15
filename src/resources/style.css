@@ -1311,7 +1311,6 @@
    FIXES DE CONTRASTE Y VISIBILIDAD (Modo Oscuro)
    ========================================================================== */
 
-/* FIX EXCLUSIVO PARA ACTIVIDADES (Línea fina) */
 #btnNavActividades SVGPath {
     -fx-fill: transparent !important;
     -fx-stroke: -app-muted;
@@ -1325,7 +1324,6 @@
     -fx-stroke: -app-primary;
 }
 
-/* 1. ICONOS EN EL RAIL (Generales - Macizos) */
 .rail-button SVGPath {
     -fx-fill: -app-muted;
     -fx-stroke: none;
@@ -1382,4 +1380,15 @@
 .menu-item .label {
     -fx-text-fill: -app-text;
     -fx-font-size: 13px;
+}
+
+.activity-row-placeholder:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: -app-border;
+}
+
+.activity-row-placeholder:hover {
+    -fx-border-color: derive(-app-primary, 35%);
+    -fx-cursor: hand;
 }
