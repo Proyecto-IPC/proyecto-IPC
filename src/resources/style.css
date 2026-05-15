@@ -297,14 +297,6 @@
     -fx-cursor: default;
 }
 
-.button-secundario,
-.outline-button {
-    -fx-background-color: -app-surface;
-    -fx-border-color: -app-border;
-    -fx-text-fill: -app-text;
-    -fx-font-size: 13px;
-}
-
 .pending-action {
     -fx-text-fill: -app-primary;
 }
@@ -318,31 +310,6 @@
     -fx-font-size: 12px;
     -fx-font-weight: 700;
     -fx-padding: 5 9 5 9;
-}
-
-.button-secundario:hover,
-.outline-button:hover {
-    -fx-background-color: -app-primary-soft;
-    -fx-border-color: derive(-app-primary, 45%);
-}
-
-.button-secundario:pressed,
-.outline-button:pressed {
-    -fx-background-color: derive(-app-surface-alt, -5%);
-    -fx-effect: none;
-    -fx-translate-y: 1px;
-}
-
-.button-secundario:focused,
-.outline-button:focused {
-    -fx-background-color: -app-primary-soft;
-    -fx-border-color: -app-primary;
-}
-
-.outline-button:disabled,
-.button-secundario:disabled {
-    -fx-opacity: 0.45;
-    -fx-cursor: default;
 }
 
 .ghost-button {
@@ -443,7 +410,9 @@
     -fx-background-color: -app-primary-hover;
 }
 
+/* Botones Secundarios Unificados */
 .secondary-button,
+.button-secundario,
 .outline-button {
     -fx-background-color: -app-surface;
     -fx-border-color: -app-border;
@@ -458,9 +427,18 @@
 }
 
 .secondary-button:hover,
+.button-secundario:hover,
 .outline-button:hover {
     -fx-background-color: -app-surface-alt;
     -fx-border-color: -app-border;
+}
+
+.secondary-button:pressed,
+.button-secundario:pressed,
+.outline-button:pressed {
+    -fx-background-color: derive(-app-surface-alt, -5%);
+    -fx-translate-y: 1px;
+    -fx-effect: none;
 }
 
 .danger-button {
@@ -1382,4 +1360,52 @@
 .menu-item .label {
     -fx-text-fill: -app-text;
     -fx-font-size: 13px;
+}
+
+/* Feedback visual al navegar por la lista de actividades con el teclado */
+.activity-row-placeholder:focused {
+    -fx-border-color: -app-primary;
+    -fx-background-color: -app-primary-soft;
+    -fx-effect: dropshadow(gaussian, rgba(5, 150, 105, 0.2), 6, 0, 0, 0);
+}
+
+/* Feedback visual al pasar el ratón por las actividades (Hover) */
+.activity-row-placeholder:hover {
+    -fx-border-color: #b9c7c1;
+}
+
+.theme-dark .activity-row-placeholder:hover {
+    -fx-border-color: #4a4d52;
+}
+
+/* ==========================================================================
+   ICONO DE INFORMACIÓN Y TOOLTIPS
+   ========================================================================== */
+
+.info-icon-container {
+    -fx-cursor: hand;
+}
+
+.info-icon-svg {
+    -fx-fill: -app-muted;
+    -fx-scale-x: 0.8;
+    -fx-scale-y: 0.8;
+}
+
+/* Se ilumina al pasar el ratón */
+.info-icon-container:hover .info-icon-svg {
+    -fx-fill: -app-text;
+}
+
+/* Estilo premium para el rectangulito flotante */
+.tooltip {
+    -fx-background-color: -app-surface;
+    -fx-text-fill: -app-text;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 6px;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 4);
 }

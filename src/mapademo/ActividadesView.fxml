@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="24" styleClass="home-page" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ActividadesViewController">
+   <children>
+      
+      <VBox spacing="4">
+         <children>
+            <Label styleClass="page-title" text="Mis Actividades" />
+            <Label styleClass="muted-label" text="Tus rutas importadas desde archivos GPX." />
+         </children>
+      </VBox>
+
+      <StackPane VBox.vgrow="ALWAYS">
+         <children>
+            
+            <ScrollPane fx:id="scrollActividades" fitToWidth="true" styleClass="main-scroll">
+               <content>
+                  <VBox fx:id="listaActividades" spacing="16" />
+               </content>
+            </ScrollPane>
+            
+            <VBox fx:id="emptyState" alignment="CENTER" managed="false" spacing="12" styleClass="home-empty-state" visible="false">
+               <children>
+                  <Label styleClass="empty-state-title" text="Sin actividades" />
+                  <Label styleClass="empty-state-text" text="No hay actividades. Usa el botón Importar de la barra superior." wrapText="true" />
+               </children>
+            </VBox>
+            
+         </children>
+      </StackPane>
+   </children>
+</VBox>

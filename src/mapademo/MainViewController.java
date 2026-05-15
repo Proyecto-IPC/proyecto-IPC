@@ -1,5 +1,6 @@
 package mapademo;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.prefs.Preferences;
@@ -22,6 +23,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.Parent;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import upv.ipc.sportlib.SportActivityApp;
 
@@ -54,6 +57,7 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
         rootPane.setFocusTraversable(true);
+        anotacionesManager = new AnotacionesManager();
         btnImportar.setTooltip(new Tooltip("Importación GPX pendiente de conexión."));
         importStatusTimer = new PauseTransition(Duration.seconds(2.4));
         importStatusTimer.setOnFinished(event -> {
@@ -81,7 +85,7 @@ public class MainViewController implements Initializable {
 
     public void cargarVista(String fxmlPath) {
         try {
-            Pane vista = FXMLLoader.load(getClass().getResource(fxmlPath));
+            Parent vista = FXMLLoader.load(getClass().getResource(fxmlPath));
             if (esVistaAuth(fxmlPath)) {
                 ocultarShell();
                 setActiveRail(null);
@@ -111,7 +115,8 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleRailActividades() {
-        mostrarActividadesPlaceholder();
+        setActiveRail(btnNavActividades);
+        cargarVista("ActividadesView.fxml");
     }
 
     @FXML
@@ -150,9 +155,29 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleImportarPendiente() {
-        importStatusLabel.setVisible(true);
-        importStatusLabel.setManaged(true);
-        importStatusTimer.playFromStart();
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Seleccionar archivo GPX");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos GPX", "*.gpx"));
+
+        File archivo = chooser.showOpenDialog(btnImportar.getScene().getWindow());
+        if (archivo != null) {
+            try {
+                upv.ipc.sportlib.Activity nueva = SportActivityApp.getInstance().importActivity(archivo);
+                if (nueva != null) {
+                    importStatusLabel.setText("Importado: " + nueva.getName());
+                    importStatusLabel.setVisible(true);
+                    importStatusLabel.setManaged(true);
+                    importStatusTimer.playFromStart();
+                    mostrarDetalleActividad(nueva);
+                }
+            } catch (Exception e) {
+                importStatusLabel.setText("Error al importar");
+                importStatusLabel.setVisible(true);
+                importStatusLabel.setManaged(true);
+                importStatusTimer.playFromStart();
+                e.printStackTrace();
+            }
+        }
     }
 
     public void mostrarPantallaPrincipal() {
@@ -308,6 +333,8 @@ public class MainViewController implements Initializable {
             setActiveRail(btnNavPerfil);
         } else if ("HistorialSesionesView.fxml".equals(fxmlPath)) {
             setActiveRail(btnNavHistorial);
+        } else if ("ActividadesView.fxml".equals(fxmlPath)) {
+            setActiveRail(btnNavActividades);
         }
     }
 
@@ -382,9 +409,14 @@ public class MainViewController implements Initializable {
             }
         }
 
-        userAvatarImage.setVisible(false);
-        userAvatarImage.setManaged(false);
-        defaultUserIcon.setVisible(true);
+userAvatarImage.setVisible(false);
         defaultUserIcon.setManaged(true);
+    }
+
+    public void mostrarDetalleActividad(upv.ipc.sportlib.Activity activity) {
+        mostrarShell();
+        setActiveRail(btnNavActividades);
+        rootPane.setCenter(crearDetalleActividad(activity));
+Platform.runLater(rootPane::requestFocus);
     }
 }
