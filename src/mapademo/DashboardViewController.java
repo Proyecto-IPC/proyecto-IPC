@@ -83,7 +83,7 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateActivities() {
-        if (!activityList.getChildren().isEmpty()) return;
+        activityList.getChildren().clear();
 
         List<Activity> actividades = getActividadesOrdenadas();
 
@@ -167,7 +167,7 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateStreak() {
-        if (!calendarGrid.getChildren().isEmpty()) return;
+        calendarGrid.getChildren().clear();
 
         String[] labels = {"L", "M", "X", "J", "V", "S", "D"};
         for (int i = 0; i < labels.length; i++) {
@@ -200,8 +200,6 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateChart() {
-        if (!chartBars.getChildren().isEmpty()) return;
-
         chartBars.getChildren().clear();
 
         List<Activity> actividades = getActividadMap();

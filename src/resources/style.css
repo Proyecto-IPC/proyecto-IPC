@@ -720,7 +720,7 @@
 }
 
 .summary-grid {
-    -fx-max-width: 1100;
+    -fx-max-width: 10000;
 }
 
 .metric-card {

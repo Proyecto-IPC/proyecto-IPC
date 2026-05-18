@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="root" alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.HistorialCellController">
+   <padding>
+      <Insets bottom="4.0" top="4.0" />
+   </padding>
+   <children>
+      <Region styleClass="activity-row-marker" />
+      <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+         <children>
+            <Label fx:id="lblTitulo" styleClass="activity-row-title" text="Sesión del 15/05/2026 (Diseño estático)" />
+            <Label fx:id="lblSubtitulo" styleClass="muted-label" text="De 18:52 a 18:52 · Duración: 2s (Diseño estático)" />
+            <HBox spacing="8.0">
+               <children>
+                  <Label fx:id="lblImp" styleClass="activity-chip" text="0 importaciones" />
+                  <Label fx:id="lblVis" styleClass="activity-chip" text="0 vistas" />
+                  <Label fx:id="lblAno" styleClass="activity-chip" text="0 anotaciones" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

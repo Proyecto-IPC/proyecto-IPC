@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -20,7 +22,45 @@
             
             <ScrollPane fx:id="scrollActividades" fitToWidth="true" styleClass="main-scroll">
                <content>
-                  <VBox fx:id="listaActividades" spacing="16" />
+                  <VBox fx:id="listaActividades" spacing="16">
+                   <children>
+                      <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="activity-row-placeholder">
+                         <children>
+                            <Region styleClass="activity-row-marker" />
+                            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                               <children>
+                                  <Label styleClass="activity-row-title" text="Ruta de montaña (Diseño estático)" />
+                                  <HBox spacing="6.0">
+                                     <children>
+                                        <Label styleClass="activity-chip" text="12.5 km" />
+                                        <Label styleClass="activity-chip" text="1h 45min" />
+                                        <Label styleClass="activity-chip" text="450 m" />
+                                     </children>
+                                  </HBox>
+                               </children>
+                            </VBox>
+                         </children>
+                      </HBox>
+
+                      <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="activity-row-placeholder">
+                         <children>
+                            <Region styleClass="activity-row-marker" />
+                            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                               <children>
+                                  <Label styleClass="activity-row-title" text="Entrenamiento en pista (Diseño estático)" />
+                                  <HBox spacing="6.0">
+                                     <children>
+                                        <Label styleClass="activity-chip" text="8.0 km" />
+                                        <Label styleClass="activity-chip" text="40min" />
+                                        <Label styleClass="activity-chip" text="15 m" />
+                                     </children>
+                                  </HBox>
+                               </children>
+                            </VBox>
+                         </children>
+                      </HBox>
+                   </children>
+                </VBox>
                </content>
             </ScrollPane>
             
