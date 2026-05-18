@@ -287,7 +287,7 @@
     -fx-translate-y: 1px;
 }
 
-.button:focused {
+.keyboard-mode .button:focused {
     -fx-border-color: -app-primary;
     -fx-border-width: 1;
 }
@@ -583,7 +583,7 @@
     -fx-background-color: -app-primary-soft;
 }
 
-.rail-button:focused {
+.keyboard-mode .rail-button:focused {
     -fx-background-color: -app-surface;
     -fx-border-color: -app-primary;
     -fx-border-width: 1;
@@ -621,7 +621,7 @@
     -fx-text-fill: -app-primary;
 }
 
-.shell-brand-button:focused {
+.keyboard-mode .shell-brand-button:focused {
     -fx-background-color: -app-primary-soft;
     -fx-border-color: -app-primary;
     -fx-border-width: 1;
@@ -667,7 +667,7 @@
     -fx-background-color: -app-surface-alt;
 }
 
-.user-menu-button:focused {
+.keyboard-mode .user-menu-button:focused {
     -fx-background-color: -app-primary-soft;
     -fx-border-color: -app-primary;
     -fx-border-width: 1;
@@ -696,11 +696,11 @@
     -fx-cursor: hand;
 }
 
-.menu-item:focused {
+.keyboard-mode .menu-item:focused {
     -fx-background-color: -app-primary-soft;
 }
 
-.menu-item:focused .label {
+.keyboard-mode .menu-item:focused .label {
     -fx-text-fill: -app-primary;
 }
 
@@ -975,6 +975,17 @@
     -fx-pref-height: 62;
     -fx-min-height: 62;
     -fx-max-height: 62;
+}
+
+.chart-bar-active {
+    -fx-background-color: -app-primary;
+    -fx-background-radius: 7 7 4 4;
+    -fx-border-radius: 7 7 4 4;
+}
+
+.chart-bar-empty {
+    -fx-background-color: -app-surface-alt;
+    -fx-background-radius: 7 7 4 4;
 }
 
 .activity-detail {
@@ -1353,7 +1364,7 @@
 }
 
 .menu-item:hover,
-.menu-item:focused {
+.keyboard-mode .menu-item:focused {
     -fx-background-color: -app-surface-alt;
 }
 
@@ -1363,7 +1374,7 @@
 }
 
 /* Feedback visual al navegar por la lista de actividades con el teclado */
-.activity-row-placeholder:focused {
+.keyboard-mode .activity-row-placeholder:focused {
     -fx-border-color: -app-primary;
     -fx-background-color: -app-primary-soft;
     -fx-effect: dropshadow(gaussian, rgba(5, 150, 105, 0.2), 6, 0, 0, 0);

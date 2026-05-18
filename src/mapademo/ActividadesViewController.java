@@ -56,6 +56,7 @@ public class ActividadesViewController implements Initializable {
         fila.setOnKeyPressed(e -> {
             if (e.getCode() == javafx.scene.input.KeyCode.ENTER || e.getCode() == javafx.scene.input.KeyCode.SPACE) {
                 MainViewController.getInstancia().mostrarDetalleActividad(act);
+                e.consume();
             }
         });
 

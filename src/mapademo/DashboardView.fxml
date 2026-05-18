@@ -18,88 +18,13 @@
                   <VBox spacing="4.0">
                      <children>
                         <Label styleClass="page-title" text="Resumen general" />
-                        <Label styleClass="muted-label" text="Base visual preparada para actividades importadas, sin datos reales conectados." />
+                        <Label styleClass="muted-label" text="Tu actividad en números." />
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Label styleClass="status-pill-muted" text="Datos pendientes" />
                </children>
             </HBox>
             <GridPane fx:id="statsGrid" hgap="16.0" styleClass="summary-grid" vgap="16.0">
-               <children>
-                  <VBox spacing="8" styleClass="metric-card" GridPane.hgrow="ALWAYS">
-                     <children>
-                        <Label styleClass="metric-label" text="Distancia total" />
-                        <Label styleClass="metric-value" text="-- km" />
-                        <Label styleClass="metric-helper" text="Sin actividades importadas" />
-                        <HBox spacing="4" styleClass="metric-bars">
-                           <children>
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox spacing="8" styleClass="metric-card" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1">
-                     <children>
-                        <Label styleClass="metric-label" text="Tiempo total" />
-                        <Label styleClass="metric-value" text="--" />
-                        <Label styleClass="metric-helper" text="Pendiente de GPX real" />
-                        <HBox spacing="4" styleClass="metric-bars">
-                           <children>
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox spacing="8" styleClass="metric-card" GridPane.hgrow="ALWAYS" GridPane.columnIndex="2">
-                     <children>
-                        <Label styleClass="metric-label" text="Desnivel" />
-                        <Label styleClass="metric-value" text="-- m" />
-                        <Label styleClass="metric-helper" text="Reservado para cálculo real" />
-                        <HBox spacing="4" styleClass="metric-bars">
-                           <children>
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox spacing="8" styleClass="metric-card" GridPane.hgrow="ALWAYS" GridPane.columnIndex="3">
-                     <children>
-                        <Label styleClass="metric-label" text="Actividades" />
-                        <Label styleClass="metric-value" text="0" />
-                        <Label styleClass="metric-helper" text="Lista real pendiente" />
-                        <HBox spacing="4" styleClass="metric-bars">
-                           <children>
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar-soft" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                              <Region styleClass="metric-bar" prefWidth="8" minWidth="8" maxWidth="8" />
-                           </children>
-                        </HBox>
-                     </children>
-</VBox>
-               </children>
                <columnConstraints>
                   <ColumnConstraints percentWidth="25" />
                   <ColumnConstraints percentWidth="25" />
@@ -113,75 +38,11 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <Label styleClass="section-title" text="Actividades previstas" />
-                              <Label styleClass="status-pill" text="Placeholder" />
+                              <Label styleClass="section-title" text="Actividades recientes" />
                               <Region HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <VBox fx:id="activityList" spacing="10.0" styleClass="activity-list-placeholder">
-                                 <children>
-                                    <HBox spacing="10" styleClass="activity-row-placeholder">
-                                       <children>
-                                          <Region styleClass="activity-row-marker" prefWidth="4" minWidth="4" maxWidth="4" prefHeight="40" minHeight="40" maxHeight="40" />
-                                          <VBox spacing="7" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label styleClass="activity-row-title" text="Actividad importada" />
-                                                <Label styleClass="muted-label" text="Pendiente de GPX real y selección desde Analista" wrapText="true" />
-                                                <HBox spacing="6">
-                                                   <children>
-                                                      <Label styleClass="activity-chip" text="-- km" />
-                                                      <Label styleClass="activity-chip" text="-- min" />
-                                                      <Label styleClass="activity-chip" text="--/km" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox spacing="10" styleClass="activity-row-placeholder">
-                                       <children>
-                                          <Region styleClass="activity-row-marker" prefWidth="4" minWidth="4" maxWidth="4" prefHeight="40" minHeight="40" maxHeight="40" />
-                                          <VBox spacing="7" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label styleClass="activity-row-title" text="Ruta por revisar" />
-                                                <Label styleClass="muted-label" text="Espacio reservado para abrir detalle con mapa" wrapText="true" />
-                                                <HBox spacing="6">
-                                                   <children>
-                                                      <Label styleClass="activity-chip" text="-- km" />
-                                                      <Label styleClass="activity-chip" text="-- min" />
-                                                      <Label styleClass="activity-chip" text="-- m" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox spacing="10" styleClass="activity-row-placeholder">
-                                       <children>
-                                          <Region styleClass="activity-row-marker" prefWidth="4" minWidth="4" maxWidth="4" prefHeight="40" minHeight="40" maxHeight="40" />
-                                          <VBox spacing="7" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label styleClass="activity-row-title" text="Nueva actividad" />
-                                                <Label styleClass="muted-label" text="Aparecerá aquí cuando exista una actividad real" wrapText="true" />
-                                                <HBox spacing="6">
-                                                   <children>
-                                                      <Label styleClass="activity-chip" text="-- km" />
-                                                      <Label styleClass="activity-chip" text="-- min" />
-                                                      <Label styleClass="activity-chip" text="--/km" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                        <VBox alignment="CENTER_LEFT" spacing="8.0" styleClass="home-empty-state">
-                           <children>
-                              <Label styleClass="empty-state-title" text="Sin datos reales todavía" />
-                              <Label styleClass="empty-state-text" text="Estos bloques solo reservan estructura. Importación, lista real y selección quedan para Analista." wrapText="true" />
-                           </children>
-                        </VBox>
+                        <VBox fx:id="activityList" spacing="10.0" styleClass="activity-list-placeholder" />
                      </children>
                   </VBox>
                   <VBox spacing="18.0" styleClass="dashboard-side-stack">
@@ -194,16 +55,7 @@
                                     <Label styleClass="muted-label" text="Preview visual, pendiente de actividad real." wrapText="true" />
                                  </children>
                               </VBox>
-                              <Pane fx:id="mapPreview" styleClass="mini-map-placeholder">
-                                 <children>
-                                    <Region styleClass="mini-route-segment" layoutX="62" layoutY="92" prefWidth="78" minWidth="78" maxWidth="78" prefHeight="4" minHeight="4" maxHeight="4" rotate="-20" />
-                                    <Region styleClass="mini-route-segment" layoutX="126" layoutY="74" prefWidth="64" minWidth="64" maxWidth="64" prefHeight="4" minHeight="4" maxHeight="4" rotate="22" />
-                                    <Region styleClass="mini-route-segment" layoutX="178" layoutY="96" prefWidth="46" minWidth="46" maxWidth="46" prefHeight="4" minHeight="4" maxHeight="4" rotate="-28" />
-                                    <Region styleClass="mini-map-start" layoutX="54" layoutY="89" prefWidth="8" minWidth="8" maxWidth="8" prefHeight="8" minHeight="8" maxHeight="8" />
-                                    <Region styleClass="mini-map-end" layoutX="218" layoutY="75" prefWidth="8" minWidth="8" maxWidth="8" prefHeight="8" minHeight="8" maxHeight="8" />
-                                    <Label styleClass="mini-map-zoom-label" text="Zoom 1" layoutX="12" layoutY="12" />
-                                 </children>
-                              </Pane>
+                              <Pane fx:id="mapPreview" styleClass="mini-map-placeholder" />
                            </children>
                         </VBox>
                         <VBox spacing="12.0" styleClass="calendar-panel">
@@ -211,41 +63,10 @@
                               <VBox spacing="3.0">
                                  <children>
                                     <Label styleClass="section-title" text="Racha" />
-                                    <Label styleClass="muted-label" text="Heatmap visual, sin datos reales." wrapText="true" />
+                                    <Label styleClass="muted-label" text="Actividad por día en las últimas 3 semanas." wrapText="true" />
                                  </children>
                               </VBox>
-                              <GridPane fx:id="calendarGrid" hgap="6.0" styleClass="calendar-grid" vgap="6.0">
-                                 <children>
-                                    <Label styleClass="calendar-weekday" text="L" />
-                                    <Label styleClass="calendar-weekday" text="M" GridPane.columnIndex="1" />
-                                    <Label styleClass="calendar-weekday" text="X" GridPane.columnIndex="2" />
-                                    <Label styleClass="calendar-weekday" text="J" GridPane.columnIndex="3" />
-                                    <Label styleClass="calendar-weekday" text="V" GridPane.columnIndex="4" />
-                                    <Label styleClass="calendar-weekday" text="S" GridPane.columnIndex="5" />
-                                    <Label styleClass="calendar-weekday" text="D" GridPane.columnIndex="6" />
-                                    <Label styleClass="calendar-day" text="1" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                    <Label styleClass="calendar-day" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label styleClass="calendar-day" text="3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Label styleClass="calendar-day" text="4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <Label styleClass="calendar-day-active" text="5" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                    <Label styleClass="calendar-day" text="6" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                                    <Label styleClass="calendar-day" text="7" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                                    <Label styleClass="calendar-day" text="8" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                    <Label styleClass="calendar-day" text="9" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label styleClass="calendar-day" text="10" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <Label styleClass="calendar-day" text="11" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <Label styleClass="calendar-day-active" text="12" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                                    <Label styleClass="calendar-day" text="13" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                                    <Label styleClass="calendar-day" text="14" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                                    <Label styleClass="calendar-day" text="15" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                    <Label styleClass="calendar-day" text="16" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Label styleClass="calendar-day" text="17" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <Label styleClass="calendar-day" text="18" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                    <Label styleClass="calendar-day" text="19" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                                    <Label styleClass="calendar-day" text="20" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                                    <Label styleClass="calendar-day" text="21" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                                 </children>
-                              </GridPane>
+                              <GridPane fx:id="calendarGrid" hgap="6.0" styleClass="calendar-grid" vgap="6.0" />
                            </children>
                         </VBox>
                         <VBox spacing="12.0" styleClass="chart-panel">
@@ -253,41 +74,10 @@
                               <VBox spacing="3.0">
                                  <children>
                                     <Label styleClass="section-title" text="Gráfica semanal" />
-                                    <Label styleClass="muted-label" text="Reservada para kilómetros reales por día." wrapText="true" />
+                                    <Label styleClass="muted-label" text="Kilómetros de los últimos 7 días." wrapText="true" />
                                  </children>
                               </VBox>
-                              <HBox fx:id="chartBars" alignment="BOTTOM_LEFT" spacing="8.0" styleClass="chart-bars">
-                                 <children>
-                                    <VBox alignment="BOTTOM_CENTER" spacing="6">
-                                       <Region styleClass="chart-bar" prefWidth="20" minWidth="20" maxWidth="20" prefHeight="40" minHeight="40" maxHeight="40" />
-                                       <Label styleClass="calendar-weekday" text="L" />
-                                    </VBox>
-                                    <VBox alignment="BOTTOM_CENTER" spacing="6">
-                                       <Region styleClass="chart-bar" prefWidth="20" minWidth="20" maxWidth="20" prefHeight="60" minHeight="60" maxHeight="60" />
-                                       <Label styleClass="calendar-weekday" text="M" />
-                                    </VBox>
-                                    <VBox alignment="BOTTOM_CENTER" spacing="6">
-                                       <Region styleClass="chart-bar-accent" prefWidth="20" minWidth="20" maxWidth="20" prefHeight="90" minHeight="90" maxHeight="90" />
-                                       <Label styleClass="calendar-weekday" text="X" />
-                                    </VBox>
-                                    <VBox alignment="BOTTOM_CENTER" spacing="6">
-                                       <Region styleClass="chart-bar" prefWidth="20" minWidth="20" maxWidth="20" prefHeight="50" minHeight="50" maxHeight="50" />
-                                       <Label styleClass="calendar-weekday" text="J" />
-                                    </VBox>
-                                    <VBox alignment="BOTTOM_CENTER" spacing="6">
-                                       <Region styleClass="chart-bar" prefWidth="20" minWidth="20" maxWidth="20" prefHeight="70" minHeight="70" maxHeight="70" />
-                                       <Label styleClass="calendar-weekday" text="V" />
-                                    </VBox>
-                                    <VBox alignment="BOTTOM_CENTER" spacing="6">
-                                       <Region styleClass="chart-bar-accent" prefWidth="20" minWidth="20" maxWidth="20" prefHeight="30" minHeight="30" maxHeight="30" />
-                                       <Label styleClass="calendar-weekday" text="S" />
-                                    </VBox>
-                                    <VBox alignment="BOTTOM_CENTER" spacing="6">
-                                       <Region styleClass="chart-bar" prefWidth="20" minWidth="20" maxWidth="20" prefHeight="45" minHeight="45" maxHeight="45" />
-                                       <Label styleClass="calendar-weekday" text="D" />
-                                    </VBox>
-                                 </children>
-                              </HBox>
+                              <HBox fx:id="chartBars" alignment="BOTTOM_LEFT" spacing="8.0" styleClass="chart-bars" />
                            </children>
                         </VBox>
                      </children>

@@ -52,6 +52,8 @@ public class MainViewController implements Initializable {
     private static MainViewController instancia;
     private PauseTransition importStatusTimer;
     private AnotacionesManager anotacionesManager;
+    private Parent dashboardViewCache;
+    private DashboardViewController dashboardController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -182,9 +184,29 @@ public class MainViewController implements Initializable {
 
     public void mostrarPantallaPrincipal() {
         mostrarShell();
-        setActiveRail(btnNavResumen);
-        rootPane.setCenter(loadDashboardView());
-        Platform.runLater(rootPane::requestFocus);
+
+        if (rootPane.getCenter() == dashboardViewCache && dashboardViewCache != null) {
+            return;
+        }
+
+        try {
+            if (dashboardViewCache == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardView.fxml"));
+                dashboardViewCache = loader.load();
+                dashboardController = loader.getController();
+            }
+
+            rootPane.setCenter(dashboardViewCache);
+
+            if (dashboardController != null) {
+                dashboardController.reproducirAnimacionEntrada();
+            }
+
+            actualizarEstadoBotones(btnNavResumen);
+            Platform.runLater(() -> rootPane.requestFocus());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void mostrarDetalleActividadPlaceholder() {
@@ -418,5 +440,23 @@ userAvatarImage.setVisible(false);
         setActiveRail(btnNavActividades);
         rootPane.setCenter(crearDetalleActividad(activity));
 Platform.runLater(rootPane::requestFocus);
+    }
+
+    private void actualizarEstadoBotones(javafx.scene.control.Button botonActivo) {
+        java.util.List<javafx.scene.control.Button> botones = java.util.Arrays.asList(
+            btnNavResumen, btnNavActividades, btnNavPerfil, btnNavHistorial
+        );
+
+        for (javafx.scene.control.Button btn : botones) {
+            if (btn != null) {
+                if (btn == botonActivo) {
+                    if (!btn.getStyleClass().contains("active")) {
+                        btn.getStyleClass().add("active");
+                    }
+                } else {
+                    btn.getStyleClass().remove("active");
+                }
+            }
+        }
     }
 }
