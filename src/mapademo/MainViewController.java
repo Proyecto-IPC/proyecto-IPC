@@ -170,6 +170,7 @@ public class MainViewController implements Initializable {
                     importStatusLabel.setVisible(true);
                     importStatusLabel.setManaged(true);
                     importStatusTimer.playFromStart();
+                    dashboardViewCache = null;
                     mostrarDetalleActividad(nueva);
                 }
             } catch (Exception e) {
@@ -438,8 +439,30 @@ userAvatarImage.setVisible(false);
     public void mostrarDetalleActividad(upv.ipc.sportlib.Activity activity) {
         mostrarShell();
         setActiveRail(btnNavActividades);
-        rootPane.setCenter(crearDetalleActividad(activity));
-Platform.runLater(rootPane::requestFocus);
+
+        try {
+            FXMLLoader detailLoader = new FXMLLoader(getClass().getResource("ActivityDetailPanel.fxml"));
+            Parent panelDetalle = detailLoader.load();
+            ActivityDetailPanelController detailController = detailLoader.getController();
+
+            FXMLLoader mapLoader = new FXMLLoader(getClass().getResource("MapView.fxml"));
+            Pane mapView = mapLoader.load();
+            MapViewController mapController = mapLoader.getController();
+
+            if (activity != null) {
+                mapController.setActivity(activity);
+                anotacionesManager.setActivity(activity);
+                detailController.setActivity(activity);
+            }
+            anotacionesManager.setMapController(mapController);
+
+            detailController.setMapNode(mapView);
+
+            rootPane.setCenter(panelDetalle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Platform.runLater(rootPane::requestFocus);
     }
 
     private void actualizarEstadoBotones(javafx.scene.control.Button botonActivo) {

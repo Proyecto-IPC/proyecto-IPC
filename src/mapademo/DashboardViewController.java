@@ -92,7 +92,7 @@ public class DashboardViewController implements Initializable {
             return;
         }
 
-        int max = Math.min(actividades.size(), 4);
+        int max = Math.min(actividades.size(), 3);
         List<Activity> recientes = actividades.subList(0, max);
 
         for (Activity act : recientes) {
@@ -267,12 +267,12 @@ public class DashboardViewController implements Initializable {
         return lista.stream()
                 .sorted(Comparator.comparing(
                         Activity::getStartTime,
-                        Comparator.nullsLast(Comparator.naturalOrder())))
+                        Comparator.nullsLast(Comparator.naturalOrder())).reversed())
                 .collect(Collectors.toList());
     }
 
     private List<Activity> getActividadMap() {
-        return getActividades();
+        return getActividadesOrdenadas();
     }
 
     private VBox createMetricCard(String label, String value, String helper, int visualOffset) {

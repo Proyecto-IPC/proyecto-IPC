@@ -1,8 +1,10 @@
 package mapademo;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -30,7 +32,12 @@ public class ActividadesViewController implements Initializable {
         listaActividades.getChildren().clear();
 
         List<Activity> actividades = SportActivityApp.getInstance().getUserActivities();
-        if (actividades == null || actividades.isEmpty()) {
+        List<Activity> ordenadas = actividades.stream()
+                .sorted(Comparator.comparing(
+                        Activity::getStartTime,
+                        Comparator.nullsLast(Comparator.naturalOrder())).reversed())
+                .collect(Collectors.toList());
+        if (ordenadas.isEmpty()) {
             emptyState.setVisible(true);
             emptyState.setManaged(true);
             scrollActividades.setVisible(false);
@@ -40,7 +47,7 @@ public class ActividadesViewController implements Initializable {
             emptyState.setManaged(false);
             scrollActividades.setVisible(true);
             scrollActividades.setManaged(true);
-            for (Activity act : actividades) {
+            for (Activity act : ordenadas) {
                 listaActividades.getChildren().add(crearFilaActividad(act));
             }
         }

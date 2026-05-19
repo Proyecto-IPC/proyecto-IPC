@@ -80,12 +80,12 @@
                   <Tooltip text="Resumen" />
                </tooltip>
             </Button>
-            <Button fx:id="btnNavActividades" accessibleText="Actividades previstas" mnemonicParsing="false" onAction="#handleRailActividades" styleClass="rail-button">
+            <Button fx:id="btnNavActividades" accessibleText="Actividades" mnemonicParsing="false" onAction="#handleRailActividades" styleClass="rail-button">
                <graphic>
                   <fx:include source="../resources/icons/ActivityIcon.fxml" />
                </graphic>
                <tooltip>
-                  <Tooltip text="Actividades, pendiente de datos reales" />
+                  <Tooltip text="Actividades" />
                </tooltip>
             </Button>
             <Button fx:id="btnNavPerfil" accessibleText="Perfil" mnemonicParsing="false" onAction="#handleRailPerfil" styleClass="rail-button">

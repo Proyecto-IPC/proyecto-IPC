@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox spacing="24.0" styleClass="home-page, activity-detail" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ActivityDetailPanelController">
+   <padding>
+      <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+   </padding>
+   <children>
+
+      <VBox spacing="24.0" minWidth="280.0" prefWidth="280.0" maxWidth="280.0" styleClass="detail-side-panel">
+         <children>
+            <VBox spacing="16.0">
+               <children>
+                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#handleVolver" styleClass="secondary-button" text="← Volver al Dashboard" />
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label fx:id="lblNombreActividad" styleClass="page-title" text="Nombre de la Actividad" wrapText="true" />
+                        <Label fx:id="lblFechaActividad" styleClass="muted-label" text="Fecha y hora" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <VBox spacing="12.0">
+               <children>
+                  <VBox spacing="4.0" styleClass="metric-card">
+                     <children>
+                        <Label styleClass="metric-label" text="Distancia" />
+                        <Label fx:id="lblDistancia" styleClass="metric-value" text="-- km" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" styleClass="metric-card">
+                     <children>
+                        <Label styleClass="metric-label" text="Tiempo en Movimiento" />
+                        <Label fx:id="lblTiempo" styleClass="metric-value" text="-- min" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" styleClass="metric-card">
+                     <children>
+                        <Label styleClass="metric-label" text="Ritmo Medio" />
+                        <Label fx:id="lblRitmo" styleClass="metric-value" text="-- min/km" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0" styleClass="metric-card">
+                     <children>
+                        <Label styleClass="metric-label" text="Desnivel Positivo" />
+                        <Label fx:id="lblDesnivel" styleClass="metric-value" text="-- m" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+
+      <VBox spacing="24.0" HBox.hgrow="ALWAYS">
+         <children>
+
+            <StackPane fx:id="mapContainer" styleClass="map-preview-panel" VBox.vgrow="ALWAYS" />
+
+            <VBox spacing="12.0" styleClass="chart-panel" minHeight="180.0" prefHeight="200.0" maxHeight="280.0">
+               <children>
+                  <VBox spacing="2.0">
+                     <children>
+                        <Label styleClass="section-title" text="Perfil de Elevación" />
+                        <Label styleClass="muted-label" text="Altitud a lo largo de la distancia de la ruta." />
+                     </children>
+                  </VBox>
+
+                  <StackPane fx:id="chartStackContainer" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox fx:id="emptyChartState" alignment="CENTER" spacing="8.0" visible="false">
+                           <children>
+                              <Label styleClass="muted-label" text="Perfil de elevación no disponible." style="-fx-font-weight: 600;" />
+                           </children>
+                        </VBox>
+
+                        <AreaChart fx:id="elevationChart" animated="false" createSymbols="false" legendVisible="false" styleClass="elevation-chart">
+                          <xAxis><NumberAxis fx:id="xAxis" side="BOTTOM" /></xAxis>
+                          <yAxis><NumberAxis fx:id="yAxis" side="LEFT" /></yAxis>
+                        </AreaChart>
+
+                        <Region fx:id="crosshairLine" styleClass="chart-crosshair" visible="false" mouseTransparent="true" />
+                        <Region fx:id="trackerDot" styleClass="chart-dot" visible="false" mouseTransparent="true" />
+                        <VBox fx:id="tooltipCard" styleClass="chart-tooltip-card" visible="false" mouseTransparent="true" managed="false">
+                           <children>
+                              <Label fx:id="tooltipDist" styleClass="tooltip-title" text="0.0 km" />
+                              <Label fx:id="tooltipElev" styleClass="tooltip-value" text="0 m" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+
+         </children>
+      </VBox>
+   </children>
+</HBox>
