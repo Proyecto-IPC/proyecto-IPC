@@ -134,7 +134,7 @@ public class MainViewController implements Initializable {
     @FXML
     private void handleGestionMapas() {
         setActiveRail(null);
-        cargarVista("AñadirMapaView.fxml");
+        cargarVista("GestionMapaView.fxml");
     }
 
     @FXML
@@ -481,5 +481,10 @@ userAvatarImage.setVisible(false);
                 }
             }
         }
+    }
+
+    public void mostrarPantallaAñadirMapa() {
+        setActiveRail(null);
+        cargarVista("AñadirMapaView.fxml"); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
