@@ -87,7 +87,7 @@ public class AñadirMapaViewController implements Initializable {
 
     @FXML
     private void handleBotonCancelar(ActionEvent event) {
-        MainViewController.getInstancia().cargarVista("GestionarMapasView.fxml");
+        MainViewController.getInstancia().mostrarPantallaPrincipal();
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
