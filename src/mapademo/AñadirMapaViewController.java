@@ -78,7 +78,7 @@ public class AñadirMapaViewController implements Initializable {
             );
 
             mostrarAlerta("Éxito", "El mapa ha sido registrado correctamente.");
-            MainViewController.getInstancia().mostrarPantallaPrincipal();
+            MainViewController.getInstancia().cargarVista("GestionarMapasView.fxml");
 
         } catch (NumberFormatException e) {
             mostrarAlerta("Error de Formato", "Las coordenadas deben ser números decimales (ejemplo: 40.41).");
@@ -87,7 +87,7 @@ public class AñadirMapaViewController implements Initializable {
 
     @FXML
     private void handleBotonCancelar(ActionEvent event) {
-        MainViewController.getInstancia().mostrarPantallaPrincipal();
+        MainViewController.getInstancia().cargarVista("GestionarMapasView.fxml");
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
