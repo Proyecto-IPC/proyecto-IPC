@@ -62,7 +62,6 @@
                   </HBox>
                </graphic>
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleGestionMapas" text="Gestión de mapas" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLogout" text="Cerrar sesión" />
                </items>
             </MenuButton>
@@ -102,6 +101,14 @@
                </graphic>
                <tooltip>
                   <Tooltip text="Historial de sesiones" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnNavGestionMapas" accessibleText="Gestión de mapas" mnemonicParsing="false" onAction="#handleGestionMapas" styleClass="rail-button">
+               <graphic>
+                  <fx:include source="../resources/icons/MapIcon.fxml" />
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Gestión de mapas" />
                </tooltip>
             </Button>
          </children>

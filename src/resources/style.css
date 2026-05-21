@@ -1314,6 +1314,20 @@
     -fx-stroke: -app-primary;
 }
 
+/* FIX EXCLUSIVO PARA GESTIÓN DE MAPAS (Línea fina) */
+#btnNavGestionMapas SVGPath {
+    -fx-fill: transparent !important;
+    -fx-stroke: -app-muted;
+    -fx-stroke-width: 2px;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
+
+#btnNavGestionMapas:hover SVGPath,
+#btnNavGestionMapas.active SVGPath {
+    -fx-stroke: -app-primary;
+}
+
 /* 1. ICONOS EN EL RAIL (Generales - Macizos) */
 .rail-button SVGPath {
     -fx-fill: -app-muted;
