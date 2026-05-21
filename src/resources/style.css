@@ -1121,9 +1121,9 @@
 }
 
 .map-control-group {
-    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-color: -app-surface;
     -fx-background-radius: 8;
-    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-color: -app-border;
     -fx-border-radius: 8;
     -fx-padding: 3;
     -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.12), 10, 0.12, 0, 4);
@@ -1162,27 +1162,31 @@
 }
 
 .zoom-feedback {
-    -fx-background-color: rgba(255, 255, 255, 0.94);
+    -fx-background-color: -app-surface;
     -fx-background-radius: 999;
-    -fx-border-color: rgba(39, 55, 47, 0.14);
+    -fx-border-color: -app-border;
     -fx-border-radius: 999;
     -fx-text-fill: -app-text;
-    -fx-font-size: 14px;
+    -fx-font-size: 11px;
     -fx-font-weight: 700;
-    -fx-padding: 6 12 6 12;
+    -fx-padding: 4 14 4 14;
+    -fx-text-overrun: clip;
+    -fx-alignment: center;
+    -fx-content-display: center;
+    -fx-min-width: -fx-pref-width;
 }
 
 .pending-toast {
-    -fx-background-color: rgba(255, 255, 255, 0.88);
+    -fx-background-color: -app-surface;
     -fx-background-radius: 3;
-    -fx-border-color: #d9e1dc;
+    -fx-border-color: -app-border;
     -fx-border-radius: 3;
     -fx-border-width: 0.8;
     -fx-padding: 3 8 3 8;
 }
 
 .pending-toast-text {
-    -fx-text-fill: #111816;
+    -fx-text-fill: -app-text;
     -fx-font-size: 11px;
     -fx-font-weight: 600;
 }
