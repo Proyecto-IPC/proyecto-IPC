@@ -13,7 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
@@ -151,8 +153,30 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleLogout() {
-        SportActivityApp.getInstance().logout();
-        cargarVista("LoginView.fxml");
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Cerrar sesión");
+        confirm.setHeaderText(null);
+        confirm.setContentText("¿Seguro que quieres cerrar sesión?");
+
+        ButtonType btnSi = new ButtonType("Sí, cerrar sesión");
+        ButtonType btnCancelar = new ButtonType("Cancelar", javafx.scene.control.ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirm.getButtonTypes().setAll(btnSi, btnCancelar);
+
+        if (rootPane != null && rootPane.getScene() != null) {
+            confirm.initOwner(rootPane.getScene().getWindow());
+            URL cssUrl = getClass().getResource("/resources/style.css");
+            if (cssUrl != null) {
+                confirm.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
+            }
+            confirm.getDialogPane().getStyleClass().add("logout-confirm-dialog");
+        }
+
+        confirm.showAndWait().ifPresent(result -> {
+            if (result == btnSi) {
+                SportActivityApp.getInstance().logout();
+                cargarVista("LoginView.fxml");
+            }
+        });
     }
 
     @FXML

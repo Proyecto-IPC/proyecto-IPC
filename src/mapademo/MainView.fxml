@@ -2,8 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -47,7 +45,7 @@
                   </Button>
                </children>
             </HBox>
-            <MenuButton fx:id="userMenu" mnemonicParsing="false" styleClass="user-profile-menu" text="">
+            <Button fx:id="userMenu" mnemonicParsing="false" onAction="#handleRailPerfil" styleClass="user-profile-menu">
                <graphic>
                   <HBox alignment="CENTER_LEFT" spacing="8">
                      <children>
@@ -61,10 +59,22 @@
                      </children>
                   </HBox>
                </graphic>
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleLogout" text="Cerrar sesión" />
-               </items>
-            </MenuButton>
+               <tooltip>
+                  <Tooltip text="Ir al perfil" />
+               </tooltip>
+            </Button>
+            <HBox alignment="CENTER" styleClass="theme-switch-wrapper">
+               <children>
+                  <Button fx:id="btnLogout" accessibleText="Cerrar sesión" mnemonicParsing="false" onAction="#handleLogout" styleClass="theme-switch-btn">
+                     <graphic>
+                        <SVGPath content="M16 17 l5 -5 -5 -5 M21 12 H9 M9 21 H5 a2 2 0 0 1 -2 -2 V5 a2 2 0 0 1 2 -2 h4" styleClass="icon-logout" />
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Cerrar sesión" />
+                     </tooltip>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </HBox>
    </top>
