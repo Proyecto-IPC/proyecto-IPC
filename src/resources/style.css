@@ -212,13 +212,6 @@
     -fx-background-color: transparent;
 }
 
-.annotation-panel .spinner .text-field {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-effect: none;
-    -fx-padding: 2 6 2 6;
-}
-
 .date-picker > .text-field {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -391,7 +384,7 @@
 .annotation-panel .spinner .text-field {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-padding: 4 4 4 10;
+    -fx-padding: 4 6 4 6;
     -fx-font-size: 15px;
     -fx-alignment: center-left;
 }
@@ -1167,13 +1160,9 @@
     -fx-border-color: -app-border;
     -fx-border-radius: 999;
     -fx-text-fill: -app-text;
-    -fx-font-size: 11px;
+    -fx-font-size: 14px;
     -fx-font-weight: 700;
-    -fx-padding: 4 14 4 14;
-    -fx-text-overrun: clip;
-    -fx-alignment: center;
-    -fx-content-display: center;
-    -fx-min-width: -fx-pref-width;
+    -fx-padding: 6 12 6 12;
 }
 
 .pending-toast {
