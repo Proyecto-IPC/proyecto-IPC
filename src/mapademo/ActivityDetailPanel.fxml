@@ -16,7 +16,7 @@
    </padding>
    <children>
 
-      <VBox spacing="24.0" minWidth="280.0" prefWidth="280.0" maxWidth="280.0" styleClass="detail-side-panel">
+      <VBox maxWidth="280.0" minWidth="280.0" prefWidth="280.0" spacing="24.0" styleClass="detail-side-panel">
          <children>
             <VBox spacing="16.0">
                <children>
@@ -66,12 +66,11 @@
 
             <StackPane fx:id="mapContainer" styleClass="map-preview-panel" VBox.vgrow="ALWAYS" />
 
-            <VBox spacing="12.0" styleClass="chart-panel" minHeight="180.0" prefHeight="200.0" maxHeight="280.0">
+            <VBox maxHeight="280.0" minHeight="180.0" prefHeight="200.0" spacing="12.0" styleClass="chart-panel">
                <children>
                   <VBox spacing="2.0">
                      <children>
                         <Label styleClass="section-title" text="Perfil de Elevación" />
-                        <Label styleClass="muted-label" text="Altitud a lo largo de la distancia de la ruta." />
                      </children>
                   </VBox>
 
@@ -79,21 +78,26 @@
                      <children>
                         <VBox fx:id="emptyChartState" alignment="CENTER" spacing="8.0" visible="false">
                            <children>
-                              <Label styleClass="muted-label" text="Perfil de elevación no disponible." style="-fx-font-weight: 600;" />
+                              <Label style="-fx-font-weight: 600;" styleClass="muted-label" text="Perfil de elevación no disponible." />
                            </children>
                         </VBox>
 
                         <AreaChart fx:id="elevationChart" animated="false" createSymbols="false" legendVisible="false" styleClass="elevation-chart">
-                          <xAxis><NumberAxis fx:id="xAxis" side="BOTTOM" /></xAxis>
-                          <yAxis><NumberAxis fx:id="yAxis" side="LEFT" /></yAxis>
+                          <xAxis><NumberAxis side="BOTTOM" fx:id="xAxis" prefHeight="20" /></xAxis>
+                          <yAxis><NumberAxis fx:id="yAxis" side="LEFT" prefWidth="40" /></yAxis>
                         </AreaChart>
 
-                        <Region fx:id="crosshairLine" styleClass="chart-crosshair" visible="false" mouseTransparent="true" />
-                        <Region fx:id="trackerDot" styleClass="chart-dot" visible="false" mouseTransparent="true" />
-                        <VBox fx:id="tooltipCard" styleClass="chart-tooltip-card" visible="false" mouseTransparent="true" managed="false">
+                        <Region fx:id="crosshairLine" mouseTransparent="true" styleClass="chart-crosshair" visible="false" />
+                        <Region fx:id="trackerDot" mouseTransparent="true" styleClass="chart-dot" visible="false" />
+                        <VBox fx:id="tooltipCard" managed="false" mouseTransparent="true" styleClass="chart-tooltip-card" visible="false">
                            <children>
-                              <Label fx:id="tooltipDist" styleClass="tooltip-title" text="0.0 km" />
-                              <Label fx:id="tooltipElev" styleClass="tooltip-value" text="0 m" />
+                              <HBox spacing="6">
+                                 <children>
+                                    <Label fx:id="tooltipDist" styleClass="tooltip-title" text="0.0 km" />
+                                    <Label styleClass="tooltip-separator" text="•" />
+                                    <Label fx:id="tooltipElev" styleClass="tooltip-value" text="0 m" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>

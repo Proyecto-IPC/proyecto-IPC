@@ -16,6 +16,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -146,15 +147,16 @@ public class ActivityDetailPanelController implements Initializable {
 
                 Point2D localToStack = chartStackContainer.sceneToLocal(event.getSceneX(), event.getSceneY());
                 double displayX = localToStack.getX();
-                double displayY = yAxis.getDisplayPosition(nearestData.getYValue()) + elevationChart.getPadding().getTop();
+
+                double displayY = yAxis.getDisplayPosition(nearestData.getYValue());
 
                 crosshairLine.setTranslateX(displayX);
 
-                trackerDot.setTranslateX(displayX - 6);
-                trackerDot.setTranslateY(displayY - 6);
+                trackerDot.setTranslateX(displayX - 5.25);
+                trackerDot.setTranslateY(displayY);
 
-                tooltipCard.setTranslateX(displayX);
-                tooltipCard.setTranslateY(displayY);
+                tooltipCard.setTranslateX(displayX + 12);
+                tooltipCard.setTranslateY(displayY - 24);
 
                 tooltipDist.setText(String.format("%.2f km", nearestData.getXValue().doubleValue()));
                 tooltipElev.setText(Math.round(nearestData.getYValue().doubleValue()) + " m");

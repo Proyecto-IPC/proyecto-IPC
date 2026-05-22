@@ -1451,7 +1451,11 @@
 
 .elevation-chart {
     -fx-background-color: transparent;
-    -fx-padding: 10px;
+    -fx-padding: 5px 2px 2px 5px;
+}
+
+.elevation-chart .chart-content {
+    -fx-padding: 0;
 }
 
 .elevation-chart .chart-plot-background {
@@ -1470,7 +1474,16 @@
 .elevation-chart .axis-label,
 .elevation-chart .axis-tick-mark-label {
     -fx-fill: -app-muted;
-    -fx-font-size: 11px;
+    -fx-font-size: 10px;
+}
+
+.elevation-chart .axis {
+    -fx-stroke: -app-border;
+    -fx-tick-label-font-size: 10px;
+}
+
+.elevation-chart .axis .tick-label {
+    -fx-font-size: 10px;
 }
 
 .elevation-chart .default-color0.chart-series-area-fill {
@@ -1507,14 +1520,15 @@
     -fx-background-radius: 8px;
     -fx-border-color: -app-border;
     -fx-border-radius: 8px;
-    -fx-padding: 8px 12px;
+    -fx-border-width: 1px;
+    -fx-padding: 10px 16px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 12, 0, 0, 4);
-    -fx-translate-x: 14px;
-    -fx-translate-y: -44px;
+    -fx-min-width: 120px;
+    -fx-alignment: center;
 }
 
 .theme-dark .chart-tooltip-card {
-    -fx-background-color: rgba(24, 25, 27, 0.96);
+    -fx-background-color: rgba(28, 29, 31, 0.96);
 }
 
 .tooltip-title {
@@ -1527,4 +1541,9 @@
     -fx-text-fill: -app-primary;
     -fx-font-size: 14px;
     -fx-font-weight: 700;
+}
+
+.tooltip-separator {
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 11px;
 }
