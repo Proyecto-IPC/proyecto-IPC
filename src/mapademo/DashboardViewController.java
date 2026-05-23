@@ -100,10 +100,7 @@ public class DashboardViewController implements Initializable {
 
         for (Activity act : recientes) {
             String nombre = act.getName() != null ? act.getName() : "Actividad sin nombre";
-            String fecha = act.getStartTime() != null
-                    ? act.getStartTime().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM"))
-                    : "--";
-            activityList.getChildren().add(createActivityRow(act, nombre, fecha));
+            activityList.getChildren().add(createActivityRow(act, nombre, formatearFechaHora(act)));
         }
     }
 
@@ -339,6 +336,19 @@ public class DashboardViewController implements Initializable {
             return horas + "h " + minutos + "min";
         }
         return minutos + " min";
+    }
+
+    private String formatearFechaHora(Activity act) {
+        if (act.getStartTime() == null) {
+            return "--";
+        }
+        String fecha = act.getStartTime().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM"));
+        String inicio = act.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        if (act.getEndTime() == null) {
+            return fecha + " · " + inicio;
+        }
+        String fin = act.getEndTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        return fecha + " · " + inicio + " - " + fin;
     }
 
     private String formatearEntero(double valor) {

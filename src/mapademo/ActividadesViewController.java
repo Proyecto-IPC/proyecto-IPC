@@ -1,6 +1,7 @@
 package mapademo;
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -59,7 +60,7 @@ public class ActividadesViewController implements Initializable {
     private HBox crearFilaActividad(Activity act) {
         HBox fila = new HBox(10);
         fila.getStyleClass().add("activity-row-placeholder");
-        fila.setAlignment(Pos.CENTER_LEFT);
+        fila.setAlignment(Pos.TOP_LEFT);
         fila.setCursor(javafx.scene.Cursor.HAND);
         fila.setFocusTraversable(true);
 
@@ -72,21 +73,24 @@ public class ActividadesViewController implements Initializable {
 
         Region marker = new Region();
         marker.getStyleClass().add("activity-row-marker");
+        marker.setTranslateY(4);
 
-        VBox body = new VBox(4);
+        VBox body = new VBox(7);
         HBox.setHgrow(body, Priority.ALWAYS);
 
         Label nombre = new Label(act.getName() != null ? act.getName() : "Actividad sin nombre");
         nombre.getStyleClass().add("activity-row-title");
+        Label fechaHora = new Label(formatearFechaHora(act));
+        fechaHora.getStyleClass().add("muted-label");
 
         HBox chips = new HBox(6);
         chips.getChildren().addAll(
             crearChip(String.format("%.1f km", act.getTotalDistance() / 1000.0)),
-            crearChip(formatearTiempo(act.getDuration().toSeconds())),
-            crearChip(String.format("%d m", (int) act.getElevationGain()))
+            crearChip(formatearTiempo(act.getDuration().getSeconds())),
+            crearChip(String.format("%d m", Math.round(act.getElevationGain())))
         );
 
-        body.getChildren().addAll(nombre, chips);
+        body.getChildren().addAll(nombre, fechaHora, chips);
         fila.getChildren().addAll(marker, body);
 
         fila.setOnMouseClicked(e -> {
@@ -107,6 +111,19 @@ public class ActividadesViewController implements Initializable {
         long minutos = (segundos % 3600) / 60;
         if (horas > 0) return horas + "h " + minutos + "min";
         return minutos + "min";
+    }
+
+    private String formatearFechaHora(Activity act) {
+        if (act.getStartTime() == null) {
+            return "--";
+        }
+        String fecha = act.getStartTime().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM"));
+        String inicio = act.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        if (act.getEndTime() == null) {
+            return fecha + " · " + inicio;
+        }
+        String fin = act.getEndTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        return fecha + " · " + inicio + " - " + fin;
     }
 
     @FXML
