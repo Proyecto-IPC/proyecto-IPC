@@ -1517,14 +1517,20 @@
 }
 
 .chart-tooltip-card {
-    -fx-background-color: rgba(255, 255, 255, 0.96);
+    -fx-background-color: rgba(24, 27, 29, 0.96);
+    -fx-background-insets: 0;
     -fx-background-radius: 8px;
-    -fx-border-color: -app-border;
+    -fx-border-color: rgba(255, 255, 255, 0.18);
     -fx-border-radius: 8px;
     -fx-border-width: 1px;
-    -fx-padding: 10px 16px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 12, 0, 0, 4);
-    -fx-min-width: 120px;
+    -fx-padding: 9px 12px;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 48px;
+    -fx-max-width: 150px;
+    -fx-max-height: 48px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.24), 12, 0, 0, 4);
+    -fx-min-width: 150px;
+    -fx-min-height: 48px;
     -fx-alignment: center;
 }
 
@@ -1534,13 +1540,13 @@
 
 .tooltip-title {
     -fx-text-fill: -app-muted;
-    -fx-font-size: 11px;
+    -fx-font-size: 10px;
     -fx-font-weight: 600;
 }
 
 .tooltip-value {
-    -fx-text-fill: -app-primary;
-    -fx-font-size: 14px;
+    -fx-text-fill: #f3f7f5;
+    -fx-font-size: 13px;
     -fx-font-weight: 700;
 }
 
