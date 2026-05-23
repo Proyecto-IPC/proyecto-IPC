@@ -20,7 +20,7 @@
          <children>
             <VBox spacing="16.0">
                <children>
-                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#handleVolver" styleClass="secondary-button" text="← Volver al Dashboard" />
+                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#handleVolver" styleClass="secondary-button" text="← Volver al resumen" />
                   <VBox spacing="4.0">
                      <children>
                         <Label fx:id="lblNombreActividad" styleClass="page-title" text="Nombre de la Actividad" wrapText="true" />

@@ -86,7 +86,7 @@
                   <fx:include source="../resources/icons/DashboardIcon.fxml" />
                </graphic>
                <tooltip>
-                  <Tooltip text="Resumen" />
+                  <Tooltip text="Resumen general" />
                </tooltip>
             </Button>
             <Button fx:id="btnNavActividades" accessibleText="Actividades" mnemonicParsing="false" onAction="#handleRailActividades" styleClass="rail-button">

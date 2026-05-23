@@ -12,7 +12,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -68,11 +67,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/center.png" />
-                           </image>
-                        </ImageView>
+                        <fx:include source="../resources/icons/CenterIcon.fxml" />
                      </graphic>
                      <tooltip>
                         <Tooltip text="Centrar ruta" />
@@ -86,11 +81,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/plus.png" />
-                           </image>
-                        </ImageView>
+                        <fx:include source="../resources/icons/PlusIcon.fxml" />
                      </graphic>
                      <tooltip>
                         <Tooltip text="Acercar" />
@@ -104,11 +95,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="14.0" fitWidth="14.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/minus.png" />
-                           </image>
-                        </ImageView>
+                        <fx:include source="../resources/icons/MinusIcon.fxml" />
                      </graphic>
                      <tooltip>
                         <Tooltip text="Alejar" />
