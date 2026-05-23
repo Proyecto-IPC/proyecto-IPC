@@ -27,6 +27,7 @@
                         <Label fx:id="lblFechaActividad" styleClass="muted-label" text="Fecha y hora" />
                      </children>
                   </VBox>
+                  <Button fx:id="btnVelocidad" mnemonicParsing="false" onAction="#handleToggleVelocidad" styleClass="secondary-button" text="Ocultar velocidad" />
                </children>
             </VBox>
 

@@ -111,6 +111,9 @@ public class MapViewController implements Initializable {
     private static final double ZOOM_STEP = 0.15;
     private static final double WHEEL_ZOOM_STEP = 0.025;
     private static final Color ROUTE_COLOR = Color.web("#2563eb");
+    private static final Color SPEED_SLOW_COLOR = Color.web("#22c55e");
+    private static final Color SPEED_MEDIUM_COLOR = Color.web("#d7aa4a");
+    private static final Color SPEED_FAST_COLOR = Color.web("#b9352f");
     private static final Color START_COLOR = Color.web("#168a57");
     private static final Color END_COLOR = Color.web("#b9352f");
     private static final Color MARKER_BORDER_COLOR = Color.web("#f8faf9");
@@ -126,6 +129,7 @@ public class MapViewController implements Initializable {
     private MapProjection projection;
     private Bounds routeBounds;
     private Circle highlightedTrackPoint;
+    private boolean speedVisualizationEnabled;
     private BiConsumer<GeoPoint, Annotation> mapSecondaryClickHandler;
     private java.util.List<javafx.scene.Node> annotationNodes = new java.util.ArrayList<>();
     private Consumer<GeoPoint> pendingSecondPointHandler;
@@ -613,6 +617,13 @@ public class MapViewController implements Initializable {
         mapPane.getChildren().setAll(mapImageView);
     }
 
+    private void clearActivityDrawings() {
+        routeBounds = null;
+        highlightedTrackPoint = null;
+        annotationNodes.clear();
+        mapPane.getChildren().setAll(mapImageView);
+    }
+
     private boolean loadMapForActivity(Activity activity) {
         MapRegion region = activity.getSuggestedMap();
         if (region == null) return false;
@@ -640,6 +651,9 @@ public class MapViewController implements Initializable {
         if (activity == null || projection == null) return;
         if (activity.getTrackPoints() == null || activity.getTrackPoints().isEmpty()) return;
 
+        if (speedVisualizationEnabled) {
+            drawSpeedRoute(activity.getTrackPoints());
+        } else {
         Polyline routeLine = new Polyline();
         routeLine.setStrokeWidth(ROUTE_WIDTH);
         routeLine.setStroke(ROUTE_COLOR);
@@ -651,10 +665,62 @@ public class MapViewController implements Initializable {
 
         mapPane.getChildren().add(routeLine);
         routeBounds = routeLine.getBoundsInLocal();
+        }
 
         drawRouteMarker(activity.getStartPoint(), START_COLOR);
         drawRouteMarker(activity.getEndPoint(), END_COLOR);
         drawAnnotations(activity.getAnnotations());
+    }
+
+    public void setSpeedVisualizationEnabled(boolean enabled) {
+        speedVisualizationEnabled = enabled;
+        if (currentActivity != null && projection != null) {
+            clearActivityDrawings();
+            drawActivity(currentActivity);
+        }
+    }
+
+    private void drawSpeedRoute(List<TrackPoint> trackPoints) {
+        if (trackPoints.size() < 2) return;
+
+        Polyline boundsLine = new Polyline();
+        for (TrackPoint trackPoint : trackPoints) {
+            Point2D point = projection.project(trackPoint);
+            boundsLine.getPoints().addAll(point.getX(), point.getY());
+        }
+        routeBounds = boundsLine.getBoundsInLocal();
+
+        double minSpeed = Double.MAX_VALUE;
+        double maxSpeed = 0.0;
+        double[] speeds = new double[trackPoints.size() - 1];
+        for (int i = 1; i < trackPoints.size(); i++) {
+            TrackPoint previous = trackPoints.get(i - 1);
+            TrackPoint current = trackPoints.get(i);
+            double speed = previous.speedTo(current);
+            speeds[i - 1] = speed;
+            minSpeed = Math.min(minSpeed, speed);
+            maxSpeed = Math.max(maxSpeed, speed);
+        }
+
+        for (int i = 1; i < trackPoints.size(); i++) {
+            Point2D previousPoint = projection.project(trackPoints.get(i - 1));
+            Point2D currentPoint = projection.project(trackPoints.get(i));
+            Polyline segment = new Polyline(
+                    previousPoint.getX(), previousPoint.getY(),
+                    currentPoint.getX(), currentPoint.getY()
+            );
+            segment.setStrokeWidth(ROUTE_WIDTH);
+            segment.setStroke(getSpeedColor(speeds[i - 1], minSpeed, maxSpeed));
+            mapPane.getChildren().add(segment);
+        }
+    }
+
+    private Color getSpeedColor(double speed, double minSpeed, double maxSpeed) {
+        if (maxSpeed <= minSpeed) return SPEED_MEDIUM_COLOR;
+        double ratio = (speed - minSpeed) / (maxSpeed - minSpeed);
+        if (ratio < 0.33) return SPEED_SLOW_COLOR;
+        if (ratio < 0.66) return SPEED_MEDIUM_COLOR;
+        return SPEED_FAST_COLOR;
     }
 
     private void setMapControlsState(boolean hasMap, boolean hasRoute) {

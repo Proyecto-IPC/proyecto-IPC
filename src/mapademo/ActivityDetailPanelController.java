@@ -14,6 +14,7 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -32,6 +33,7 @@ public class ActivityDetailPanelController implements Initializable {
     @FXML private Label lblTiempo;
     @FXML private Label lblRitmo;
     @FXML private Label lblDesnivel;
+    @FXML private Button btnVelocidad;
     @FXML private GridPane metricsGrid;
     @FXML private StackPane chartStackContainer;
     @FXML private VBox emptyChartState;
@@ -51,6 +53,7 @@ public class ActivityDetailPanelController implements Initializable {
     private List<XYChart.Data<Number, Number>> sampledDataPoints = new ArrayList<>();
     private List<TrackPoint> sampledTrackPoints = new ArrayList<>();
     private MapViewController mapController;
+    private boolean speedModeEnabled = true;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -208,6 +211,17 @@ public class ActivityDetailPanelController implements Initializable {
         MainViewController.getInstancia().mostrarPantallaPrincipal();
     }
 
+    @FXML
+    private void handleToggleVelocidad(ActionEvent event) {
+        speedModeEnabled = !speedModeEnabled;
+        btnVelocidad.getStyleClass().removeAll("primary-button", "secondary-button");
+        btnVelocidad.getStyleClass().add("secondary-button");
+        btnVelocidad.setText(speedModeEnabled ? "Ocultar velocidad" : "Mostrar velocidad");
+        if (mapController != null) {
+            mapController.setSpeedVisualizationEnabled(speedModeEnabled);
+        }
+    }
+
     public void setMapNode(javafx.scene.Node mapNode) {
         mapContainer.getChildren().clear();
         if (mapNode != null) {
@@ -217,5 +231,6 @@ public class ActivityDetailPanelController implements Initializable {
 
     public void setMapController(MapViewController mapController) {
         this.mapController = mapController;
+        this.mapController.setSpeedVisualizationEnabled(speedModeEnabled);
     }
 }

@@ -36,7 +36,7 @@ public class MapaDemoApp extends Application {
 
         stage.setTitle("Running La Safor");
         stage.setMinWidth(1000);
-        stage.setMinHeight(650);
+        stage.setMinHeight(800);
         stage.setScene(scene);
         stage.show();
     }
