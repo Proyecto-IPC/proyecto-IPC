@@ -94,6 +94,9 @@ public class MapViewController implements Initializable {
     private javafx.scene.control.Spinner<Double> annotationTam;
     @FXML
     private javafx.scene.control.TextArea annotationTexto;
+
+    @FXML
+    private Label annotationTextoLabel;
     @FXML
     private Button annotationGuardar;
     @FXML
@@ -261,7 +264,9 @@ public class MapViewController implements Initializable {
                 annotationColor.setValue(Color.web(DEFAULT_COLORS.get(newVal.tipo())));
                 annotationTam.getValueFactory().setValue(DEFAULT_STROKE.get(newVal.tipo()));
             }
+            actualizarEtiquetaTextoAnotacion(newVal);
         });
+        actualizarEtiquetaTextoAnotacion(annotationTipo.getValue());
 
         annotationGuardar.setOnAction(event -> guardarAnotacionInline());
         annotationCancelar.setOnAction(event -> cerrarAnnotationPanel());
@@ -906,6 +911,12 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         annotationPanel.setVisible(false);
         annotationPanel.setManaged(false);
         editingAnnotation = null;
+    }
+
+    private void actualizarEtiquetaTextoAnotacion(AnnotationTypeOption option) {
+        boolean esTexto = option != null && option.tipo() == AnnotationType.TEXT;
+        annotationTextoLabel.setText(esTexto ? "Texto:" : "Descripción:");
+        annotationTexto.setPromptText(esTexto ? "Texto que aparecerá en el mapa..." : "Descripción de la anotación...");
     }
 
     private void guardarAnotacionInline() {

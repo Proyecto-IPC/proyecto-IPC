@@ -218,7 +218,7 @@ public class ActivityDetailPanelController implements Initializable {
         speedModeEnabled = !speedModeEnabled;
         btnVelocidad.getStyleClass().removeAll("primary-button", "secondary-button");
         btnVelocidad.getStyleClass().add("secondary-button");
-        btnVelocidad.setText(speedModeEnabled ? "Ocultar velocidad" : "Mostrar velocidad");
+        btnVelocidad.setText(speedModeEnabled ? "Ocultar velocidad en la ruta" : "Mostrar velocidad en la ruta");
         if (mapController != null) {
             mapController.setSpeedVisualizationEnabled(speedModeEnabled);
         }

@@ -27,7 +27,7 @@
                         <Label fx:id="lblFechaActividad" styleClass="muted-label" text="Fecha y hora" />
                      </children>
                   </VBox>
-                  <Button fx:id="btnVelocidad" mnemonicParsing="false" onAction="#handleToggleVelocidad" styleClass="secondary-button" text="Ocultar velocidad" />
+                  <Button fx:id="btnVelocidad" mnemonicParsing="false" onAction="#handleToggleVelocidad" styleClass="secondary-button" text="Ocultar velocidad en la ruta" />
                </children>
             </VBox>
 
@@ -85,7 +85,7 @@
 
                         <AreaChart fx:id="elevationChart" animated="false" createSymbols="false" legendVisible="false" styleClass="elevation-chart">
                            <xAxis>
-                              <NumberAxis fx:id="xAxis" side="BOTTOM" />
+                              <NumberAxis side="BOTTOM" fx:id="xAxis" />
                            </xAxis>
                            <yAxis>
                               <NumberAxis fx:id="yAxis" prefWidth="20.0" side="LEFT" />

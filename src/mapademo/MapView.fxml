@@ -134,7 +134,7 @@
                         </HBox>
                         <HBox alignment="TOP_LEFT" spacing="8">
                            <children>
-                              <Label prefWidth="85.0" text="Descripción:">
+                              <Label fx:id="annotationTextoLabel" prefWidth="85.0" text="Descripción:">
                                  <padding>
                                     <Insets top="4.0" />
                                  </padding>
