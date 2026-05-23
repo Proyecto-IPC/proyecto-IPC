@@ -463,14 +463,7 @@ public class MapViewController implements Initializable {
 
     public void startPendingSecondPoint(GeoPoint firstPoint, AnnotationType tipo, String texto, String colorHex, double strokeWidth, Consumer<GeoPoint> onComplete) {
         if (projection == null) return;
-        Point2D pt = projection.project(firstPoint);
-
-        Circle marker = new Circle(pt.getX(), pt.getY(), 8);
-        marker.setFill(Color.web("#fef08a"));
-        marker.setStroke(Color.web("#111816"));
-        marker.setStrokeWidth(2);
-        mapPane.getChildren().add(marker);
-        pendingMarker = marker;
+        showPendingMarker(firstPoint);
 
         String toastText = switch (tipo) {
             case LINE -> "Clic de nuevo para marcar el final de la línea";
@@ -481,7 +474,7 @@ public class MapViewController implements Initializable {
         pendingToastLabel.setVisible(true);
         pendingToastLabel.setManaged(true);
 
-        mapPane.getScene().setCursor(javafx.scene.Cursor.CROSSHAIR);
+        mapPane.setCursor(javafx.scene.Cursor.CROSSHAIR);
 
         pendingSecondPointHandler = secondPoint -> {
             GeoPoint[] puntos = {firstPoint, secondPoint};
@@ -500,16 +493,41 @@ public class MapViewController implements Initializable {
     }
 
     public void cancelPendingMode() {
+        clearPendingMarker();
+        pendingToastLabel.setVisible(false);
+        pendingToastLabel.setManaged(false);
+        mapPane.setCursor(javafx.scene.Cursor.DEFAULT);
+        pendingSecondPointHandler = null;
+    }
+
+    private void showPendingMarker(GeoPoint point) {
+        if (projection == null || point == null) return;
+
+        Point2D pt = projection.project(point);
+        Circle marker;
+        if (pendingMarker instanceof Circle existingMarker) {
+            marker = existingMarker;
+            marker.setCenterX(pt.getX());
+            marker.setCenterY(pt.getY());
+        } else {
+            marker = new Circle(pt.getX(), pt.getY(), 8);
+            marker.setFill(Color.web("#fef08a"));
+            marker.setStroke(Color.web("#111816"));
+            marker.setStrokeWidth(2);
+            pendingMarker = marker;
+        }
+
+        if (!mapPane.getChildren().contains(marker)) {
+            mapPane.getChildren().add(marker);
+        }
+        marker.toFront();
+    }
+
+    private void clearPendingMarker() {
         if (pendingMarker != null) {
             mapPane.getChildren().remove(pendingMarker);
             pendingMarker = null;
         }
-        pendingToastLabel.setVisible(false);
-        pendingToastLabel.setManaged(false);
-        if (mapPane.getScene() != null) {
-            mapPane.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
-        }
-        pendingSecondPointHandler = null;
     }
 
     private void recargarActividad() {
@@ -857,6 +875,7 @@ public class MapViewController implements Initializable {
         editingAnnotation = existing;
 
         if (existing != null) {
+            clearPendingMarker();
             for (AnnotationTypeOption opt : annotationTipo.getItems()) {
                 if (opt.tipo() == existing.getType()) {
                     annotationTipo.setValue(opt);
@@ -877,6 +896,7 @@ public class MapViewController implements Initializable {
             annotationTexto.clear();
             annotationEliminar.setVisible(false);
             annotationEliminar.setManaged(false);
+            showPendingMarker(new GeoPoint(lat, lon));
         }
 
 StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
@@ -911,6 +931,9 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         annotationPanel.setVisible(false);
         annotationPanel.setManaged(false);
         editingAnnotation = null;
+        if (pendingSecondPointHandler == null) {
+            clearPendingMarker();
+        }
     }
 
     private void actualizarEtiquetaTextoAnotacion(AnnotationTypeOption option) {
