@@ -1451,7 +1451,7 @@
 
 .elevation-chart {
     -fx-background-color: transparent;
-    -fx-padding: 5px 2px 2px 5px;
+    -fx-padding: 0;
 }
 
 .elevation-chart .chart-content {
@@ -1460,6 +1460,7 @@
 
 .elevation-chart .chart-plot-background {
     -fx-background-color: transparent;
+    -fx-translate-y: -20;
 }
 
 .elevation-chart .chart-vertical-grid-lines,
@@ -1474,12 +1475,12 @@
 .elevation-chart .axis-label,
 .elevation-chart .axis-tick-mark-label {
     -fx-fill: -app-muted;
-    -fx-font-size: 10px;
+    -fx-font-size: 9px;
 }
 
 .elevation-chart .axis {
     -fx-stroke: -app-border;
-    -fx-tick-label-font-size: 10px;
+    -fx-tick-label-font-size: 9px;
 }
 
 .elevation-chart .axis .tick-label {

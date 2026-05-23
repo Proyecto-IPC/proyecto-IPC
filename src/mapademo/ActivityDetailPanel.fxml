@@ -74,7 +74,7 @@
                      </children>
                   </VBox>
 
-                  <StackPane fx:id="chartStackContainer" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
+                  <StackPane fx:id="chartStackContainer" alignment="TOP_LEFT" translateY="-15.0">
                      <children>
                         <VBox fx:id="emptyChartState" alignment="CENTER" spacing="8.0" visible="false">
                            <children>
@@ -83,8 +83,12 @@
                         </VBox>
 
                         <AreaChart fx:id="elevationChart" animated="false" createSymbols="false" legendVisible="false" styleClass="elevation-chart">
-                          <xAxis><NumberAxis side="BOTTOM" fx:id="xAxis" prefHeight="20" /></xAxis>
-                          <yAxis><NumberAxis fx:id="yAxis" side="LEFT" prefWidth="40" /></yAxis>
+                           <xAxis>
+                              <NumberAxis fx:id="xAxis" side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis fx:id="yAxis" prefWidth="20.0" side="LEFT" />
+                           </yAxis>
                         </AreaChart>
 
                         <Region fx:id="crosshairLine" mouseTransparent="true" styleClass="chart-crosshair" visible="false" />
