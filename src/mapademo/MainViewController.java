@@ -431,32 +431,22 @@ public class MainViewController implements Initializable {
         if (currentUser != null) {
             userNicknameLabel.setText(currentUser.getNickName());
 
-            String avatarPath = currentUser.getAvatarPath();
-            if (avatarPath != null && !avatarPath.trim().isEmpty()) {
-                try {
-                    String uri = avatarPath.startsWith("http") || avatarPath.startsWith("file:")
-                        ? avatarPath
-                        : new java.io.File(avatarPath).toURI().toString();
-
-                    javafx.scene.image.Image avatar = new javafx.scene.image.Image(uri, 24, 24, false, true);
-
-                    if (!avatar.isError()) {
-                        userAvatarImage.setImage(avatar);
-                        javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(12, 12, 12);
-                        userAvatarImage.setClip(clip);
-                        userAvatarImage.setVisible(true);
-                        userAvatarImage.setManaged(true);
-                        defaultUserIcon.setVisible(false);
-                        defaultUserIcon.setManaged(false);
-                        return;
-                    }
-                } catch (Exception e) {
-                    System.err.println("No se pudo cargar el avatar: " + e.getMessage());
-                }
+            javafx.scene.image.Image avatar = currentUser.getAvatar();
+            if (avatar != null && !avatar.isError()) {
+                userAvatarImage.setImage(avatar);
+                javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(12, 12, 12);
+                userAvatarImage.setClip(clip);
+                userAvatarImage.setVisible(true);
+                userAvatarImage.setManaged(true);
+                defaultUserIcon.setVisible(false);
+                defaultUserIcon.setManaged(false);
+                return;
             }
         }
 
-userAvatarImage.setVisible(false);
+        userAvatarImage.setVisible(false);
+        userAvatarImage.setManaged(false);
+        defaultUserIcon.setVisible(true);
         defaultUserIcon.setManaged(true);
     }
 

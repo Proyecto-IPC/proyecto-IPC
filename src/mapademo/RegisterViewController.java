@@ -16,6 +16,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
@@ -43,7 +44,7 @@ public class RegisterViewController implements Initializable {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu")
             .withResolverStyle(ResolverStyle.STRICT);
     private boolean updatingDateFields;
-    private String avatarPath = "";
+    private Image selectedAvatar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,7 +114,7 @@ public class RegisterViewController implements Initializable {
         }
 
         boolean exito = SportActivityApp.getInstance()
-                .registerUser(usuario, email, password, birthDate, avatarPath);
+                .registerUser(usuario, email, password, birthDate, selectedAvatar);
 
         if (exito) {
             lblError.setText("");
@@ -227,9 +228,15 @@ public class RegisterViewController implements Initializable {
     }
 
     private void setAvatarFile(File file) {
-        avatarPath = file.getAbsolutePath();
+        Image avatar = new Image(file.toURI().toString());
+        if (avatar.isError()) {
+            selectedAvatar = null;
+            lblError.setText("No se ha podido cargar la imagen seleccionada.");
+            return;
+        }
+        selectedAvatar = avatar;
         txtAvatarPath.setText(file.getName());
-        btnSeleccionarAvatar.setTooltip(new Tooltip(avatarPath));
+        btnSeleccionarAvatar.setTooltip(new Tooltip(file.getName()));
     }
 
     private boolean isImageFile(File file) {

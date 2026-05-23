@@ -48,6 +48,7 @@ public class ProfileViewController implements Initializable {
     private String initialEmail;
     private LocalDate initialBirthDate;
     private String initialAvatarPath;
+    private Image selectedAvatar;
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu")
             .withResolverStyle(ResolverStyle.STRICT);
     private boolean updatingDateFields;
@@ -60,10 +61,6 @@ public class ProfileViewController implements Initializable {
 
         Circle clip = new Circle(32, 32, 32);
         avatarPreview.setClip(clip);
-
-        txtAvatarPath.textProperty().addListener((obs, oldVal, newVal) -> {
-            actualizarPreviewAvatar(newVal);
-        });
 
         if (currentUser == null) {
             lblUsuario.setText("No hay sesión activa");
@@ -79,7 +76,8 @@ public class ProfileViewController implements Initializable {
         txtEmail.setText(initialEmail);
         dpBirthDate.setValue(initialBirthDate);
         setBirthDateFields(initialBirthDate);
-        txtAvatarPath.setText(initialAvatarPath);
+        txtAvatarPath.setText(avatarDisplayName(initialAvatarPath));
+        actualizarPreviewAvatar(currentUser.getAvatar());
         
         AnimationBehavior.installHover(btnGuardar);
         AnimationBehavior.installHover(btnCancelar);
@@ -96,32 +94,16 @@ public class ProfileViewController implements Initializable {
         lblInfoCurrentPassword.setTooltip(currentPasswordTooltip);
     }
 
-    private void actualizarPreviewAvatar(String path) {
-        if (path == null || path.trim().isEmpty()) {
+    private void actualizarPreviewAvatar(Image image) {
+        if (image == null || image.isError()) {
             avatarPreview.setVisible(false);
             defaultAvatarPreview.setVisible(true);
             return;
         }
-        
-        try {
-            String uri = path.startsWith("http") || path.startsWith("file:")
-                ? path
-                : new java.io.File(path).toURI().toString();
-                
-            Image img = new Image(uri, 64, 64, false, true);
-            
-            if (!img.isError()) {
-                avatarPreview.setImage(img);
-                avatarPreview.setVisible(true);
-                defaultAvatarPreview.setVisible(false);
-            } else {
-                avatarPreview.setVisible(false);
-                defaultAvatarPreview.setVisible(true);
-            }
-        } catch (Exception e) {
-            avatarPreview.setVisible(false);
-            defaultAvatarPreview.setVisible(true);
-        }
+
+        avatarPreview.setImage(image);
+        avatarPreview.setVisible(true);
+        defaultAvatarPreview.setVisible(false);
     }
 
     @FXML
@@ -133,7 +115,6 @@ public class ProfileViewController implements Initializable {
         String newPassword = txtPassword.getText().trim();
         String confirmPassword = txtPasswordConfirm.getText().trim();
         LocalDate birthDate = parseBirthDate();
-        String avatarPath = txtAvatarPath.getText().trim();
 
         if (email.isEmpty() || birthDate == null) {
             mostrarError("Completa el correo electrónico y la fecha de nacimiento.");
@@ -177,9 +158,9 @@ public class ProfileViewController implements Initializable {
             passwordToSave = newPassword;
         }
 
-        String avatarToSave = avatarPath.isEmpty() ? currentUser.getAvatarPath() : avatarPath;
-        boolean exito = SportActivityApp.getInstance()
-                .updateCurrentUser(email, passwordToSave, birthDate, avatarToSave);
+        boolean exito = selectedAvatar == null
+                ? SportActivityApp.getInstance().updateCurrentUser(email, passwordToSave, birthDate, currentUser.getAvatarPath())
+                : SportActivityApp.getInstance().updateCurrentUser(email, passwordToSave, birthDate, selectedAvatar);
 
         if (exito) {
             currentUser = SportActivityApp.getInstance().getCurrentUser();
@@ -191,6 +172,8 @@ public class ProfileViewController implements Initializable {
             initialEmail = currentUser.getEmail();
             initialBirthDate = currentUser.getBirthDate();
             initialAvatarPath = currentUser.getAvatarPath() == null ? "" : currentUser.getAvatarPath();
+            selectedAvatar = null;
+            txtAvatarPath.setText(avatarDisplayName(initialAvatarPath));
             
             MainViewController.getInstancia().actualizarPerfilUsuario();
         } else {
@@ -203,7 +186,9 @@ public class ProfileViewController implements Initializable {
         txtEmail.setText(initialEmail);
         dpBirthDate.setValue(initialBirthDate);
         setBirthDateFields(initialBirthDate);
-        txtAvatarPath.setText(initialAvatarPath);
+        selectedAvatar = null;
+        txtAvatarPath.setText(avatarDisplayName(initialAvatarPath));
+        actualizarPreviewAvatar(currentUser == null ? null : currentUser.getAvatar());
         limpiarCamposPassword();
         lblFeedback.setText("");
     }
@@ -285,7 +270,21 @@ public class ProfileViewController implements Initializable {
         );
         java.io.File selectedFile = fileChooser.showOpenDialog(btnExaminar.getScene().getWindow());
         if (selectedFile != null) {
-            txtAvatarPath.setText(selectedFile.getAbsolutePath());
+            Image avatar = new Image(selectedFile.toURI().toString());
+            if (avatar.isError()) {
+                mostrarError("No se ha podido cargar la imagen seleccionada.");
+                return;
+            }
+            selectedAvatar = avatar;
+            txtAvatarPath.setText(selectedFile.getName());
+            actualizarPreviewAvatar(avatar);
         }
+    }
+
+    private String avatarDisplayName(String avatarPath) {
+        if (avatarPath == null || avatarPath.trim().isEmpty()) {
+            return "";
+        }
+        return new java.io.File(avatarPath).getName();
     }
 }
