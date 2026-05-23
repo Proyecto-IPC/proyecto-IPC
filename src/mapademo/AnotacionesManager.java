@@ -6,7 +6,6 @@ import upv.ipc.sportlib.Annotation;
 import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.GeoPoint;
 import upv.ipc.sportlib.SportActivityApp;
-import java.sql.SQLException;
 
 public class AnotacionesManager {
 
@@ -29,16 +28,8 @@ public class AnotacionesManager {
             Annotation annotation = new Annotation(tipo, texto, colorHex, strokeWidth, List.of(primerPunto, segundoPunto));
             if (activity != null) {
                 SportActivityApp.getInstance().addAnnotation(activity, annotation);
-                try {
-                    Activity refreshed = SportActivityApp.getInstance().getActivityById(activity.getId());
-                    if (refreshed != null) {
-                        this.activity = refreshed;
-                        if (mapController != null) {
-                            mapController.refreshAnnotations(refreshed.getAnnotations());
-                        }
-                    }
-                } catch (SQLException e) {
-                    System.err.println("Error recargando actividad: " + e.getMessage());
+                if (mapController != null) {
+                    mapController.refreshAnnotations(activity.getAnnotations());
                 }
                 System.out.println("Anotación guardada: " + annotation.getType() + " - " + annotation.getText() + " [" + colorHex + "] stroke=" + strokeWidth);
             }

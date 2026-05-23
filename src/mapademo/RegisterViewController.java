@@ -83,6 +83,11 @@ public class RegisterViewController implements Initializable {
             return;
         }
 
+        if (SportActivityApp.getInstance().nickNameExists(usuario)) {
+            lblError.setText("Ese usuario ya existe. Elige otro nombre de usuario.");
+            return;
+        }
+
         if (!User.checkEmail(email)) {
             lblError.setText("El correo electrónico no es válido.");
             return;

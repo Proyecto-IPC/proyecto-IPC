@@ -483,7 +483,7 @@ public class MapViewController implements Initializable {
             Annotation annotation = new Annotation(tipo, texto, colorHex, strokeWidth, java.util.List.of(puntos));
             if (currentActivity != null) {
                 upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
-                recargarActividad();
+                refreshAnnotations(currentActivity.getAnnotations());
             }
             System.out.println("Anotacion guardada: " + annotation.getType() + " - " + annotation.getText());
             if (onComplete != null) onComplete.accept(secondPoint);
@@ -949,7 +949,7 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
         } else {
             Annotation annotation = new Annotation(tipo, texto, colorHex, tam, java.util.List.of(puntoInicial));
             upv.ipc.sportlib.SportActivityApp.getInstance().addAnnotation(currentActivity, annotation);
-            recargarActividad();
+            refreshAnnotations(currentActivity.getAnnotations());
             cerrarAnnotationPanel();
         }
     }
