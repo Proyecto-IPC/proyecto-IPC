@@ -349,4 +349,9 @@ public class DashboardViewController implements Initializable {
     private void handleImportar() {
         MainViewController.getInstancia().handleImportarPendiente();
     }
+
+    @FXML
+    private void handleVerTodasActividades() {
+        MainViewController.getInstancia().cargarVista("ActividadesView.fxml");
+    }
 }

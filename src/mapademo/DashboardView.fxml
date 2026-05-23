@@ -93,7 +93,12 @@
 
                   <VBox spacing="12.0" GridPane.columnIndex="1" maxHeight="1.7976931348623157E308">
                      <children>
-                        <VBox spacing="3.0"><children><Label styleClass="section-title" text="Actividades recientes" /><Label styleClass="muted-label" text="Tus últimos entrenamientos." /></children></VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="12.0">
+                           <children>
+                              <VBox spacing="3.0" HBox.hgrow="ALWAYS"><children><Label styleClass="section-title" text="Actividades recientes" /><Label styleClass="muted-label" text="Tus últimos entrenamientos." /></children></VBox>
+                              <Button mnemonicParsing="false" onAction="#handleVerTodasActividades" styleClass="ghost-button, section-link-button" text="Ver todas" />
+                           </children>
+                        </HBox>
                         <VBox fx:id="activityList" spacing="10.0" styleClass="activity-list-placeholder" maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
