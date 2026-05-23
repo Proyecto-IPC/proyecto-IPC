@@ -49,6 +49,8 @@ public class ActivityDetailPanelController implements Initializable {
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private XYChart.Series<Number, Number> elevationSeries;
     private List<XYChart.Data<Number, Number>> sampledDataPoints = new ArrayList<>();
+    private List<TrackPoint> sampledTrackPoints = new ArrayList<>();
+    private MapViewController mapController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,6 +80,7 @@ public class ActivityDetailPanelController implements Initializable {
         emptyChartState.setVisible(false);
         elevationSeries = new XYChart.Series<>();
         sampledDataPoints.clear();
+        sampledTrackPoints.clear();
 
         int totalPoints = puntos.size();
         int desiredSamples = 150;
@@ -99,6 +102,7 @@ public class ActivityDetailPanelController implements Initializable {
 
                 XYChart.Data<Number, Number> dataNode = new XYChart.Data<>(kmAcumulados, altitud);
                 sampledDataPoints.add(dataNode);
+                sampledTrackPoints.add(actual);
                 elevationSeries.getData().add(dataNode);
             }
         }
@@ -165,6 +169,7 @@ public class ActivityDetailPanelController implements Initializable {
 
                 tooltipDist.setText(String.format("%.2f km", nearestData.getXValue().doubleValue()));
                 tooltipElev.setText(Math.round(nearestData.getYValue().doubleValue()) + " m");
+                resaltarPuntoEnMapa(nearestData);
             }
         });
 
@@ -185,6 +190,17 @@ public class ActivityDetailPanelController implements Initializable {
         crosshairLine.setVisible(false);
         trackerDot.setVisible(false);
         tooltipCard.setVisible(false);
+        if (mapController != null) {
+            mapController.clearHighlightedTrackPoint();
+        }
+    }
+
+    private void resaltarPuntoEnMapa(XYChart.Data<Number, Number> data) {
+        if (mapController == null) return;
+        int index = sampledDataPoints.indexOf(data);
+        if (index >= 0 && index < sampledTrackPoints.size()) {
+            mapController.highlightTrackPoint(sampledTrackPoints.get(index));
+        }
     }
 
     @FXML
@@ -197,5 +213,9 @@ public class ActivityDetailPanelController implements Initializable {
         if (mapNode != null) {
             mapContainer.getChildren().add(mapNode);
         }
+    }
+
+    public void setMapController(MapViewController mapController) {
+        this.mapController = mapController;
     }
 }

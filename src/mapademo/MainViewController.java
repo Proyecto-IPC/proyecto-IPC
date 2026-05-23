@@ -480,6 +480,7 @@ userAvatarImage.setVisible(false);
             }
             anotacionesManager.setMapController(mapController);
 
+            detailController.setMapController(mapController);
             detailController.setMapNode(mapView);
 
             rootPane.setCenter(panelDetalle);
