@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -16,14 +17,20 @@
          <padding>
             <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
          </padding>
-         <children>
+<children>
 
-            <VBox spacing="4.0">
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
                <children>
-                  <Label styleClass="page-title" text="Resumen general" />
-                  <Label styleClass="muted-label" text="Tu actividad en números." />
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label styleClass="page-title" text="Resumen general" />
+                        <Label styleClass="muted-label" text="Tu actividad en números." />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnImportar" mnemonicParsing="false" onAction="#handleImportar" styleClass="import-button" text="Importar actividad" />
                </children>
-            </VBox>
+            </HBox>
 
             <GridPane fx:id="statsGrid" hgap="16.0" styleClass="summary-grid" vgap="16.0" maxWidth="1.7976931348623157E308">
                <columnConstraints>

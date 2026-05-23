@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -22,10 +23,12 @@ public class ActividadesViewController implements Initializable {
     @FXML private ScrollPane scrollActividades;
     @FXML private VBox listaActividades;
     @FXML private VBox emptyState;
+    @FXML private Button btnImportar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarActividades();
+        AnimationBehavior.installHover(btnImportar);
     }
 
     private void cargarActividades() {
@@ -104,5 +107,10 @@ public class ActividadesViewController implements Initializable {
         long minutos = (segundos % 3600) / 60;
         if (horas > 0) return horas + "h " + minutos + "min";
         return minutos + "min";
+    }
+
+    @FXML
+    private void handleImportar() {
+        MainViewController.getInstancia().handleImportarPendiente();
     }
 }

@@ -30,7 +30,6 @@
             </Button>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="importStatusLabel" managed="false" styleClass="topbar-status" text="Importación pendiente" visible="false" />
-            <Button fx:id="btnImportar" accessibleText="Importación GPX pendiente de conexión" mnemonicParsing="false" onAction="#handleImportarPendiente" styleClass="outline-button pending-action" text="Importar actividad" />
             <HBox alignment="CENTER" styleClass="theme-switch-wrapper">
                <children>
                   <Button fx:id="btnLightMode" mnemonicParsing="false" onAction="#setLightMode" styleClass="theme-switch-btn">

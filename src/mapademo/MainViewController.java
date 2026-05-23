@@ -62,13 +62,11 @@ public class MainViewController implements Initializable {
         instancia = this;
         rootPane.setFocusTraversable(true);
         anotacionesManager = new AnotacionesManager();
-        btnImportar.setTooltip(new Tooltip("Importación GPX pendiente de conexión."));
         importStatusTimer = new PauseTransition(Duration.seconds(2.4));
         importStatusTimer.setOnFinished(event -> {
             importStatusLabel.setVisible(false);
             importStatusLabel.setManaged(false);
         });
-        AnimationBehavior.installHover(btnImportar);
         AnimationBehavior.installHover(btnNavResumen);
         AnimationBehavior.installHover(btnNavActividades);
         AnimationBehavior.installHover(btnNavPerfil);
@@ -182,12 +180,12 @@ public class MainViewController implements Initializable {
     }
 
     @FXML
-    private void handleImportarPendiente() {
+    public void handleImportarPendiente() {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Seleccionar archivo GPX");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos GPX", "*.gpx"));
 
-        File archivo = chooser.showOpenDialog(btnImportar.getScene().getWindow());
+        File archivo = chooser.showOpenDialog(rootPane.getScene().getWindow());
         if (archivo != null) {
             try {
                 upv.ipc.sportlib.Activity nueva = SportActivityApp.getInstance().importActivity(archivo);

@@ -18,6 +18,9 @@
     -app-danger: #EF4444;
     -app-success: #10B981;
     -app-focus: rgba(5, 150, 105, 0.15);
+    -app-import: #059669;
+    -app-import-hover: #047857;
+    -app-import-focus-border: #a7f3d0;
 
     -fx-font-family: "Segoe UI", "Inter", "Arial", sans-serif;
     -fx-background-color: -app-bg;
@@ -40,6 +43,9 @@
     -app-sand: #FBBF24;
     -app-danger: #F87171;
     -app-success: #34D399;
+    -app-import: #10B981;
+    -app-import-hover: #34D399;
+    -app-import-focus-border: #1B2C24;
 }
 
 .app-shell {
@@ -451,6 +457,22 @@
 
 .primary-button:hover {
     -fx-background-color: -app-primary-hover;
+}
+
+/* Botón grande de importar actividad */
+.import-button {
+    -fx-background-color: -app-import;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-padding: 10 22 10 22;
+    -fx-cursor: hand;
+}
+
+.import-button:hover {
+    -fx-background-color: -app-import-hover;
 }
 
 /* Botones Secundarios Unificados */

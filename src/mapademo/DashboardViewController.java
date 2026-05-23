@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
@@ -29,6 +30,7 @@ public class DashboardViewController implements Initializable {
     @FXML private Pane mapPreview;
     @FXML private GridPane calendarGrid;
     @FXML private HBox chartBars;
+    @FXML private Button btnImportar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,6 +39,7 @@ public class DashboardViewController implements Initializable {
         populateMapPreview();
         populateStreak();
         populateChart();
+        AnimationBehavior.installHover(btnImportar);
     }
 
     public void reproducirAnimacionEntrada() {
@@ -340,5 +343,10 @@ public class DashboardViewController implements Initializable {
 
     private String formatearEntero(double valor) {
         return String.format("%.0f", valor);
+    }
+
+    @FXML
+    private void handleImportar() {
+        MainViewController.getInstancia().handleImportarPendiente();
     }
 }
