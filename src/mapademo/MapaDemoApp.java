@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import upv.ipc.sportlib.SportActivityApp;
 
 public class MapaDemoApp extends Application {
 
@@ -38,6 +39,12 @@ public class MapaDemoApp extends Application {
         stage.setMinWidth(1000);
         stage.setMinHeight(800);
         stage.setScene(scene);
+        stage.setOnCloseRequest(event -> {
+            SportActivityApp app = SportActivityApp.getInstance();
+            if (app.getCurrentUser() != null) {
+                app.logout();
+            }
+        });
         stage.show();
     }
 
