@@ -1455,7 +1455,7 @@
 }
 
 .elevation-chart .chart-content {
-    -fx-padding: 0;
+    -fx-padding: 15px 0 0 0;
 }
 
 .elevation-chart .chart-plot-background {

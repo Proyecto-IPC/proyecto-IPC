@@ -13,6 +13,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -126,6 +127,10 @@ public class ActivityDetailPanelController implements Initializable {
     private void configurarMouseInteractions() {
         elevationChart.setOnMouseMoved(event -> {
             if (sampledDataPoints.isEmpty() || !elevationChart.isVisible()) return;
+            if (!isMouseInsidePlot(event)) {
+                ocultarIndicadoresChart();
+                return;
+            }
 
             Point2D localToAxis = xAxis.sceneToLocal(event.getSceneX(), event.getSceneY());
             double xValue = xAxis.getValueForDisplay(localToAxis.getX()).doubleValue();
@@ -153,7 +158,7 @@ public class ActivityDetailPanelController implements Initializable {
                 crosshairLine.setTranslateX(displayX);
 
                 trackerDot.setTranslateX(displayX - 5.25);
-                trackerDot.setTranslateY(displayY);
+                trackerDot.setTranslateY(displayY + 9.5);
 
                 tooltipCard.setTranslateX(displayX + 12);
                 tooltipCard.setTranslateY(displayY - 24);
@@ -164,10 +169,22 @@ public class ActivityDetailPanelController implements Initializable {
         });
 
         elevationChart.setOnMouseExited(event -> {
-            crosshairLine.setVisible(false);
-            trackerDot.setVisible(false);
-            tooltipCard.setVisible(false);
+            ocultarIndicadoresChart();
         });
+    }
+
+    private boolean isMouseInsidePlot(MouseEvent event) {
+        Node plotArea = elevationChart.lookup(".chart-plot-background");
+        if (plotArea == null) return false;
+
+        Point2D plotPoint = plotArea.sceneToLocal(event.getSceneX(), event.getSceneY());
+        return plotArea.getBoundsInLocal().contains(plotPoint);
+    }
+
+    private void ocultarIndicadoresChart() {
+        crosshairLine.setVisible(false);
+        trackerDot.setVisible(false);
+        tooltipCard.setVisible(false);
     }
 
     @FXML
