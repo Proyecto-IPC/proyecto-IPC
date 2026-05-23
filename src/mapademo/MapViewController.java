@@ -916,7 +916,7 @@ StackPane.setAlignment(annotationPanel, javafx.geometry.Pos.TOP_LEFT);
     private void actualizarEtiquetaTextoAnotacion(AnnotationTypeOption option) {
         boolean esTexto = option != null && option.tipo() == AnnotationType.TEXT;
         annotationTextoLabel.setText(esTexto ? "Texto:" : "Descripción:");
-        annotationTexto.setPromptText(esTexto ? "Texto que aparecerá en el mapa..." : "Descripción de la anotación...");
+        annotationTexto.setPromptText(esTexto ? "Texto visible..." : "Nota...");
     }
 
     private void guardarAnotacionInline() {

@@ -436,10 +436,11 @@
 
 .annotation-panel .text-area {
     -fx-font-size: 14px;
+    -fx-padding: 4 7 4 7;
 }
 
 .annotation-panel .text-area .content {
-    -fx-padding: 6 8 6 8;
+    -fx-padding: 2 4 2 4;
     -fx-background-color: transparent;
 }
 
