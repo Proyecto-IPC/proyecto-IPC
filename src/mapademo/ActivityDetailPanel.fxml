@@ -65,7 +65,7 @@
       <VBox spacing="24.0" HBox.hgrow="ALWAYS">
          <children>
 
-            <StackPane fx:id="mapContainer" styleClass="map-preview-panel" VBox.vgrow="ALWAYS" />
+            <StackPane fx:id="mapContainer" styleClass="map-preview-panel, detail-map-panel" VBox.vgrow="ALWAYS" />
 
             <VBox maxHeight="200.0" minHeight="200.0" prefHeight="200.0" spacing="12.0" styleClass="chart-panel">
                <children>

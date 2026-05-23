@@ -158,9 +158,9 @@ public class MainViewController implements Initializable {
         confirm.setHeaderText(null);
         confirm.setContentText("¿Seguro que quieres cerrar sesión?");
 
-        ButtonType btnSi = new ButtonType("Sí, cerrar sesión");
-        ButtonType btnCancelar = new ButtonType("Cancelar", javafx.scene.control.ButtonBar.ButtonData.CANCEL_CLOSE);
-        confirm.getButtonTypes().setAll(btnSi, btnCancelar);
+        ButtonType btnCancelar = new ButtonType("Cancelar", javafx.scene.control.ButtonBar.ButtonData.LEFT);
+        ButtonType btnCerrar = new ButtonType("Cerrar sesión", javafx.scene.control.ButtonBar.ButtonData.OK_DONE);
+        confirm.getButtonTypes().setAll(btnCancelar, btnCerrar);
 
         if (rootPane != null && rootPane.getScene() != null) {
             confirm.initOwner(rootPane.getScene().getWindow());
@@ -169,10 +169,12 @@ public class MainViewController implements Initializable {
                 confirm.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
             }
             confirm.getDialogPane().getStyleClass().add("logout-confirm-dialog");
+            confirm.getDialogPane().lookupButton(btnCancelar).getStyleClass().add("logout-cancel-button");
+            confirm.getDialogPane().lookupButton(btnCerrar).getStyleClass().add("logout-danger-button");
         }
 
         confirm.showAndWait().ifPresent(result -> {
-            if (result == btnSi) {
+            if (result == btnCerrar) {
                 SportActivityApp.getInstance().logout();
                 cargarVista("LoginView.fxml");
             }

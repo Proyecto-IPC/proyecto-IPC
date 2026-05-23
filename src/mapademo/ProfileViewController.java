@@ -2,6 +2,9 @@ package mapademo;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,6 +29,9 @@ public class ProfileViewController implements Initializable {
     @FXML private PasswordField txtPasswordCurrent;
     @FXML private PasswordField txtPassword;
     @FXML private PasswordField txtPasswordConfirm;
+    @FXML private TextField txtBirthDay;
+    @FXML private TextField txtBirthMonth;
+    @FXML private TextField txtBirthYear;
     @FXML private DatePicker dpBirthDate;
     @FXML private TextField txtAvatarPath;
     @FXML private Label lblFeedback;
@@ -42,11 +48,15 @@ public class ProfileViewController implements Initializable {
     private String initialEmail;
     private LocalDate initialBirthDate;
     private String initialAvatarPath;
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu")
+            .withResolverStyle(ResolverStyle.STRICT);
+    private boolean updatingDateFields;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         currentUser = SportActivityApp.getInstance().getCurrentUser();
         lblFeedback.setText("");
+        installDateControls();
 
         Circle clip = new Circle(32, 32, 32);
         avatarPreview.setClip(clip);
@@ -68,6 +78,7 @@ public class ProfileViewController implements Initializable {
 
         txtEmail.setText(initialEmail);
         dpBirthDate.setValue(initialBirthDate);
+        setBirthDateFields(initialBirthDate);
         txtAvatarPath.setText(initialAvatarPath);
         
         AnimationBehavior.installHover(btnGuardar);
@@ -121,7 +132,7 @@ public class ProfileViewController implements Initializable {
         String currentPassword = txtPasswordCurrent.getText().trim();
         String newPassword = txtPassword.getText().trim();
         String confirmPassword = txtPasswordConfirm.getText().trim();
-        LocalDate birthDate = dpBirthDate.getValue();
+        LocalDate birthDate = parseBirthDate();
         String avatarPath = txtAvatarPath.getText().trim();
 
         if (email.isEmpty() || birthDate == null) {
@@ -191,6 +202,7 @@ public class ProfileViewController implements Initializable {
     private void handleCancelar() {
         txtEmail.setText(initialEmail);
         dpBirthDate.setValue(initialBirthDate);
+        setBirthDateFields(initialBirthDate);
         txtAvatarPath.setText(initialAvatarPath);
         limpiarCamposPassword();
         lblFeedback.setText("");
@@ -205,6 +217,63 @@ public class ProfileViewController implements Initializable {
     private void mostrarError(String mensaje) {
         lblFeedback.getStyleClass().setAll("error");
         lblFeedback.setText(mensaje);
+    }
+
+    private void installDateControls() {
+        txtBirthDay.setTextFormatter(digitsFormatter(2));
+        txtBirthMonth.setTextFormatter(digitsFormatter(2));
+        txtBirthYear.setTextFormatter(digitsFormatter(4));
+
+        dpBirthDate.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (updatingDateFields || newDate == null) return;
+            setBirthDateFields(newDate);
+        });
+
+        txtBirthDay.focusedProperty().addListener((obs, wasFocused, isFocused) -> updateDatePickerOnBlur(isFocused));
+        txtBirthMonth.focusedProperty().addListener((obs, wasFocused, isFocused) -> updateDatePickerOnBlur(isFocused));
+        txtBirthYear.focusedProperty().addListener((obs, wasFocused, isFocused) -> updateDatePickerOnBlur(isFocused));
+    }
+
+    private javafx.scene.control.TextFormatter<String> digitsFormatter(int maxLength) {
+        return new javafx.scene.control.TextFormatter<>(change -> {
+            String text = change.getControlNewText();
+            return text.matches("\\d{0," + maxLength + "}") ? change : null;
+        });
+    }
+
+    private void setBirthDateFields(LocalDate date) {
+        if (date == null) return;
+        updatingDateFields = true;
+        txtBirthDay.setText(String.valueOf(date.getDayOfMonth()));
+        txtBirthMonth.setText(String.valueOf(date.getMonthValue()));
+        txtBirthYear.setText(String.valueOf(date.getYear()));
+        updatingDateFields = false;
+    }
+
+    private void updateDatePickerOnBlur(boolean focused) {
+        if (!focused) {
+            LocalDate parsed = parseBirthDate();
+            if (parsed != null) {
+                dpBirthDate.setValue(parsed);
+            }
+        }
+    }
+
+    private LocalDate parseBirthDate() {
+        String day = txtBirthDay.getText().trim();
+        String month = txtBirthMonth.getText().trim();
+        String year = txtBirthYear.getText().trim();
+        if (day.isEmpty() && month.isEmpty() && year.isEmpty()) {
+            return dpBirthDate.getValue();
+        }
+        if (day.isEmpty() || month.isEmpty() || year.isEmpty()) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(day + "/" + month + "/" + year, DATE_FORMAT);
+        } catch (DateTimeParseException ex) {
+            return null;
+        }
     }
 
     @FXML

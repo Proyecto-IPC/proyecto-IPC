@@ -68,10 +68,6 @@ public class AnotacionDialog {
         content.setVgap(10);
         content.setPadding(new Insets(10, 10, 10, 10));
 
-        record AnnotationTypeOption(AnnotationType tipo, String nombre) {
-            @Override public String toString() { return nombre; }
-        }
-
         Label lblTipo = new Label("Tipo:");
         javafx.scene.control.ChoiceBox<AnnotationTypeOption> choiceTipo = new javafx.scene.control.ChoiceBox<>();
         choiceTipo.getItems().addAll(
@@ -89,7 +85,7 @@ public class AnotacionDialog {
         TextField txtTam = new TextField();
         txtTam.setPrefWidth(80);
 
-        Label lblTexto = new Label("Texto:");
+        Label lblTexto = new Label("Descripción:");
         TextField txtTexto = new TextField();
         txtTexto.setPromptText("Descripción de la anotación...");
         txtTexto.setPrefWidth(250);
@@ -106,7 +102,9 @@ public class AnotacionDialog {
                 colorPicker.setValue(Color.web(DEFAULT_COLORS.get(t)));
                 txtTam.setText(String.valueOf(DEFAULT_STROKE.get(t)));
             }
+            actualizarEtiquetaTexto(lblTexto, txtTexto, newVal);
         });
+        actualizarEtiquetaTexto(lblTexto, txtTexto, choiceTipo.getValue());
 
         content.add(lblTipo, 0, 0);
         content.add(choiceTipo, 1, 0);
@@ -185,5 +183,15 @@ public class AnotacionDialog {
 
     private Annotation getExistingAnnotation() {
         return existingAnnotation;
+    }
+
+    private record AnnotationTypeOption(AnnotationType tipo, String nombre) {
+        @Override public String toString() { return nombre; }
+    }
+
+    private void actualizarEtiquetaTexto(Label label, TextField textField, AnnotationTypeOption option) {
+        boolean esTexto = option != null && option.tipo() == AnnotationType.TEXT;
+        label.setText(esTexto ? "Texto:" : "Descripción:");
+        textField.setPromptText(esTexto ? "Texto que aparecerá en el mapa..." : "Descripción de la anotación...");
     }
 }

@@ -225,11 +225,50 @@
 
 .date-picker-compact {
     -fx-padding: 0;
+    -fx-background-color: -app-surface-alt;
+    -fx-background-radius: 7;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-min-height: 33px;
+    -fx-pref-height: 33px;
+    -fx-max-height: 33px;
 }
 
 .date-picker-compact > .text-field {
     -fx-opacity: 0;
     -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-min-width: 0;
+    -fx-max-width: 0;
+}
+
+.date-picker-compact > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 7;
+    -fx-padding: 0 13px;
+    -fx-min-height: 31px;
+    -fx-pref-height: 31px;
+    -fx-max-height: 31px;
+    -fx-min-width: 46px;
+    -fx-pref-width: 46px;
+    -fx-max-width: 46px;
+}
+
+.date-picker-compact > .arrow-button > .arrow {
+    -fx-background-color: -app-muted;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.date-picker-compact:hover {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: -app-border;
+}
+
+.date-picker-compact:focused {
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-primary;
 }
 
 .avatar-drop-zone {
@@ -458,6 +497,29 @@
 
 .danger-button:hover {
     -fx-background-color: derive(-app-danger, -10%);
+}
+
+.logout-confirm-dialog .logout-cancel-button {
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-border;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-text-fill: -app-text;
+    -fx-font-weight: 500;
+}
+
+.logout-confirm-dialog .logout-danger-button {
+    -fx-background-color: rgba(185, 53, 47, 0.12);
+    -fx-border-color: rgba(185, 53, 47, 0.28);
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-text-fill: #b9352f;
+    -fx-font-weight: 700;
+}
+
+.logout-confirm-dialog .logout-danger-button:hover {
+    -fx-background-color: rgba(185, 53, 47, 0.18);
+    -fx-border-color: rgba(185, 53, 47, 0.38);
 }
 
 .annotation-panel {
@@ -782,6 +844,14 @@
     -fx-padding: 22;
 }
 
+.detail-map-panel {
+    -fx-padding: 8 0 0 8;
+    -fx-background-color: rgba(100, 116, 139, 0.12);
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-background-insets: 0;
+}
+
 .dashboard-side-stack {
     -fx-pref-width: 300;
     -fx-min-width: 280;
@@ -1103,14 +1173,20 @@
 .map-scroll-pane:focused,
 .map-scroll-pane > .viewport {
     -fx-background-color: -app-map-bg;
+    -fx-background-radius: 6;
 }
 
 .map-scroll-pane,
 .map-scroll-pane:focused {
+    -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-padding: 0;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
+}
+
+.map-scroll-pane > .corner {
+    -fx-background-color: transparent;
 }
 
 .map-control-group {

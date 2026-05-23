@@ -89,7 +89,14 @@
                         <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                            <children>
                               <Label styleClass="field-label" text="Fecha de nacimiento" />
-                              <DatePicker fx:id="dpBirthDate" maxWidth="1.7976931348623157E308" promptText="Selecciona fecha" />
+                              <HBox maxWidth="1.7976931348623157E308" spacing="8.0">
+                                 <children>
+                                    <TextField fx:id="txtBirthDay" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" promptText="Día" />
+                                    <TextField fx:id="txtBirthMonth" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" promptText="Mes" />
+                                    <TextField fx:id="txtBirthYear" maxWidth="1.7976931348623157E308" minWidth="96.0" promptText="Año" HBox.hgrow="ALWAYS" />
+                                    <DatePicker fx:id="dpBirthDate" maxHeight="33.0" maxWidth="46.0" minHeight="33.0" minWidth="46.0" prefHeight="33.0" prefWidth="46.0" promptText="" styleClass="date-picker-compact" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                         

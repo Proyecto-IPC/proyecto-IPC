@@ -72,8 +72,8 @@
                            <children>
                               <TextField fx:id="txtBirthDay" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" promptText="Día" />
                               <TextField fx:id="txtBirthMonth" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" promptText="Mes" />
-                              <TextField fx:id="txtBirthYear" maxWidth="1.7976931348623157E308" minWidth="96.0" promptText="Año" HBox.hgrow="ALWAYS" />
-                              <DatePicker fx:id="dpBirthDate" maxWidth="46.0" minWidth="46.0" prefWidth="46.0" promptText="" styleClass="date-picker-compact" />
+                              <TextField fx:id="txtBirthYear" maxWidth="1.7976931348623157E308" minWidth="70.0" prefHeight="33.0" prefWidth="70.0" promptText="Año" HBox.hgrow="ALWAYS" />
+                              <DatePicker fx:id="dpBirthDate" maxHeight="33.0" maxWidth="46.0" minHeight="33.0" minWidth="46.0" prefHeight="33.0" prefWidth="46.0" promptText="" styleClass="date-picker-compact" />
                            </children>
                         </HBox>
                      </children>
@@ -81,7 +81,12 @@
                   <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
                      <children>
                         <Label styleClass="field-label" text="Avatar (opcional)" />
-                        <Button fx:id="btnSeleccionarAvatar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSeleccionarAvatar" onDragDropped="#handleAvatarDragDropped" onDragOver="#handleAvatarDragOver" styleClass="avatar-drop-zone" text="Selecciona o arrastra el archivo" />
+                        <HBox spacing="8.0">
+                           <children>
+                              <TextField fx:id="txtAvatarPath" editable="false" prefHeight="34.0" prefWidth="156.0" promptText="Selecciona imagen" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnSeleccionarAvatar" mnemonicParsing="false" onAction="#handleSeleccionarAvatar" onDragDropped="#handleAvatarDragDropped" onDragOver="#handleAvatarDragOver" prefHeight="34.0" styleClass="primary-button" text="Examinar" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                   <Button fx:id="btnRegistrar" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegistro" text="Crear cuenta" />

@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.TrackPoint;
 
@@ -59,6 +60,7 @@ public class ActivityDetailPanelController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configurarFormatoEjes();
         configurarMouseInteractions();
+        configurarClipMapa();
     }
 
     public void setActivity(Activity activity) {
@@ -227,6 +229,15 @@ public class ActivityDetailPanelController implements Initializable {
         if (mapNode != null) {
             mapContainer.getChildren().add(mapNode);
         }
+    }
+
+    private void configurarClipMapa() {
+        Rectangle clip = new Rectangle();
+        clip.setArcWidth(6);
+        clip.setArcHeight(6);
+        clip.widthProperty().bind(mapContainer.widthProperty());
+        clip.heightProperty().bind(mapContainer.heightProperty());
+        mapContainer.setClip(clip);
     }
 
     public void setMapController(MapViewController mapController) {

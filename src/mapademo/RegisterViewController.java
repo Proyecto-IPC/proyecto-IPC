@@ -33,6 +33,7 @@ public class RegisterViewController implements Initializable {
     @FXML private TextField txtBirthMonth;
     @FXML private TextField txtBirthYear;
     @FXML private DatePicker dpBirthDate;
+    @FXML private TextField txtAvatarPath;
     @FXML private Button btnSeleccionarAvatar;
     @FXML private Button btnRegistrar;
     @FXML private Button btnIrLogin;
@@ -222,7 +223,7 @@ public class RegisterViewController implements Initializable {
 
     private void setAvatarFile(File file) {
         avatarPath = file.getAbsolutePath();
-        btnSeleccionarAvatar.setText(file.getName());
+        txtAvatarPath.setText(file.getName());
         btnSeleccionarAvatar.setTooltip(new Tooltip(avatarPath));
     }
 
