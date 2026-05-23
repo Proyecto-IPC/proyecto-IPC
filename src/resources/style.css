@@ -570,6 +570,51 @@
     -fx-text-fill: -app-text;
 }
 
+.annotation-panel .choice-box,
+.annotation-panel .color-picker {
+    -fx-background-color: -app-surface-alt;
+    -fx-control-inner-background: -app-surface-alt;
+    -fx-color: -app-surface-alt;
+    -fx-background-radius: 6;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-mark-color: -app-muted;
+}
+
+.annotation-panel .choice-box:hover,
+.annotation-panel .color-picker:hover {
+    -fx-border-color: derive(-app-border, 18%);
+}
+
+.annotation-panel .choice-box:focused,
+.annotation-panel .color-picker:focused {
+    -fx-border-color: -app-primary;
+}
+
+.annotation-panel .choice-box .label,
+.annotation-panel .color-picker .label,
+.annotation-panel .color-picker-label {
+    -fx-background-color: transparent;
+    -fx-text-fill: -app-text;
+}
+
+.annotation-panel .choice-box .open-button,
+.annotation-panel .color-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 9 0 7;
+}
+
+.annotation-panel .choice-box .arrow,
+.annotation-panel .color-picker .arrow {
+    -fx-background-color: -app-muted;
+}
+
+.annotation-panel .color-picker .picker-color {
+    -fx-border-color: -app-border;
+    -fx-border-width: 1;
+}
+
 
 .error {
     -fx-text-fill: -app-danger;
