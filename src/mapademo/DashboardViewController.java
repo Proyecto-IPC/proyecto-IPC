@@ -111,6 +111,7 @@ public class DashboardViewController implements Initializable {
 
         Region marker = new Region();
         marker.getStyleClass().add("activity-row-marker");
+        marker.setTranslateY(4);
 
         VBox body = new VBox(7);
         HBox.setHgrow(body, Priority.ALWAYS);
@@ -137,6 +138,7 @@ public class DashboardViewController implements Initializable {
 
         if (act != null) {
             Activity clicked = act;
+            row.getChildren().add(ActivityActions.create(clicked, this::refrescarDashboard));
             row.setOnMouseClicked(e -> MainViewController.getInstancia().mostrarDetalleActividad(clicked));
             row.setCursor(javafx.scene.Cursor.HAND);
             row.setFocusTraversable(true);
@@ -349,6 +351,13 @@ public class DashboardViewController implements Initializable {
         }
         String fin = act.getEndTime().format(DateTimeFormatter.ofPattern("HH:mm"));
         return fecha + " · " + inicio + " - " + fin;
+    }
+
+    void refrescarDashboard() {
+        populateMetrics();
+        populateActivities();
+        populateStreak();
+        populateChart();
     }
 
     private String formatearEntero(double valor) {

@@ -91,7 +91,7 @@ public class ActividadesViewController implements Initializable {
         );
 
         body.getChildren().addAll(nombre, fechaHora, chips);
-        fila.getChildren().addAll(marker, body);
+        fila.getChildren().addAll(marker, body, ActivityActions.create(act, this::cargarActividades));
 
         fila.setOnMouseClicked(e -> {
             MainViewController.getInstancia().mostrarDetalleActividad(act);

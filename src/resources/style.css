@@ -563,6 +563,29 @@
     -fx-border-color: rgba(185, 53, 47, 0.38);
 }
 
+.activity-dialog .activity-dialog-cancel-button {
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-border;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-text-fill: -app-text;
+    -fx-font-weight: 500;
+}
+
+.activity-dialog .activity-dialog-primary-button {
+    -fx-background-color: -app-primary;
+    -fx-border-color: -app-primary;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+}
+
+.activity-dialog .activity-dialog-primary-button:hover {
+    -fx-background-color: derive(-app-primary, -8%);
+    -fx-border-color: derive(-app-primary, -8%);
+}
+
 .annotation-panel {
     -fx-background-color: -app-surface;
     -fx-background-radius: 8;
@@ -1010,6 +1033,40 @@
     -fx-font-size: 12px;
     -fx-font-weight: 700;
     -fx-padding: 4 8 4 8;
+}
+
+.activity-row-actions {
+    -fx-spacing: 6;
+}
+
+.activity-action-button {
+    -fx-background-color: -app-surface-alt;
+    -fx-background-radius: 7;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 7;
+    -fx-border-width: 1;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-pref-width: 30;
+    -fx-pref-height: 30;
+    -fx-max-width: 30;
+    -fx-max-height: 30;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.activity-action-button:hover {
+    -fx-background-color: -app-primary-soft;
+    -fx-border-color: derive(-app-primary, 40%);
+}
+
+.activity-action-danger:hover {
+    -fx-background-color: rgba(185, 53, 47, 0.12);
+    -fx-border-color: rgba(185, 53, 47, 0.34);
+}
+
+.activity-action-danger SVGPath {
+    -fx-stroke: -app-danger;
 }
 
 .home-empty-state {

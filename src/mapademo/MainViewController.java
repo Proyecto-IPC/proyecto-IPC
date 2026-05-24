@@ -234,6 +234,12 @@ public class MainViewController implements Initializable {
         }
     }
 
+    void refrescarDashboardSiExiste() {
+        if (dashboardController != null) {
+            dashboardController.refrescarDashboard();
+        }
+    }
+
     public void mostrarDetalleActividadPlaceholder() {
         mostrarShell();
         rootPane.setCenter(crearDetalleActividad(null));
