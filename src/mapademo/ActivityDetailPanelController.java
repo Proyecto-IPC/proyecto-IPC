@@ -53,6 +53,10 @@ public class ActivityDetailPanelController implements Initializable {
 
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private static final double CHART_HOVER_Y_OFFSET = 20.0;
+    private static final double CHART_TOOLTIP_WIDTH = 150.0;
+    private static final double CHART_TOOLTIP_HEIGHT = 48.0;
+    private static final double CHART_TOOLTIP_MARGIN = 8.0;
+    private static final double CHART_TOOLTIP_GAP = 12.0;
     private XYChart.Series<Number, Number> elevationSeries;
     private List<XYChart.Data<Number, Number>> sampledDataPoints = new ArrayList<>();
     private List<TrackPoint> sampledTrackPoints = new ArrayList<>();
@@ -207,8 +211,19 @@ public class ActivityDetailPanelController implements Initializable {
                 trackerDot.setTranslateX(displayX - 5.25);
                 trackerDot.setTranslateY(displayY + 9.5);
 
-                tooltipCard.setTranslateX(displayX + 12);
-                tooltipCard.setTranslateY(displayY - 24);
+                double tooltipX = displayX + CHART_TOOLTIP_GAP;
+                double maxTooltipX = chartStackContainer.getWidth() - CHART_TOOLTIP_WIDTH - CHART_TOOLTIP_MARGIN;
+                if (tooltipX > maxTooltipX) {
+                    tooltipX = displayX - CHART_TOOLTIP_WIDTH - CHART_TOOLTIP_GAP;
+                }
+                tooltipX = clamp(tooltipX, CHART_TOOLTIP_MARGIN, maxTooltipX);
+
+                double tooltipY = displayY - 24;
+                double maxTooltipY = chartStackContainer.getHeight() - CHART_TOOLTIP_HEIGHT - CHART_TOOLTIP_MARGIN;
+                tooltipY = clamp(tooltipY, CHART_TOOLTIP_MARGIN, maxTooltipY);
+
+                tooltipCard.setTranslateX(tooltipX);
+                tooltipCard.setTranslateY(tooltipY);
 
                 tooltipDist.setText(String.format("%.2f km", nearestData.getXValue().doubleValue()));
                 tooltipElev.setText(Math.round(nearestData.getYValue().doubleValue()) + " m");
@@ -244,6 +259,11 @@ public class ActivityDetailPanelController implements Initializable {
         if (index >= 0 && index < sampledTrackPoints.size()) {
             mapController.highlightTrackPoint(sampledTrackPoints.get(index));
         }
+    }
+
+    private double clamp(double value, double min, double max) {
+        if (max < min) return min;
+        return Math.max(min, Math.min(max, value));
     }
 
     @FXML
