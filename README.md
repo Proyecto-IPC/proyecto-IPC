@@ -369,6 +369,7 @@ Wireframe:
 |                                   |   [        Registrarme        ]   |
 |                                   |                                   |
 +-----------------------------------+-----------------------------------+
+```
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
