@@ -342,12 +342,19 @@ flowchart TD
 ## 2.1. Diseños de Pantallas y Wireframes
 
 Wireframe:
-# Pantalla de Login (Running La Safor)
+# Pantalla de Login 
 
 | Panel Izquierdo (Marca) | Panel Derecho (Formulario) |
 | :--- | :--- |
 | **Fondo:** Fotografía (Runners al atardecer) | **Fondo:** Color sólido (#1e1e1e) |
 | **Contenido:** Logo vectorizado en blanco | **Contenido:** Formulario de acceso |
+
+# Pantalla de Registro 
+
+| Panel Izquierdo (Marca) | Panel Derecho (Formulario) |
+| :--- | :--- |
+| **Fondo:** Fotografía (Runners al atardecer) | **Fondo:** Color sólido (#1e1e1e) |
+| **Contenido:** Logo vectorizado en blanco | **Contenido:** Formulario de registro con campos extendidos |
 
 ## Layout Estructural
 
@@ -367,6 +374,36 @@ Wireframe:
 |            ( IMAGEN )             |                                   |
 |                                   |   ¿No tienes cuenta?              |
 |                                   |   [        Registrarme        ]   |
+|                                   |                                   |
++-----------------------------------+-----------------------------------+
+
++-----------------------------------+-----------------------------------+
+|                                   |                                   |
+|                                   |             Registro              |
+|                                   |   Crea tu cuenta con los...       |
+|                                   |                                   |
+|             [ LOGO ]              |   Usuario                         |
+|                                   |   [___________________________]   |
+|         Running La Safor          |                                   |
+|              -CLUB-               |   Correo electrónico              |
+|                                   |   [___________________________]   |
+|                                   |                                   |
+|                                   |   Contraseña (i)                  |
+|                                   |   [___________________________]   |
+|                                   |                                   |
+|                                   |   Confirmar contraseña            |
+|                                   |   [___________________________]   |
+|                                   |                                   |
+|            ( IMAGEN )             |   Fecha de nacimiento             |
+|                                   |   [Día] [Mes] [Año] [Icono]       |
+|                                   |                                   |
+|                                   |   Avatar (opcional)               |
+|                                   |   [Selecciona image] [Examinar]   |
+|                                   |                                   |
+|                                   |  [         Crear cuenta        ]  |
+|                                   |                                   |
+|                                   |   ¿Ya tienes cuenta?              |
+|                                   |  [        Iniciar sesión       ]  |
 |                                   |                                   |
 +-----------------------------------+-----------------------------------+
 ```
