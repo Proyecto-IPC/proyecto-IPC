@@ -406,8 +406,14 @@ Wireframe:
 ## Layout Estructural
 ![Layout Estr.](protimg/protSes.png)
 
+# Añadir Mapa / Gestión de Mapas
+| Barra Lateral (Navegación)                                                                                             | Cabecera (Header)                                                                                                        | Módulos Principales (Formulario de Registro de Mapa)                                                                                                                                                                                                                                                                                                                                                                                                   |
+| :--------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fondo:** Color sólido gris muy oscuro                                                                                | **Fondo:** Color sólido gris muy oscuro                                                                                  | **Fondo:** Un bloque centralizado vertical (Gris #1a1a1a) sobre fondo general oscuro                                                                                                                                                                                                                                                                                                                                                                   |
+| **Contenido:** Iconos de navegación vertical. El quinto icono (Mapa / Geolocalización) se encuentra activo y resaltado | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro, avatar/perfil de usuario y botón de salir | **Contenido:** • Título "Registrar nuevo mapa" con subtítulo "Asigna un nombre y selecciona la imagen del mapa". • Campos de entrada: nombre del mapa y selección de archivo de imagen con botón verde "Examinar". • Sección "Coordenadas del mapa" con entradas numéricas: latitud mínima (sur), latitud máxima (norte), longitud mínima (oeste) y longitud máxima (este). • Botones inferiores: "Añadir mapa" (verde) y "Cancelar" (gris con borde). |
 
-
+## Layout Estructural
+![Layout Estr.](protimg/protRegMapa.png)
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
