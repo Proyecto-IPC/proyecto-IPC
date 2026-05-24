@@ -341,7 +341,34 @@ flowchart TD
 
 ## 2.1. Diseños de Pantallas y Wireframes
 
-fff
+Wireframe:
+# Pantalla de Login (Running La Safor)
+
+| Panel Izquierdo (Marca) | Panel Derecho (Formulario) |
+| :--- | :--- |
+| **Fondo:** Fotografía (Runners al atardecer) | **Fondo:** Color sólido (#1e1e1e) |
+| **Contenido:** Logo vectorizado en blanco | **Contenido:** Formulario de acceso |
+
+## Layout Estructural
+
+```text
++-----------------------------------+-----------------------------------+
+|                                   |                                   |
+|                                   |          Iniciar sesión           |
+|                                   |   Accede para consultar tus...    |
+|                                   |                                   |
+|             [ LOGO ]              |   Usuario                         |
+|                                   |   [___________________________]   |
+|         Running La Safor          |                                   |
+|              -CLUB-               |   Contraseña                      |
+|                                   |   [___________________________]   |
+|                                   |                                   |
+|                                   |   [          Entrar           ]   |
+|            ( IMAGEN )             |                                   |
+|                                   |   ¿No tienes cuenta?              |
+|                                   |   [        Registrarme        ]   |
+|                                   |                                   |
++-----------------------------------+-----------------------------------+
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
