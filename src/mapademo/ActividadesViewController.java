@@ -86,6 +86,7 @@ public class ActividadesViewController implements Initializable {
         HBox chips = new HBox(6);
         chips.getChildren().addAll(
             crearChip(String.format("%.1f km", act.getTotalDistance() / 1000.0)),
+            crearChip(formatearRitmo(act.getTotalDistance(), act.getDuration().getSeconds())),
             crearChip(formatearTiempo(act.getDuration().getSeconds())),
             crearChip(String.format("%d m", Math.round(act.getElevationGain())))
         );
@@ -104,6 +105,16 @@ public class ActividadesViewController implements Initializable {
         Label chip = new Label(texto);
         chip.getStyleClass().add("activity-chip");
         return chip;
+    }
+
+    private String formatearRitmo(double distanciaMetros, long segundos) {
+        if (distanciaMetros <= 0 || segundos <= 0) return "-- /km";
+        double km = distanciaMetros / 1000.0;
+        double segPorKm = segundos / km;
+        long min = (long) (segPorKm / 60);
+        long sec = Math.round(segPorKm - min * 60);
+        if (sec == 60) { min++; sec = 0; }
+        return String.format("%d:%02d /km", min, sec);
     }
 
     private String formatearTiempo(long segundos) {

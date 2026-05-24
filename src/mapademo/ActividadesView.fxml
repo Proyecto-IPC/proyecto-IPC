@@ -44,6 +44,7 @@
                                   <HBox spacing="6.0">
                                      <children>
                                         <Label styleClass="activity-chip" text="12.5 km" />
+                                        <Label styleClass="activity-chip" text="5:33 /km" />
                                         <Label styleClass="activity-chip" text="1h 45min" />
                                         <Label styleClass="activity-chip" text="450 m" />
                                      </children>
@@ -62,6 +63,7 @@
                                   <HBox spacing="6.0">
                                      <children>
                                         <Label styleClass="activity-chip" text="8.0 km" />
+                                        <Label styleClass="activity-chip" text="5:00 /km" />
                                         <Label styleClass="activity-chip" text="40min" />
                                         <Label styleClass="activity-chip" text="15 m" />
                                      </children>

@@ -63,19 +63,21 @@ public class DashboardViewController implements Initializable {
         int numActividades = actividades.size();
 
         String distKm = formatearDistancia(distanciaTotal);
+        String ritmoStr = formatearRitmo(distanciaTotal, tiempoTotalSegundos);
         String tiempoStr = formatearTiempo(tiempoTotalSegundos);
         String desnivelStr = formatearEntero(desnivelTotal) + " m";
 
         String helperDist = numActividades == 0 ? "Sin actividades importadas" : numActividades + " actividad" + (numActividades != 1 ? "es" : "");
+        String helperRitmo = numActividades == 0 ? "Sin actividades importadas" : "Promedio";
         String helperTiempo = numActividades == 0 ? "Sin actividades importadas" : "Acumulado total";
         String helperDesnivel = numActividades == 0 ? "Sin actividades importadas" : "Desnivel positivo";
 
         statsGrid.getChildren().clear();
         String[][] stats = {
             {"Distancia total", distKm, helperDist},
+            {"Ritmo medio", ritmoStr, helperRitmo},
             {"Tiempo total", tiempoStr, helperTiempo},
-            {"Desnivel", desnivelStr, helperDesnivel},
-            {"Actividades", String.valueOf(numActividades), numActividades == 0 ? "Sin actividades" : "Registradas"}
+            {"Desnivel", desnivelStr, helperDesnivel}
         };
 
         for (int i = 0; i < stats.length; i++) {
@@ -126,11 +128,13 @@ public class DashboardViewController implements Initializable {
         if (act != null) {
             Label chipDist = new Label(String.format("%.1f km", act.getTotalDistance() / 1000.0));
             chipDist.getStyleClass().add("activity-chip");
+            Label chipRitmo = new Label(formatearRitmo(act.getTotalDistance(), act.getDuration().getSeconds()));
+            chipRitmo.getStyleClass().add("activity-chip");
             Label chipTiempo = new Label(formatearTiempo(act.getDuration().getSeconds()));
             chipTiempo.getStyleClass().add("activity-chip");
             Label chipDesn = new Label(String.format("%d m", Math.round(act.getElevationGain())));
             chipDesn.getStyleClass().add("activity-chip");
-            chipRow.getChildren().addAll(chipDist, chipTiempo, chipDesn);
+            chipRow.getChildren().addAll(chipDist, chipRitmo, chipTiempo, chipDesn);
         }
 
         body.getChildren().addAll(titleNode, detailNode, chipRow);
@@ -327,6 +331,16 @@ public class DashboardViewController implements Initializable {
         }
         double km = metros / 1000.0;
         return String.format("%.1f km", km);
+    }
+
+    private String formatearRitmo(double distanciaMetros, long segundos) {
+        if (distanciaMetros <= 0 || segundos <= 0) return "-- /km";
+        double km = distanciaMetros / 1000.0;
+        double segPorKm = segundos / km;
+        long min = (long) (segPorKm / 60);
+        long sec = Math.round(segPorKm - min * 60);
+        if (sec == 60) { min++; sec = 0; }
+        return String.format("%d:%02d /km", min, sec);
     }
 
     private String formatearTiempo(long totalSegundos) {

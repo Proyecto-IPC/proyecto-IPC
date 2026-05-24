@@ -41,9 +41,9 @@
                </columnConstraints>
                <children>
                   <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="0"><children><Label styleClass="metric-label" text="Distancia total" /><Label styleClass="metric-value" text="24,5 km" /><Label styleClass="metric-helper" text="4 actividades" /></children></VBox>
-                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="1"><children><Label styleClass="metric-label" text="Tiempo total" /><Label styleClass="metric-value" text="40 min" /><Label styleClass="metric-helper" text="Acumulado" /></children></VBox>
-                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="2"><children><Label styleClass="metric-label" text="Desnivel" /><Label styleClass="metric-value" text="467 m" /><Label styleClass="metric-helper" text="Positivo acumulado" /></children></VBox>
-                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="3"><children><Label styleClass="metric-label" text="Actividades" /><Label styleClass="metric-value" text="4" /><Label styleClass="metric-helper" text="Registradas" /></children></VBox>
+                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="1"><children><Label styleClass="metric-label" text="Ritmo medio" /><Label styleClass="metric-value" text="5:33 /km" /><Label styleClass="metric-helper" text="Promedio" /></children></VBox>
+                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="2"><children><Label styleClass="metric-label" text="Tiempo total" /><Label styleClass="metric-value" text="40 min" /><Label styleClass="metric-helper" text="Acumulado" /></children></VBox>
+                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="3"><children><Label styleClass="metric-label" text="Desnivel" /><Label styleClass="metric-value" text="467 m" /><Label styleClass="metric-helper" text="Positivo acumulado" /></children></VBox>
                </children>
             </GridPane>
 
