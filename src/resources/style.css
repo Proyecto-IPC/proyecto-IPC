@@ -1069,6 +1069,19 @@
     -fx-stroke: -app-danger;
 }
 
+.map-action-unavailable {
+    -fx-cursor: default;
+}
+
+.map-action-unavailable:hover {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: -app-border;
+}
+
+.map-action-unavailable SVGPath {
+    -fx-stroke: -app-muted;
+}
+
 .home-empty-state {
     -fx-background-color: -app-surface;
     -fx-background-radius: 10;
@@ -1248,8 +1261,70 @@
 }
 
 .map-form-card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
     -fx-padding: 28;
     -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 12, 0.1, 0, 4);
+}
+
+.map-management-card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 12, 0.1, 0, 4);
+}
+
+.map-management-titlebar {
+    -fx-padding: 22 24 18 24;
+    -fx-border-color: transparent transparent -app-border transparent;
+}
+
+.map-table-header {
+    -fx-padding: 10 24 10 24;
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: transparent transparent -app-border transparent;
+}
+
+.map-table-heading {
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 12px;
+    -fx-font-weight: 800;
+}
+
+.map-table-row {
+    -fx-padding: 12 24 12 24;
+    -fx-border-color: transparent transparent -app-border transparent;
+}
+
+.map-table-row:hover {
+    -fx-background-color: -app-surface-alt;
+}
+
+.map-table-name {
+    -fx-text-fill: -app-text;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.map-table-path {
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 13px;
+}
+
+.map-management-footer {
+    -fx-padding: 22 24 24 24;
+}
+
+.map-image-preview {
+    -fx-background-color: -app-surface-alt;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
 }
 
 .history-root {

@@ -4,98 +4,116 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="480.0" prefWidth="700.0" styleClass="map-form-root" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.AñadirMapaViewController">
-   <children>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="screen-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <content>
-            <VBox alignment="CENTER" minHeight="420.0" styleClass="map-form-scroll-content">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="main-scroll" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.AñadirMapaViewController">
+   <content>
+      <VBox alignment="CENTER" minHeight="520.0" spacing="22.0" styleClass="home-page">
+         <children>
+            <VBox alignment="CENTER_LEFT" maxWidth="760.0" spacing="16.0" styleClass="map-form-card">
                <children>
-                  <VBox alignment="CENTER_LEFT" maxWidth="460.0" spacing="14.0" styleClass="map-form-card">
+                  <HBox alignment="CENTER_LEFT" spacing="12.0">
                      <children>
-                        <Label styleClass="page-title" text="Registrar nuevo mapa" />
-                        <Label styleClass="muted-label" text="Asigna un nombre y selecciona la imagen del mapa." />
-                        <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                        <VBox spacing="4.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="field-label" text="Nombre" />
-                              <TextField fx:id="txtNombreMapa" maxWidth="1.7976931348623157E308" promptText="Nombre del mapa" />
+                              <Label styleClass="page-title" text="Añadir nuevo mapa" />
+                              <Label styleClass="muted-label" text="Selecciona una imagen y define las coordenadas de sus bordes." />
                            </children>
                         </VBox>
-                        <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+                     </children>
+                  </HBox>
+
+                  <HBox spacing="24.0">
+                     <children>
+                        <VBox minWidth="310.0" spacing="12.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="field-label" text="Imagen" />
-                              <HBox spacing="8.0">
+                              <VBox styleClass="field-stack">
                                  <children>
-                                    <TextField fx:id="txtRutaImagen" editable="false" prefHeight="34.0" promptText="Sin imagen seleccionada" HBox.hgrow="ALWAYS" />
-                                    <Button fx:id="btnExaminar" mnemonicParsing="false" onAction="#handleSeleccionarImagen" prefHeight="34.0" styleClass="primary-button" text="Examinar" />
+                                    <Label styleClass="field-label" text="Nombre" />
+                                    <TextField fx:id="txtNombreMapa" promptText="Nombre del mapa" />
                                  </children>
-                              </HBox>
+                              </VBox>
+
+                              <VBox styleClass="field-stack">
+                                 <children>
+                                    <Label styleClass="field-label" text="Seleccionar archivo" />
+                                    <HBox spacing="8.0">
+                                       <children>
+                                          <TextField fx:id="txtRutaImagen" editable="false" promptText="Sin imagen seleccionada" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="btnExaminar" mnemonicParsing="false" onAction="#handleSeleccionarImagen" styleClass="primary-button" text="Examinar" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+
+                              <StackPane minHeight="190.0" prefHeight="190.0" maxHeight="190.0" styleClass="map-image-preview">
+                                 <children>
+                                    <Label fx:id="lblPreviewPlaceholder" styleClass="muted-label" text="Preview del mapa" />
+                                    <ImageView fx:id="mapPreview" fitHeight="190.0" fitWidth="310.0" preserveRatio="true" visible="false" />
+                                 </children>
+                              </StackPane>
+
+                              <Label fx:id="lblFeedback" minHeight="28.0" styleClass="error" text=" " wrapText="true" />
                            </children>
                         </VBox>
-                        <Separator prefWidth="200.0" />
-                        <Label styleClass="section-label" text="Coordenadas del mapa" />
-                        <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
+
+                        <VBox minHeight="275.0" prefHeight="275.0" maxHeight="275.0" spacing="0.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <HBox spacing="8.0">
+                              <VBox spacing="12.0">
                                  <children>
-                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
+                                    <VBox spacing="4.0">
                                        <children>
-                                          <Label styleClass="field-label" text="Latitud mínima (Sur)" />
+                                          <Label styleClass="field-label" text="Latitud mínima" />
                                           <TextField fx:id="txtLatSur" maxWidth="1.7976931348623157E308" promptText="Ej: 39.33" />
                                        </children>
                                     </VBox>
-                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
+                                    <VBox spacing="4.0">
                                        <children>
-                                          <Label alignment="CENTER_RIGHT" styleClass="field-label" text="Latitud máxima (Norte)" />
+                                          <Label styleClass="field-label" text="Latitud máxima" />
                                           <TextField fx:id="txtLatNorte" maxWidth="1.7976931348623157E308" promptText="Ej: 39.87" />
                                        </children>
                                     </VBox>
                                  </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox maxWidth="1.7976931348623157E308" styleClass="field-stack">
-                           <children>
-                              <HBox spacing="8.0">
+                              </VBox>
+
+                              <Region VBox.vgrow="ALWAYS" />
+
+                              <VBox spacing="12.0">
                                  <children>
-                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
+                                    <VBox spacing="4.0">
                                        <children>
-                                          <Label styleClass="field-label" text="Longitud mínima (Oeste)" />
+                                          <Label styleClass="field-label" text="Longitud mínima" />
                                           <TextField fx:id="txtLonOeste" maxWidth="1.7976931348623157E308" promptText="Ej: -0.50" />
                                        </children>
                                     </VBox>
-                                    <VBox styleClass="field-stack" HBox.hgrow="ALWAYS">
+                                    <VBox spacing="4.0">
                                        <children>
-                                          <Label alignment="CENTER_RIGHT" styleClass="field-label" text="Longitud máxima (Este)" />
+                                          <Label styleClass="field-label" text="Longitud máxima" />
                                           <TextField fx:id="txtLonEste" maxWidth="1.7976931348623157E308" promptText="Ej: 0.11" />
                                        </children>
                                     </VBox>
                                  </children>
-                              </HBox>
+                              </VBox>
+
                            </children>
                         </VBox>
-                        <Label fx:id="lblFeedback" maxWidth="1.7976931348623157E308" minHeight="28.0" styleClass="error" text=" " wrapText="true" />
-                        <HBox maxWidth="1.7976931348623157E308" spacing="10.0" alignment="BASELINE_LEFT">
-                           <children>
-<Button fx:id="btnAñadir" defaultButton="true" mnemonicParsing="false" onAction="#handleBotonAñadir" prefHeight="36.0" prefWidth="140.0" minWidth="140.0" styleClass="primary-button" text="Añadir mapa" />
-                               <Region HBox.hgrow="ALWAYS" />
-                               <Button fx:id="btnCancelar" cancelButton="true" mnemonicParsing="false" onAction="#handleBotonCancelar" prefHeight="36.0" prefWidth="140.0" minWidth="140.0" styleClass="secondary-button" text="Cancelar" />
-                           </children>
-                           <VBox.margin>
-                              <Insets top="4.0" />
-                           </VBox.margin>
-                        </HBox>
                      </children>
-                  </VBox>
+                  </HBox>
+
+                  <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                     <children>
+                        <Button fx:id="btnCancelar" cancelButton="true" minWidth="130.0" mnemonicParsing="false" onAction="#handleBotonCancelar" styleClass="secondary-button" text="Cancelar" />
+                        <Button fx:id="btnAñadir" defaultButton="true" minWidth="130.0" mnemonicParsing="false" onAction="#handleBotonAñadir" styleClass="primary-button" text="Añadir" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-         </content>
-      </ScrollPane>
-   </children>
-</AnchorPane>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

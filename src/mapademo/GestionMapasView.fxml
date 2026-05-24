@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="main-scroll" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.GestionMapasViewController">
+   <content>
+      <VBox alignment="CENTER" minHeight="520.0" spacing="18.0" styleClass="home-page">
+         <children>
+            <VBox maxWidth="760.0" spacing="0.0" styleClass="map-management-card">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="map-management-titlebar">
+                     <children>
+                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="page-title" text="Mapas" />
+                              <Label styleClass="muted-label" text="Mapas registrados en el sistema." />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+
+                  <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="map-table-header">
+                     <children>
+                        <Label minWidth="190.0" prefWidth="190.0" styleClass="map-table-heading" text="Nombre" />
+                        <Label maxWidth="1.7976931348623157E308" styleClass="map-table-heading" text="Ubicación" HBox.hgrow="ALWAYS" />
+                        <Label alignment="CENTER" minWidth="96.0" prefWidth="96.0" styleClass="map-table-heading" text="Acción" />
+                     </children>
+                  </HBox>
+
+                  <VBox fx:id="mapsTableBody" spacing="0.0" />
+
+                  <VBox fx:id="emptyMapsState" alignment="CENTER" managed="false" minHeight="140.0" spacing="8.0" styleClass="home-empty-state" visible="false">
+                     <children>
+                        <Label styleClass="empty-state-title" text="Sin mapas registrados" />
+                        <Label styleClass="empty-state-text" text="Añade tu primer mapa para poder asociarlo a las rutas importadas." />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="12.0" />
+                     </VBox.margin>
+                  </VBox>
+
+                  <HBox alignment="CENTER_RIGHT" spacing="12.0" styleClass="map-management-footer">
+                     <children>
+                        <Button fx:id="btnAddMap" minWidth="170.0" mnemonicParsing="false" onAction="#handleAddMap" styleClass="primary-button" text="Añadir nuevo mapa" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

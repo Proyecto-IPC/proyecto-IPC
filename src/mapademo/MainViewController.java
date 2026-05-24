@@ -42,6 +42,7 @@ public class MainViewController implements Initializable {
     @FXML private Button btnNavActividades;
     @FXML private Button btnNavPerfil;
     @FXML private Button btnNavHistorial;
+    @FXML private Button btnNavGestionMapas;
     @FXML private Button btnLightMode;
     @FXML private Button btnDarkMode;
     @FXML private Label userNicknameLabel;
@@ -73,6 +74,7 @@ public class MainViewController implements Initializable {
         AnimationBehavior.installHover(btnNavActividades);
         AnimationBehavior.installHover(btnNavPerfil);
         AnimationBehavior.installHover(btnNavHistorial);
+        AnimationBehavior.installHover(btnNavGestionMapas);
         AnimationBehavior.installHover(btnHome);
 
         prefs = Preferences.userNodeForPackage(MainViewController.class);
@@ -136,8 +138,8 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleGestionMapas() {
-        setActiveRail(null);
-        cargarVista("AñadirMapaView.fxml");
+        setActiveRail(btnNavGestionMapas);
+        cargarVista("GestionMapasView.fxml");
     }
 
     @FXML
@@ -392,11 +394,13 @@ public class MainViewController implements Initializable {
             setActiveRail(btnNavHistorial);
         } else if ("ActividadesView.fxml".equals(fxmlPath)) {
             setActiveRail(btnNavActividades);
+        } else if ("GestionMapasView.fxml".equals(fxmlPath) || "AñadirMapaView.fxml".equals(fxmlPath)) {
+            setActiveRail(btnNavGestionMapas);
         }
     }
 
     private void setActiveRail(Button activeButton) {
-        Button[] buttons = {btnNavResumen, btnNavActividades, btnNavPerfil, btnNavHistorial};
+        Button[] buttons = {btnNavResumen, btnNavActividades, btnNavPerfil, btnNavHistorial, btnNavGestionMapas};
         for (Button button : buttons) {
             button.getStyleClass().remove("active");
             if (button == activeButton) {
