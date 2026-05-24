@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -17,8 +17,7 @@
          <padding>
             <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
          </padding>
-<children>
-
+         <children>
             <HBox alignment="CENTER_LEFT" spacing="12.0">
                <children>
                   <VBox spacing="4.0">
@@ -27,12 +26,13 @@
                         <Label styleClass="muted-label" text="Tu actividad en números." />
                      </children>
                   </VBox>
+                  <Label fx:id="activityCountPill" styleClass="summary-count-pill" text="0 actividades" />
                   <Region HBox.hgrow="ALWAYS" />
                   <Button fx:id="btnImportar" mnemonicParsing="false" onAction="#handleImportar" styleClass="import-button" text="Importar actividad" />
                </children>
             </HBox>
 
-            <GridPane fx:id="statsGrid" hgap="16.0" styleClass="summary-grid" vgap="16.0" maxWidth="1.7976931348623157E308">
+            <GridPane fx:id="statsGrid" hgap="16.0" maxWidth="1.7976931348623157E308" styleClass="summary-grid" vgap="16.0">
                <columnConstraints>
                   <ColumnConstraints percentWidth="25.0" />
                   <ColumnConstraints percentWidth="25.0" />
@@ -40,71 +40,82 @@
                   <ColumnConstraints percentWidth="25.0" />
                </columnConstraints>
                <children>
-                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="0"><children><Label styleClass="metric-label" text="Distancia total" /><Label styleClass="metric-value" text="24,5 km" /><Label styleClass="metric-helper" text="4 actividades" /></children></VBox>
-                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="1"><children><Label styleClass="metric-label" text="Ritmo medio" /><Label styleClass="metric-value" text="5:33 /km" /><Label styleClass="metric-helper" text="Promedio" /></children></VBox>
-                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="2"><children><Label styleClass="metric-label" text="Tiempo total" /><Label styleClass="metric-value" text="40 min" /><Label styleClass="metric-helper" text="Acumulado" /></children></VBox>
-                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="3"><children><Label styleClass="metric-label" text="Desnivel" /><Label styleClass="metric-value" text="467 m" /><Label styleClass="metric-helper" text="Positivo acumulado" /></children></VBox>
+                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="0"><children><Label styleClass="metric-label" text="Distancia total" /><Label styleClass="metric-value" text="24,5 km" /></children></VBox>
+                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="1"><children><Label styleClass="metric-label" text="Ritmo medio" /><Label styleClass="metric-value" text="5:33 /km" /></children></VBox>
+                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="2"><children><Label styleClass="metric-label" text="Tiempo total" /><Label styleClass="metric-value" text="40 min" /></children></VBox>
+                  <VBox spacing="8.0" styleClass="metric-card" GridPane.columnIndex="3"><children><Label styleClass="metric-label" text="Desnivel" /><Label styleClass="metric-value" text="467 m" /></children></VBox>
                </children>
             </GridPane>
 
-            <GridPane hgap="24.0" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+            <GridPane hgap="24.0" maxWidth="1.7976931348623157E308">
                <columnConstraints>
-                  <ColumnConstraints percentWidth="55.0" />
-                  <ColumnConstraints percentWidth="45.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="290.0" prefWidth="300.0" maxWidth="300.0" />
                </columnConstraints>
                <children>
-                  <VBox spacing="12.0" styleClass="map-preview-panel" GridPane.columnIndex="0" maxHeight="1.7976931348623157E308">
+                  <VBox fx:id="latestActivityPanel" spacing="12.0" styleClass="map-preview-panel, dashboard-main-panel" GridPane.columnIndex="0">
                      <children>
-                        <VBox spacing="3.0"><children><Label styleClass="section-title" text="Última ruta" /><Label styleClass="muted-label" text="Visualización de tu último recorrido." /></children></VBox>
-                        <Pane fx:id="mapPreview" styleClass="mini-map-placeholder" minHeight="220.0" prefHeight="220.0" maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="12.0" styleClass="map-preview-panel" GridPane.columnIndex="1" maxHeight="1.7976931348623157E308">
-                     <children>
-                        <VBox spacing="3.0"><children><Label styleClass="section-title" text="Racha" /><Label styleClass="muted-label" text="Actividad en las últimas 3 semanas." wrapText="true" /></children></VBox>
-                        <GridPane fx:id="calendarGrid" hgap="8.0" styleClass="calendar-grid" vgap="8.0" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
-                     </children>
-                  </VBox>
-               </children>
-            </GridPane>
-
-            <GridPane hgap="24.0" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-               <columnConstraints>
-                  <ColumnConstraints percentWidth="42.0" />
-                  <ColumnConstraints percentWidth="58.0" />
-               </columnConstraints>
-               <children>
-                  <VBox spacing="12.0" styleClass="chart-panel" GridPane.columnIndex="0" maxHeight="1.7976931348623157E308">
-                     <children>
-                        <VBox spacing="3.0"><children><Label styleClass="section-title" text="Gráfica semanal" /><Label styleClass="muted-label" text="Kilómetros de los últimos 7 días." /></children></VBox>
-                        <HBox fx:id="chartBars" alignment="BOTTOM_LEFT" spacing="16.0" styleClass="chart-bars" prefHeight="120.0" minHeight="120.0" maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                        <VBox spacing="3.0">
                            <children>
-                              <VBox alignment="BOTTOM_CENTER" spacing="6.0" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"><children><Region maxHeight="60.0" minHeight="60.0" minWidth="15.0" prefHeight="60.0" prefWidth="24.0" styleClass="chart-bar-active" /><Label styleClass="calendar-weekday" text="L" /></children></VBox>
-                              <VBox alignment="BOTTOM_CENTER" spacing="6.0" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"><children><Region maxHeight="30.0" minHeight="30.0" minWidth="15.0" prefHeight="30.0" prefWidth="24.0" styleClass="chart-bar-empty" /><Label styleClass="calendar-weekday" text="M" /></children></VBox>
-                              <VBox alignment="BOTTOM_CENTER" spacing="6.0" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"><children><Region maxHeight="80.0" minHeight="80.0" minWidth="15.0" prefHeight="80.0" prefWidth="24.0" styleClass="chart-bar-active" /><Label styleClass="calendar-weekday" text="X" /></children></VBox>
-                              <VBox alignment="BOTTOM_CENTER" spacing="6.0" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"><children><Region maxHeight="45.0" minHeight="45.0" minWidth="15.0" prefHeight="45.0" prefWidth="24.0" styleClass="chart-bar-active" /><Label styleClass="calendar-weekday" text="J" /></children></VBox>
-                              <VBox alignment="BOTTOM_CENTER" spacing="6.0" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"><children><Region maxHeight="20.0" minHeight="20.0" minWidth="15.0" prefHeight="20.0" prefWidth="24.0" styleClass="chart-bar-empty" /><Label styleClass="calendar-weekday" text="V" /></children></VBox>
-                              <VBox alignment="BOTTOM_CENTER" spacing="6.0" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"><children><Region maxHeight="100.0" minHeight="100.0" minWidth="15.0" prefHeight="100.0" prefWidth="24.0" styleClass="chart-bar-active" /><Label styleClass="calendar-weekday" text="S" /></children></VBox>
-                              <VBox alignment="BOTTOM_CENTER" spacing="6.0" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308"><children><Region maxHeight="65.0" minHeight="65.0" minWidth="15.0" prefHeight="65.0" prefWidth="24.0" styleClass="chart-bar-active" /><Label styleClass="calendar-weekday" text="D" /></children></VBox>
+                              <Label styleClass="section-title" text="Última actividad" />
+                              <Label styleClass="muted-label" text="Visualización de tu último entrenamiento." />
                            </children>
-                        </HBox>
+                        </VBox>
+                        <Pane fx:id="mapPreview" minHeight="190.0" prefHeight="190.0" maxHeight="190.0" maxWidth="1.7976931348623157E308" styleClass="mini-map-placeholder" VBox.vgrow="NEVER" />
+                        <VBox fx:id="latestActivitySummary" spacing="8.0" styleClass="latest-activity-summary" />
                      </children>
                   </VBox>
 
-                  <VBox spacing="12.0" GridPane.columnIndex="1" maxHeight="1.7976931348623157E308">
+                  <VBox spacing="12.0" prefHeight="284.0" styleClass="chart-panel, dashboard-side-panel" GridPane.columnIndex="1">
+                     <children>
+                        <VBox spacing="3.0">
+                           <children>
+                              <Label styleClass="section-title" text="Gráfica semanal" />
+                              <Label styleClass="muted-label" text="Kilómetros de los últimos 7 días." />
+                           </children>
+                        </VBox>
+                        <HBox fx:id="chartBars" alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" minHeight="140.0" prefHeight="140.0" spacing="6.0" styleClass="chart-bars" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+
+            <GridPane hgap="24.0" maxWidth="1.7976931348623157E308">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="290.0" prefWidth="300.0" maxWidth="300.0" />
+               </columnConstraints>
+               <children>
+                  <VBox spacing="12.0" styleClass="dashboard-main-panel" GridPane.columnIndex="0">
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                            <children>
-                              <VBox spacing="3.0" HBox.hgrow="ALWAYS"><children><Label styleClass="section-title" text="Actividades recientes" /><Label styleClass="muted-label" text="Tus últimos entrenamientos." /></children></VBox>
+                              <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="section-title" text="Más actividades recientes" />
+                                    <Label styleClass="muted-label" text="Tus últimos entrenamientos." />
+                                 </children>
+                              </VBox>
                               <Button mnemonicParsing="false" onAction="#handleVerTodasActividades" styleClass="ghost-button, section-link-button" text="Ver todas" />
                            </children>
                         </HBox>
-                        <VBox fx:id="activityList" spacing="10.0" styleClass="activity-list-placeholder" maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                        <VBox fx:id="activityList" maxWidth="1.7976931348623157E308" spacing="10.0" styleClass="activity-list-placeholder" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+
+                  <VBox spacing="12.0" prefHeight="268.0" styleClass="map-preview-panel, dashboard-side-panel" GridPane.columnIndex="1">
+                     <children>
+                        <VBox spacing="3.0">
+                           <children>
+                              <Label styleClass="section-title" text="Racha" />
+                              <Label styleClass="muted-label" text="Actividad en las últimas 4 semanas." wrapText="true" />
+                           </children>
+                        </VBox>
+                        <GridPane fx:id="calendarGrid" hgap="8.0" maxHeight="1.7976931348623157E308" styleClass="calendar-grid" vgap="8.0" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children>
             </GridPane>
-
          </children>
       </VBox>
    </content>

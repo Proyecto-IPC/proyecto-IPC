@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.TrackPoint;
 
 public class ActivityDetailPanelController implements Initializable {
@@ -70,7 +71,7 @@ public class ActivityDetailPanelController implements Initializable {
         currentActivity = activity;
 
         lblNombreActividad.setText(activity.getName() != null ? activity.getName() : "Actividad sin nombre");
-        lblFechaActividad.setText(activity.getStartTime() != null ? activity.getStartTime().format(DATE_TIME_FORMAT) : "Fecha desconocida");
+        lblFechaActividad.setText(formatearFechaYMapa(activity));
 
         lblDistancia.setText(String.format("%.1f km", activity.getTotalDistance() / 1000.0));
         lblTiempo.setText(Math.round(activity.getDuration().toSeconds() / 60.0) + " min");
@@ -130,6 +131,15 @@ public class ActivityDetailPanelController implements Initializable {
 
     private void actualizarNombreTrasRenombrar() {
         lblNombreActividad.setText(currentActivity.getName() != null ? currentActivity.getName() : "Actividad sin nombre");
+    }
+
+    private String formatearFechaYMapa(Activity activity) {
+        String fecha = activity.getStartTime() != null ? activity.getStartTime().format(DATE_TIME_FORMAT) : "Fecha desconocida";
+        MapRegion mapa = activity.getSuggestedMap();
+        if (mapa == null || mapa.getName() == null || mapa.getName().isBlank()) {
+            return fecha;
+        }
+        return fecha + " · " + mapa.getName();
     }
 
     private void volverTrasEliminar() {

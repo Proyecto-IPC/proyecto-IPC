@@ -17,6 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.SportActivityApp;
 
 public class ActividadesViewController implements Initializable {
@@ -131,10 +132,18 @@ public class ActividadesViewController implements Initializable {
         String fecha = act.getStartTime().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM"));
         String inicio = act.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm"));
         if (act.getEndTime() == null) {
-            return fecha + " · " + inicio;
+            return fecha + " · " + inicio + formatearMapa(act);
         }
         String fin = act.getEndTime().format(DateTimeFormatter.ofPattern("HH:mm"));
-        return fecha + " · " + inicio + " - " + fin;
+        return fecha + " · " + inicio + " - " + fin + formatearMapa(act);
+    }
+
+    private String formatearMapa(Activity act) {
+        MapRegion mapa = act.getSuggestedMap();
+        if (mapa == null || mapa.getName() == null || mapa.getName().isBlank()) {
+            return "";
+        }
+        return " · " + mapa.getName();
     }
 
     @FXML

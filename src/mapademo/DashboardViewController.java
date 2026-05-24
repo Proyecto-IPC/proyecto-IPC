@@ -21,13 +21,19 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.SportActivityApp;
 
 public class DashboardViewController implements Initializable {
 
     @FXML private GridPane statsGrid;
+    @FXML private Label activityCountPill;
     @FXML private VBox activityList;
+    @FXML private VBox latestActivityPanel;
+    @FXML private VBox latestActivitySummary;
     @FXML private Pane mapPreview;
+    private HBox latestMapChips;
+    private HBox latestActivityActions;
     @FXML private GridPane calendarGrid;
     @FXML private HBox chartBars;
     @FXML private Button btnImportar;
@@ -37,6 +43,7 @@ public class DashboardViewController implements Initializable {
         populateMetrics();
         populateActivities();
         populateMapPreview();
+        populateLatestActivitySummary();
         populateStreak();
         populateChart();
         AnimationBehavior.installHover(btnImportar);
@@ -67,21 +74,18 @@ public class DashboardViewController implements Initializable {
         String tiempoStr = formatearTiempo(tiempoTotalSegundos);
         String desnivelStr = formatearEntero(desnivelTotal) + " m";
 
-        String helperDist = numActividades == 0 ? "Sin actividades importadas" : numActividades + " actividad" + (numActividades != 1 ? "es" : "");
-        String helperRitmo = numActividades == 0 ? "Sin actividades importadas" : "Promedio";
-        String helperTiempo = numActividades == 0 ? "Sin actividades importadas" : "Acumulado total";
-        String helperDesnivel = numActividades == 0 ? "Sin actividades importadas" : "Desnivel positivo";
+        activityCountPill.setText(numActividades + " actividad" + (numActividades != 1 ? "es" : ""));
 
         statsGrid.getChildren().clear();
         String[][] stats = {
-            {"Distancia total", distKm, helperDist},
-            {"Ritmo medio", ritmoStr, helperRitmo},
-            {"Tiempo total", tiempoStr, helperTiempo},
-            {"Desnivel", desnivelStr, helperDesnivel}
+            {"Distancia total", distKm},
+            {"Ritmo medio", ritmoStr},
+            {"Tiempo total", tiempoStr},
+            {"Desnivel", desnivelStr}
         };
 
         for (int i = 0; i < stats.length; i++) {
-            VBox card = createMetricCard(stats[i][0], stats[i][1], stats[i][2], i);
+            VBox card = createMetricCard(stats[i][0], stats[i][1]);
             GridPane.setHgrow(card, Priority.ALWAYS);
             statsGrid.add(card, i, 0);
         }
@@ -97,8 +101,13 @@ public class DashboardViewController implements Initializable {
             return;
         }
 
-        int max = Math.min(actividades.size(), 3);
-        List<Activity> recientes = actividades.subList(0, max);
+        if (actividades.size() <= 1) {
+            activityList.getChildren().add(createActivityRow(null, "Sin más actividades", "Aquí aparecerán tus entrenamientos anteriores."));
+            return;
+        }
+
+        int max = Math.min(actividades.size(), 4);
+        List<Activity> recientes = actividades.subList(1, max);
 
         for (Activity act : recientes) {
             String nombre = act.getName() != null ? act.getName() : "Actividad sin nombre";
@@ -160,16 +169,76 @@ public class DashboardViewController implements Initializable {
     private void populateMapPreview() {
         if (!mapPreview.getChildren().isEmpty()) return;
 
-        Region routeOne = createRouteSegment(62, 92, 78, 4, -20);
-        Region routeTwo = createRouteSegment(126, 74, 64, 4, 22);
-        Region routeThree = createRouteSegment(178, 96, 46, 4, -28);
-        Region start = createMapMarker("mini-map-start", 54, 89);
-        Region end = createMapMarker("mini-map-end", 218, 75);
-        Label zoomLabel = new Label("Zoom 1");
-        zoomLabel.getStyleClass().add("mini-map-zoom-label");
-        zoomLabel.setLayoutX(12);
-        zoomLabel.setLayoutY(12);
-        mapPreview.getChildren().addAll(routeOne, routeTwo, routeThree, start, end, zoomLabel);
+        Region routeOne = createRouteSegment(0.16, 0.58, 0.18, 4, -20);
+        Region routeTwo = createRouteSegment(0.34, 0.48, 0.16, 4, 22);
+        Region routeThree = createRouteSegment(0.49, 0.60, 0.13, 4, -28);
+        Region start = createMapMarker("mini-map-start", 0.14, 0.58);
+        Region end = createMapMarker("mini-map-end", 0.62, 0.50);
+        latestMapChips = new HBox(6);
+        latestMapChips.getStyleClass().add("latest-map-chips");
+        latestMapChips.setLayoutX(14);
+        latestMapChips.layoutYProperty().bind(mapPreview.heightProperty().subtract(42));
+
+        mapPreview.getChildren().addAll(routeOne, routeTwo, routeThree, start, end, latestMapChips);
+    }
+
+    private void populateLatestActivitySummary() {
+        latestActivitySummary.getChildren().clear();
+        List<Activity> actividades = getActividadesOrdenadas();
+
+        if (actividades.isEmpty()) {
+            if (latestMapChips != null) {
+                latestMapChips.getChildren().clear();
+            }
+            if (latestActivityActions != null) {
+                latestActivityActions.getChildren().clear();
+            }
+            Label empty = new Label("Importa una actividad para ver aquí tu último entrenamiento.");
+            empty.getStyleClass().add("muted-label");
+            empty.setWrapText(true);
+            latestActivitySummary.getChildren().add(empty);
+            latestActivityPanel.setOnMouseClicked(null);
+            latestActivityPanel.setOnKeyPressed(null);
+            latestActivityPanel.setFocusTraversable(false);
+            latestActivityPanel.setCursor(javafx.scene.Cursor.DEFAULT);
+            return;
+        }
+
+        Activity latest = actividades.get(0);
+        VBox text = new VBox(2);
+        Label name = new Label(latest.getName() != null ? latest.getName() : "Actividad sin nombre");
+        name.getStyleClass().add("activity-row-title");
+        Label date = new Label(formatearFechaHora(latest));
+        date.getStyleClass().add("muted-label");
+        text.getChildren().addAll(name, date);
+
+        if (latestMapChips != null) {
+            latestMapChips.getChildren().setAll(
+                crearChip(String.format("%.1f km", latest.getTotalDistance() / 1000.0)),
+                crearChip(formatearRitmo(latest.getTotalDistance(), latest.getDuration().getSeconds())),
+                crearChip(formatearTiempo(latest.getDuration().getSeconds())),
+                crearChip(String.format("%d m", Math.round(latest.getElevationGain())))
+            );
+        }
+
+        latestActivityActions = ActivityActions.create(latest, this::refrescarDashboard);
+        HBox footer = new HBox(12);
+        footer.setAlignment(Pos.CENTER_LEFT);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        footer.getChildren().addAll(text, spacer, latestActivityActions);
+
+        latestActivitySummary.getChildren().add(footer);
+
+        latestActivityPanel.setCursor(javafx.scene.Cursor.HAND);
+        latestActivityPanel.setFocusTraversable(true);
+        latestActivityPanel.setOnMouseClicked(e -> MainViewController.getInstancia().mostrarDetalleActividad(latest));
+        latestActivityPanel.setOnKeyPressed(e -> {
+            if (e.getCode() == javafx.scene.input.KeyCode.ENTER || e.getCode() == javafx.scene.input.KeyCode.SPACE) {
+                MainViewController.getInstancia().mostrarDetalleActividad(latest);
+                e.consume();
+            }
+        });
     }
 
     private void populateStreak() {
@@ -227,9 +296,8 @@ public class DashboardViewController implements Initializable {
             if (km > maxKm) maxKm = km;
         }
 
-        String[] dayLabels = {"L", "M", "X", "J", "V", "S", "D"};
-
         for (int i = 0; i < 7; i++) {
+            LocalDate dayDate = today.minusDays(6 - i);
             VBox stack = new VBox(6);
             stack.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -257,11 +325,17 @@ public class DashboardViewController implements Initializable {
                 Tooltip.install(bar, tooltip);
             }
 
-            Label day = new Label(dayLabels[i]);
+            Label day = new Label(formatearInicialDia(dayDate));
             day.getStyleClass().add("calendar-weekday");
             stack.getChildren().addAll(bar, day);
             chartBars.getChildren().add(stack);
         }
+    }
+
+    private Label crearChip(String text) {
+        Label chip = new Label(text);
+        chip.getStyleClass().add("activity-chip");
+        return chip;
     }
 
     private List<Activity> getActividades() {
@@ -281,7 +355,7 @@ public class DashboardViewController implements Initializable {
         return getActividadesOrdenadas();
     }
 
-    private VBox createMetricCard(String label, String value, String helper, int visualOffset) {
+    private VBox createMetricCard(String label, String value) {
         VBox card = new VBox(8);
         card.getStyleClass().add("metric-card");
         card.setMaxWidth(Double.MAX_VALUE);
@@ -290,38 +364,28 @@ public class DashboardViewController implements Initializable {
         labelNode.getStyleClass().add("metric-label");
         Label valueNode = new Label(value);
         valueNode.getStyleClass().add("metric-value");
-        Label helperNode = new Label(helper);
-        helperNode.getStyleClass().add("metric-helper");
-
-        HBox bars = new HBox(4);
-        bars.getStyleClass().add("metric-bars");
-        for (int i = 0; i < 7; i++) {
-            Region bar = new Region();
-            bar.getStyleClass().add(i <= visualOffset ? "metric-bar-soft" : "metric-bar");
-            bars.getChildren().add(bar);
-        }
-
-        card.getChildren().addAll(labelNode, valueNode, helperNode, bars);
+        card.getChildren().addAll(labelNode, valueNode);
         return card;
     }
 
     private Region createRouteSegment(double x, double y, double width, double height, double rotate) {
         Region segment = new Region();
         segment.getStyleClass().add("mini-route-segment");
-        segment.setLayoutX(x);
-        segment.setLayoutY(y);
+        segment.layoutXProperty().bind(mapPreview.widthProperty().multiply(x));
+        segment.layoutYProperty().bind(mapPreview.heightProperty().multiply(y));
+        segment.prefWidthProperty().bind(mapPreview.widthProperty().multiply(width));
         segment.setRotate(rotate);
-        segment.setPrefSize(width, height);
-        segment.setMinSize(width, height);
-        segment.setMaxSize(width, height);
+        segment.setPrefHeight(height);
+        segment.setMinHeight(height);
+        segment.setMaxHeight(height);
         return segment;
     }
 
     private Region createMapMarker(String styleClass, double x, double y) {
         Region marker = new Region();
         marker.getStyleClass().add(styleClass);
-        marker.setLayoutX(x);
-        marker.setLayoutY(y);
+        marker.layoutXProperty().bind(mapPreview.widthProperty().multiply(x));
+        marker.layoutYProperty().bind(mapPreview.heightProperty().multiply(y));
         return marker;
     }
 
@@ -361,17 +425,39 @@ public class DashboardViewController implements Initializable {
         String fecha = act.getStartTime().toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM"));
         String inicio = act.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm"));
         if (act.getEndTime() == null) {
-            return fecha + " · " + inicio;
+            return fecha + " · " + inicio + formatearMapa(act);
         }
         String fin = act.getEndTime().format(DateTimeFormatter.ofPattern("HH:mm"));
-        return fecha + " · " + inicio + " - " + fin;
+        return fecha + " · " + inicio + " - " + fin + formatearMapa(act);
+    }
+
+    private String formatearMapa(Activity act) {
+        MapRegion mapa = act.getSuggestedMap();
+        if (mapa == null || mapa.getName() == null || mapa.getName().isBlank()) {
+            return "";
+        }
+        return " · " + mapa.getName();
     }
 
     void refrescarDashboard() {
         populateMetrics();
         populateActivities();
+        populateLatestActivitySummary();
         populateStreak();
         populateChart();
+    }
+
+    private String formatearInicialDia(LocalDate date) {
+        switch (date.getDayOfWeek()) {
+            case MONDAY: return "L";
+            case TUESDAY: return "M";
+            case WEDNESDAY: return "X";
+            case THURSDAY: return "J";
+            case FRIDAY: return "V";
+            case SATURDAY: return "S";
+            case SUNDAY: return "D";
+            default: return "";
+        }
     }
 
     private String formatearEntero(double valor) {

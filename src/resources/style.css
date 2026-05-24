@@ -124,6 +124,7 @@
 .calendar-panel,
 .chart-panel,
 .map-preview-panel,
+.dashboard-main-panel,
 .detail-side-panel,
 .detail-block,
 .map-form-card,
@@ -903,6 +904,17 @@
     -fx-min-width: 150;
 }
 
+.summary-count-pill {
+    -fx-background-color: -app-surface-alt;
+    -fx-background-radius: 999;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 999;
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-padding: 6 10 6 10;
+}
+
 .activity-panel {
     -fx-padding: 22;
 }
@@ -919,38 +931,31 @@
     -fx-text-fill: -app-text;
 }
 
-.metric-helper {
-    -fx-font-size: 12px;
-    -fx-text-fill: -app-muted;
+.calendar-panel,
+.chart-panel,
+.map-preview-panel,
+.dashboard-main-panel {
+    -fx-padding: 22;
 }
 
-.metric-bars {
+.dashboard-side-panel {
+    -fx-min-width: 290;
+    -fx-pref-width: 300;
+    -fx-max-width: 300;
+}
+
+.latest-activity-summary {
     -fx-padding: 2 0 0 0;
 }
 
-.metric-bar,
-.metric-bar-soft {
+.latest-map-chips {
+    -fx-background-color: rgba(255, 255, 255, 0.72);
     -fx-background-radius: 999;
-    -fx-pref-width: 18;
-    -fx-min-width: 18;
-    -fx-max-width: 18;
-    -fx-pref-height: 4;
-    -fx-min-height: 4;
-    -fx-max-height: 4;
+    -fx-padding: 6;
 }
 
-.metric-bar {
-    -fx-background-color: -app-surface-alt;
-}
-
-.metric-bar-soft {
-    -fx-background-color: -app-primary-soft;
-}
-
-.calendar-panel,
-.chart-panel,
-.map-preview-panel {
-    -fx-padding: 22;
+.theme-dark .latest-map-chips {
+    -fx-background-color: rgba(17, 18, 20, 0.74);
 }
 
 .detail-map-panel {
@@ -1135,9 +1140,9 @@
     -fx-background-radius: 8;
     -fx-border-color: -app-border;
     -fx-border-radius: 8;
-    -fx-min-height: 142;
-    -fx-pref-height: 142;
-    -fx-max-height: 142;
+    -fx-min-height: 190;
+    -fx-pref-height: 190;
+    -fx-max-height: 190;
 }
 
 .mini-route-segment {
@@ -1179,8 +1184,8 @@
 }
 
 .chart-bars {
-    -fx-padding: 4 0 0 0;
-    -fx-min-height: 82;
+    -fx-padding: 8 0 0 0;
+    -fx-min-height: 150;
 }
 
 .chart-bar,
