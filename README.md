@@ -337,7 +337,6 @@ flowchart TD
 ---
 
 # Fase 2: Prototipado de Baja Fidelidad
-`⚠️ En desarrollo`
 
 ## 2.1. Diseños de Pantallas y Wireframes
 
@@ -429,7 +428,40 @@ fff
 
 ## 2.3. Justificación de Composición Visual
 
-fff
+El diseño arquitectónico y visual del sistema *Running La Safor Club* ha sido desarrollado bajo las directrices fundamentales de la **Interacción Persona-Compuador**. Con el objetivo de garantizar una óptima experiencia y optimizar la usabilidad, la interfaz se justifica técnicamente a través de las **Heurísticas de Usabilidad de Jakob Nielsen** y las **Leyes de la Psicología de la Gestalt**:
+
+### 2.3.1. Consistencia y Estándares de la Industria (4ª Heurística de Nielsen)
+
+La interfaz implementa un diseño estructural unificado en la totalidad de sus vistas (Dashboard, Listado de Actividades, Detalle de Ruta, Edición de Perfil e Historial).
+
+* **Persistencia del Layout:** La cohabitación permanente de una barra de navegación superior (*Header*) y un menú lateral de accesos directos (*Sidebar*) mitiga de forma drástica la carga cognitiva del usuario. Al mantener los componentes de control en ubicaciones espaciales idénticas, el usuario transiciona entre módulos sin necesidad de reorientarse.
+* **Metáforas Universales:** Se emplean iconos estandarizados globalmente (un reloj con flecha circular para el *Historial*, una silueta humana para el *Perfil* y un pictograma de puerta para *Cerrar Sesión*). Esto aprovecha el conocimiento previo del usuario, acelerando la comprensión del sistema sin requerir instrucciones adicionales.
+
+### 2.3.2 Visibilidad del Estado del Sistema (1ª Heurística de Nielsen)
+
+Es crucial que el usuario mantenga el control sobre su ubicación en la aplicación. Para ello, el sistema aplica un principio de retroalimentación inmediata (*feedback* visual) en el menú de navegación lateral: el nodo correspondiente a la sección activa se resalta cromáticamente mediante un anillo de acento verde o un cambio de contraste claramente distinguible al navegar entre pantallas.
+
+### 2.3.3. Organización Modular mediante Leyes de la Gestalt
+
+Para la distribución de datos complejos en las vistas analíticas, se ha adoptado el patrón de diseño contenedorizado conocido como *Bento Box Layout*.
+
+* **Ley de la Región Común:** Al delimitar la información mediante tarjetas (*cards*) con fondos diferenciados (Gris `#1a1a1a`) y bordes redondeados, las capacidades cognitivas del cerebro agrupan de manera automática los elementos internos como una sola unidad funcional.
+* **Ley de Proximidad:** Las métricas de rendimiento afines (como distancia, tiempo y ritmo medio) se sitúan a una distancia mínima relativa, permitiendo al usuario realizar escaneos visuales rápidos y asimilar bloques de datos homogéneos de un solo vistazo.
+
+### 2.3.4. Flexibilidad y Eficiencia de Uso (7ª Heurística de Nielsen)
+
+El diseño optimiza los flujos de tareas operativas mediante la inclusión de aceleradores de interfaz:
+
+* **Acciones Contextuales Directas:** En los listados de elementos se integran botones analógicos de interacción rápida (iconos de *Editar* y *Eliminar* mediante lápiz y papelera). Esto optimiza el flujo de trabajo, eliminando la necesidad de que el usuario navegue a una subpantalla secundaria para realizar una gestión básica.
+* **Cromaticidad Orientada a la Acción:** La interfaz utiliza el verde esmeralda como color de llamada a la acción (*Call to Action* o CTA) para los flujos primarios y constructivos (*Guardar cambios*, *Importar actividad* o *Añadir mapa*), mientras que relega a tonos neutros o desaturados las acciones de cancelación o retorno, previniendo errores involuntarios por parte del usuario.
+
+### 2.3.5. Prevención de Errores y Guiado Contextual (5ª Heurística de Nielsen)
+
+En las vistas de alta interacción de datos (como los formularios de registro de mapas o edición de datos personales), el sistema minimiza la probabilidad de error en la introducción de información mediante el uso de *placeholders* formativos (ej: `Ej: 39.33` o `Ej: -0.50`). Esta técnica actúa como una restricción de diseño implícita, instruyendo al usuario sobre la sintaxis espacial y el tipo de dato requerido por la base de datos antes de que se produzca un error de validación en el servidor.
+
+### 2.3.6. Correspondencia entre el Sistema y el Mundo Real (2ª Heurística de Nielsen)
+
+El tratamiento de datos no se limita a un volcado abstracto de información alfanumérica. El sistema traduce las variables geográficas y físicas a modelos mentales familiares para el usuario: la trayectoria espacial se proyecta sobre un mapa cartográfico real, y los cambios altimétricos se representan visualmente a través de un histograma suavizado de montaña (*Perfil de Elevación*), lo que facilita una interpretación intuitiva y natural del rendimiento deportivo.
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
