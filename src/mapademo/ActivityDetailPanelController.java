@@ -52,6 +52,7 @@ public class ActivityDetailPanelController implements Initializable {
     @FXML private StackPane mapContainer;
 
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final double CHART_HOVER_Y_OFFSET = 20.0;
     private XYChart.Series<Number, Number> elevationSeries;
     private List<XYChart.Data<Number, Number>> sampledDataPoints = new ArrayList<>();
     private List<TrackPoint> sampledTrackPoints = new ArrayList<>();
@@ -217,7 +218,7 @@ public class ActivityDetailPanelController implements Initializable {
         Node plotArea = elevationChart.lookup(".chart-plot-background");
         if (plotArea == null) return false;
 
-        Point2D plotPoint = plotArea.sceneToLocal(event.getSceneX(), event.getSceneY());
+        Point2D plotPoint = plotArea.sceneToLocal(event.getSceneX(), event.getSceneY() - CHART_HOVER_Y_OFFSET);
         return plotArea.getBoundsInLocal().contains(plotPoint);
     }
 
