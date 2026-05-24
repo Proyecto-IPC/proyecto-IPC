@@ -10,15 +10,16 @@ import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapRegion;
@@ -31,9 +32,10 @@ public class DashboardViewController implements Initializable {
     @FXML private VBox activityList;
     @FXML private VBox latestActivityPanel;
     @FXML private VBox latestActivitySummary;
-    @FXML private Pane mapPreview;
-    private HBox latestMapChips;
+    @FXML private StackPane mapPreview;
+    private VBox latestMapChips;
     private HBox latestActivityActions;
+    private ActivityMapPreview latestMapView;
     @FXML private GridPane calendarGrid;
     @FXML private HBox chartBars;
     @FXML private Button btnImportar;
@@ -167,19 +169,33 @@ public class DashboardViewController implements Initializable {
     }
 
     private void populateMapPreview() {
-        if (!mapPreview.getChildren().isEmpty()) return;
+        mapPreview.getChildren().clear();
 
-        Region routeOne = createRouteSegment(0.16, 0.58, 0.18, 4, -20);
-        Region routeTwo = createRouteSegment(0.34, 0.48, 0.16, 4, 22);
-        Region routeThree = createRouteSegment(0.49, 0.60, 0.13, 4, -28);
-        Region start = createMapMarker("mini-map-start", 0.14, 0.58);
-        Region end = createMapMarker("mini-map-end", 0.62, 0.50);
-        latestMapChips = new HBox(6);
+        latestMapChips = new VBox(9);
         latestMapChips.getStyleClass().add("latest-map-chips");
-        latestMapChips.setLayoutX(14);
-        latestMapChips.layoutYProperty().bind(mapPreview.heightProperty().subtract(42));
+        latestMapChips.setAlignment(Pos.CENTER);
+        latestMapChips.setFillWidth(false);
+        latestMapChips.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        latestMapChips.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        StackPane.setAlignment(latestMapChips, Pos.CENTER_LEFT);
+        StackPane.setMargin(latestMapChips, new Insets(0, 0, 0, 6));
 
-        mapPreview.getChildren().addAll(routeOne, routeTwo, routeThree, start, end, latestMapChips);
+        latestMapView = new ActivityMapPreview();
+        latestMapView.setManaged(false);
+        latestMapView.setMinSize(0, 0);
+        latestMapView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        latestMapView.resize(mapPreview.getWidth(), mapPreview.getHeight());
+        mapPreview.widthProperty().addListener((obs, oldValue, newValue) ->
+                latestMapView.resize(newValue.doubleValue(), mapPreview.getHeight())
+        );
+        mapPreview.heightProperty().addListener((obs, oldValue, newValue) ->
+                latestMapView.resize(mapPreview.getWidth(), newValue.doubleValue())
+        );
+
+        List<Activity> actividades = getActividadesOrdenadas();
+        latestMapView.setActivity(actividades.isEmpty() ? null : actividades.get(0));
+        StackPane.setAlignment(latestMapView, Pos.CENTER);
+        mapPreview.getChildren().addAll(latestMapView, latestMapChips);
     }
 
     private void populateLatestActivitySummary() {
@@ -213,7 +229,10 @@ public class DashboardViewController implements Initializable {
         text.getChildren().addAll(name, date);
 
         if (latestMapChips != null) {
+            Label statsTitle = new Label("Datos:");
+            statsTitle.getStyleClass().add("latest-map-stats-title");
             latestMapChips.getChildren().setAll(
+                statsTitle,
                 crearChip(String.format("%.1f km", latest.getTotalDistance() / 1000.0)),
                 crearChip(formatearRitmo(latest.getTotalDistance(), latest.getDuration().getSeconds())),
                 crearChip(formatearTiempo(latest.getDuration().getSeconds())),
@@ -368,27 +387,6 @@ public class DashboardViewController implements Initializable {
         return card;
     }
 
-    private Region createRouteSegment(double x, double y, double width, double height, double rotate) {
-        Region segment = new Region();
-        segment.getStyleClass().add("mini-route-segment");
-        segment.layoutXProperty().bind(mapPreview.widthProperty().multiply(x));
-        segment.layoutYProperty().bind(mapPreview.heightProperty().multiply(y));
-        segment.prefWidthProperty().bind(mapPreview.widthProperty().multiply(width));
-        segment.setRotate(rotate);
-        segment.setPrefHeight(height);
-        segment.setMinHeight(height);
-        segment.setMaxHeight(height);
-        return segment;
-    }
-
-    private Region createMapMarker(String styleClass, double x, double y) {
-        Region marker = new Region();
-        marker.getStyleClass().add(styleClass);
-        marker.layoutXProperty().bind(mapPreview.widthProperty().multiply(x));
-        marker.layoutYProperty().bind(mapPreview.heightProperty().multiply(y));
-        return marker;
-    }
-
     private String formatearDistancia(double metros) {
         if (metros < 1000) {
             return Math.round(metros) + " m";
@@ -442,6 +440,7 @@ public class DashboardViewController implements Initializable {
     void refrescarDashboard() {
         populateMetrics();
         populateActivities();
+        populateMapPreview();
         populateLatestActivitySummary();
         populateStreak();
         populateChart();

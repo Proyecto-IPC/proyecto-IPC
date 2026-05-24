@@ -949,13 +949,32 @@
 }
 
 .latest-map-chips {
-    -fx-background-color: rgba(255, 255, 255, 0.72);
-    -fx-background-radius: 999;
-    -fx-padding: 6;
+    -fx-background-color: rgba(255, 255, 255, 0.78);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(219, 226, 232, 0.78);
+    -fx-border-radius: 8;
+    -fx-padding: 8 4 8 4;
+}
+
+.latest-map-stats-title,
+.stats-section-label {
+    -fx-text-fill: -app-muted;
+    -fx-font-weight: 700;
+}
+
+.latest-map-stats-title {
+    -fx-font-size: 12px;
+    -fx-padding: 0 2 1 2;
+}
+
+.stats-section-label {
+    -fx-font-size: 14px;
+    -fx-padding: 2 0 2 0;
 }
 
 .theme-dark .latest-map-chips {
-    -fx-background-color: rgba(17, 18, 20, 0.74);
+    -fx-background-color: rgba(17, 18, 20, 0.78);
+    -fx-border-color: rgba(64, 70, 78, 0.72);
 }
 
 .detail-map-panel {
@@ -1133,54 +1152,12 @@
 
 .mini-map-placeholder {
     -fx-background-color: -app-map-bg;
-    -fx-background-image: url("calderona.jpg");
-    -fx-background-size: 190%;
-    -fx-background-position: center center;
-    -fx-background-repeat: no-repeat;
     -fx-background-radius: 8;
     -fx-border-color: -app-border;
     -fx-border-radius: 8;
     -fx-min-height: 190;
     -fx-pref-height: 190;
     -fx-max-height: 190;
-}
-
-.mini-route-segment {
-    -fx-background-color: -app-coast;
-    -fx-background-radius: 999;
-}
-
-.mini-map-zoom-label {
-    -fx-background-color: -app-surface;
-    -fx-background-radius: 999;
-    -fx-border-color: -app-border;
-    -fx-border-radius: 999;
-    -fx-text-fill: -app-muted;
-    -fx-font-size: 11px;
-    -fx-font-weight: 700;
-    -fx-padding: 4 8 4 8;
-}
-
-.mini-map-start,
-.mini-map-end {
-    -fx-background-radius: 999;
-    -fx-border-color: -app-surface;
-    -fx-border-radius: 999;
-    -fx-border-width: 2;
-    -fx-min-width: 12;
-    -fx-min-height: 12;
-    -fx-pref-width: 12;
-    -fx-pref-height: 12;
-    -fx-max-width: 12;
-    -fx-max-height: 12;
-}
-
-.mini-map-start {
-    -fx-background-color: -app-success;
-}
-
-.mini-map-end {
-    -fx-background-color: -app-danger;
 }
 
 .chart-bars {

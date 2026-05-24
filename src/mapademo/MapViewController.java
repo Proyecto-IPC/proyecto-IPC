@@ -20,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
-import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -127,6 +126,21 @@ public class MapViewController implements Initializable {
     private static final double MARKER_BORDER_WIDTH = 2.0;
     private static final double HIGHLIGHT_RADIUS = 9.0;
     private static final double HIGHLIGHT_BORDER_WIDTH = 2.0;
+    private static final ActivityMapRenderer.Style MAP_RENDER_STYLE = new ActivityMapRenderer.Style(
+        ROUTE_COLOR,
+        SPEED_SLOW_COLOR,
+        SPEED_MEDIUM_COLOR,
+        SPEED_FAST_COLOR,
+        START_COLOR,
+        END_COLOR,
+        MARKER_BORDER_COLOR,
+        ROUTE_WIDTH,
+        MARKER_RADIUS,
+        MARKER_BORDER_WIDTH,
+        3.0,
+        2.0,
+        8.0
+    );
 
     private Activity currentActivity;
     private MapProjection projection;
@@ -674,25 +688,16 @@ public class MapViewController implements Initializable {
         if (activity == null || projection == null) return;
         if (activity.getTrackPoints() == null || activity.getTrackPoints().isEmpty()) return;
 
-        if (speedVisualizationEnabled) {
-            drawSpeedRoute(activity.getTrackPoints());
-        } else {
-        Polyline routeLine = new Polyline();
-        routeLine.setStrokeWidth(ROUTE_WIDTH);
-        routeLine.setStroke(ROUTE_COLOR);
-
-        for (var trackPoint : activity.getTrackPoints()) {
-            Point2D point = projection.project(trackPoint);
-            routeLine.getPoints().addAll(point.getX(), point.getY());
-        }
-
-        mapPane.getChildren().add(routeLine);
-        routeBounds = routeLine.getBoundsInLocal();
-        }
-
-        drawRouteMarker(activity.getStartPoint(), START_COLOR);
-        drawRouteMarker(activity.getEndPoint(), END_COLOR);
-        drawAnnotations(activity.getAnnotations());
+        ActivityMapRenderer.Result result = ActivityMapRenderer.drawActivity(
+                mapPane,
+                activity,
+                projection,
+                speedVisualizationEnabled,
+                MAP_RENDER_STYLE,
+                point -> point
+        );
+        routeBounds = result.routeBounds();
+        annotationNodes.addAll(result.annotationNodes());
     }
 
     public void setSpeedVisualizationEnabled(boolean enabled) {
@@ -701,49 +706,6 @@ public class MapViewController implements Initializable {
             clearActivityDrawings();
             drawActivity(currentActivity);
         }
-    }
-
-    private void drawSpeedRoute(List<TrackPoint> trackPoints) {
-        if (trackPoints.size() < 2) return;
-
-        Polyline boundsLine = new Polyline();
-        for (TrackPoint trackPoint : trackPoints) {
-            Point2D point = projection.project(trackPoint);
-            boundsLine.getPoints().addAll(point.getX(), point.getY());
-        }
-        routeBounds = boundsLine.getBoundsInLocal();
-
-        double minSpeed = Double.MAX_VALUE;
-        double maxSpeed = 0.0;
-        double[] speeds = new double[trackPoints.size() - 1];
-        for (int i = 1; i < trackPoints.size(); i++) {
-            TrackPoint previous = trackPoints.get(i - 1);
-            TrackPoint current = trackPoints.get(i);
-            double speed = previous.speedTo(current);
-            speeds[i - 1] = speed;
-            minSpeed = Math.min(minSpeed, speed);
-            maxSpeed = Math.max(maxSpeed, speed);
-        }
-
-        for (int i = 1; i < trackPoints.size(); i++) {
-            Point2D previousPoint = projection.project(trackPoints.get(i - 1));
-            Point2D currentPoint = projection.project(trackPoints.get(i));
-            Polyline segment = new Polyline(
-                    previousPoint.getX(), previousPoint.getY(),
-                    currentPoint.getX(), currentPoint.getY()
-            );
-            segment.setStrokeWidth(ROUTE_WIDTH);
-            segment.setStroke(getSpeedColor(speeds[i - 1], minSpeed, maxSpeed));
-            mapPane.getChildren().add(segment);
-        }
-    }
-
-    private Color getSpeedColor(double speed, double minSpeed, double maxSpeed) {
-        if (maxSpeed <= minSpeed) return SPEED_MEDIUM_COLOR;
-        double ratio = (speed - minSpeed) / (maxSpeed - minSpeed);
-        if (ratio < 0.33) return SPEED_SLOW_COLOR;
-        if (ratio < 0.66) return SPEED_MEDIUM_COLOR;
-        return SPEED_FAST_COLOR;
     }
 
     private void setMapControlsState(boolean hasMap, boolean hasRoute) {
@@ -758,103 +720,6 @@ public class MapViewController implements Initializable {
         zoomOutButton.setDisable(!mapLoaded || targetZoom <= minZoom + 0.001);
     }
 
-    private void drawRouteMarker(TrackPoint trackPoint, Color color) {
-        if (trackPoint == null || projection == null) return;
-        Point2D point = projection.project(trackPoint);
-        Circle marker = new Circle(point.getX(), point.getY(), MARKER_RADIUS);
-        marker.setFill(color);
-        marker.setStroke(MARKER_BORDER_COLOR);
-        marker.setStrokeWidth(MARKER_BORDER_WIDTH);
-        mapPane.getChildren().add(marker);
-    }
-
-    private void drawAnnotations(List<Annotation> annotations) {
-        if (annotations == null || projection == null) return;
-        for (Annotation annotation : annotations) {
-            if (annotation.getGeoPoints() == null || annotation.getGeoPoints().isEmpty()) continue;
-
-            Color color = Color.web(annotation.getColor() != null ? annotation.getColor() : "#f59e0b");
-            double strokeWidth = annotation.getStrokeWidth();
-
-            javafx.scene.Node node = switch (annotation.getType()) {
-                case POINT -> createAnnotationPoint(annotation, color);
-                case CIRCLE -> createAnnotationCircle(annotation, color, strokeWidth);
-                case LINE -> createAnnotationLine(annotation, color, strokeWidth);
-                case TEXT -> createAnnotationText(annotation, color);
-            };
-            annotationNodes.add(node);
-            mapPane.getChildren().add(node);
-        }
-    }
-
-    private Circle createAnnotationPoint(Annotation annotation, Color color) {
-        GeoPoint gp = annotation.getGeoPoints().get(0);
-        Point2D point = projection.project(gp);
-        double radius = Math.max(annotation.getStrokeWidth(), 3.0);
-        Circle dot = new Circle(point.getX(), point.getY(), radius);
-        dot.setFill(color);
-        dot.setStroke(Color.web("#111816"));
-        dot.setStrokeWidth(1.5);
-        return dot;
-    }
-
-    private Circle createAnnotationCircle(Annotation annotation, Color color, double strokeWidth) {
-        GeoPoint gpCentro = annotation.getGeoPoints().get(0);
-        GeoPoint gpBorde = annotation.getGeoPoints().get(1);
-        Point2D center = projection.project(gpCentro);
-        Point2D edge = projection.project(gpBorde);
-        double radius = Math.hypot(edge.getX() - center.getX(), edge.getY() - center.getY());
-        Circle circle = new Circle(center.getX(), center.getY(), radius);
-        circle.setFill(Color.TRANSPARENT);
-        circle.setStroke(color);
-        circle.setStrokeWidth(strokeWidth);
-        return circle;
-    }
-
-    private Polyline createAnnotationLine(Annotation annotation, Color color, double strokeWidth) {
-        Polyline line = new Polyline();
-        line.setStroke(color);
-        line.setStrokeWidth(strokeWidth);
-        for (GeoPoint gp : annotation.getGeoPoints()) {
-            Point2D point = projection.project(gp);
-            line.getPoints().addAll(point.getX(), point.getY());
-        }
-        return line;
-    }
-
-    private javafx.scene.Node createAnnotationText(Annotation annotation, Color color) {
-        GeoPoint gp = annotation.getGeoPoints().get(0);
-        Point2D point = projection.project(gp);
-        double fontSize = Math.max(annotation.getStrokeWidth(), 8.0);
-        Text textNode = new Text(annotation.getText());
-        textNode.setFill(color);
-        textNode.setFont(javafx.scene.text.Font.font("System", fontSize));
-
-        Bounds b = textNode.getBoundsInLocal();
-        double textWidth = b.getWidth();
-        double textHeight = b.getHeight();
-        double pad = 3;
-        double rx = point.getX();
-        double ry = point.getY() - textHeight - 2;
-
-        Rectangle bg = new Rectangle(rx - pad, ry - pad, textWidth + pad * 2, textHeight + pad * 2);
-        bg.setFill(Color.web("#ffffff", 0.90));
-        bg.setStroke(Color.web("#d9e1dc"));
-        bg.setStrokeWidth(0.8);
-        bg.setArcWidth(3);
-        bg.setArcHeight(3);
-
-        textNode.setX(rx);
-        textNode.setY(ry + textHeight * 0.75);
-
-        bg.setMouseTransparent(true);
-        textNode.setMouseTransparent(true);
-
-        Group g = new Group(bg, textNode);
-        g.setMouseTransparent(true);
-        return g;
-    }
-
     private String toHexString(Color color) {
         return String.format("#%02X%02X%02X",
             (int) (color.getRed() * 255),
@@ -866,7 +731,13 @@ public class MapViewController implements Initializable {
         if (projection == null) return;
         annotationNodes.forEach(mapPane.getChildren()::remove);
         annotationNodes.clear();
-        drawAnnotations(annotations);
+        annotationNodes.addAll(ActivityMapRenderer.drawAnnotations(
+                mapPane,
+                annotations,
+                projection,
+                MAP_RENDER_STYLE,
+                point -> point
+        ));
     }
 
     private void abrirAnnotationPanel(double lat, double lon, Annotation existing) {

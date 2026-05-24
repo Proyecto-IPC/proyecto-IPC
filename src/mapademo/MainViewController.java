@@ -216,6 +216,7 @@ public class MainViewController implements Initializable {
         mostrarShell();
 
         if (rootPane.getCenter() == dashboardViewCache && dashboardViewCache != null) {
+            refrescarDashboardSiExiste();
             return;
         }
 
@@ -230,6 +231,7 @@ public class MainViewController implements Initializable {
             currentViewPath = "DashboardView.fxml";
 
             if (dashboardController != null) {
+                dashboardController.refrescarDashboard();
                 dashboardController.reproducirAnimacionEntrada();
             }
 
@@ -467,7 +469,7 @@ public class MainViewController implements Initializable {
     public void mostrarDetalleActividad(upv.ipc.sportlib.Activity activity) {
         mostrarShell();
         detailReturnViewPath = rootPane.getCenter() == dashboardViewCache ? "DashboardView.fxml" : currentViewPath;
-        setActiveRail(btnNavActividades);
+        setActiveRail(null);
 
         try {
             FXMLLoader detailLoader = new FXMLLoader(getClass().getResource("ActivityDetailPanel.fxml"));

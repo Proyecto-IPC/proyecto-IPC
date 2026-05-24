@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane fitToWidth="true" styleClass="main-scroll" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.DashboardViewController">
@@ -61,7 +61,7 @@
                               <Label styleClass="muted-label" text="Visualización de tu último entrenamiento." />
                            </children>
                         </VBox>
-                        <Pane fx:id="mapPreview" minHeight="190.0" prefHeight="190.0" maxHeight="190.0" maxWidth="1.7976931348623157E308" styleClass="mini-map-placeholder" VBox.vgrow="NEVER" />
+                        <StackPane fx:id="mapPreview" minHeight="190.0" prefHeight="190.0" maxHeight="190.0" maxWidth="1.7976931348623157E308" styleClass="mini-map-placeholder" VBox.vgrow="NEVER" />
                         <VBox fx:id="latestActivitySummary" spacing="8.0" styleClass="latest-activity-summary" />
                      </children>
                   </VBox>

@@ -39,6 +39,7 @@
 
             <VBox spacing="12.0">
                <children>
+                  <Label styleClass="stats-section-label" text="Datos:" />
                   <VBox spacing="4.0" styleClass="metric-card">
                      <children>
                         <Label styleClass="metric-label" text="Distancia" />

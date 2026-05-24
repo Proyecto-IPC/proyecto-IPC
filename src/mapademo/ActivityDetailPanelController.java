@@ -51,7 +51,8 @@ public class ActivityDetailPanelController implements Initializable {
     @FXML private Label tooltipElev;
     @FXML private StackPane mapContainer;
 
-    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
     private static final double CHART_HOVER_Y_OFFSET = 20.0;
     private static final double CHART_TOOLTIP_WIDTH = 150.0;
     private static final double CHART_TOOLTIP_HEIGHT = 48.0;
@@ -142,12 +143,21 @@ public class ActivityDetailPanelController implements Initializable {
     }
 
     private String formatearFechaYMapa(Activity activity) {
-        String fecha = activity.getStartTime() != null ? activity.getStartTime().format(DATE_TIME_FORMAT) : "Fecha desconocida";
+        String fechaHora = "Fecha desconocida";
+        if (activity.getStartTime() != null) {
+            String fecha = activity.getStartTime().format(DATE_FORMAT);
+            String inicio = activity.getStartTime().format(TIME_FORMAT);
+            if (activity.getEndTime() != null) {
+                fechaHora = fecha + " · " + inicio + " - " + activity.getEndTime().format(TIME_FORMAT);
+            } else {
+                fechaHora = fecha + " · " + inicio;
+            }
+        }
         MapRegion mapa = activity.getSuggestedMap();
         if (mapa == null || mapa.getName() == null || mapa.getName().isBlank()) {
-            return fecha;
+            return fechaHora;
         }
-        return fecha + " · " + mapa.getName();
+        return fechaHora + " · " + mapa.getName();
     }
 
     private void volverTrasEliminar() {
