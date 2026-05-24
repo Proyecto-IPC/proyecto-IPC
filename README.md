@@ -420,7 +420,22 @@ Wireframe:
 
 ## 2.2. Selección de Controles e Interacción
 
-fff
+2.2.1. Controles de Entrada de Datos (Inputs)
+Campos de Texto con Restricción Numérica (Text Fields): Utilizados en la configuración de coordenadas del mapa (Latitud/Longitud). Se seleccionan controles que limitan la entrada de caracteres alfanuméricos, permitiendo únicamente números y separadores decimales para asegurar la integridad de los datos espaciales.
+
+Selectores de Fecha Segmentados (Date Pickers): Para la fecha de nacimiento en el perfil, se opta por un control dividido en tres microcampos (Día / Mes / Año) asistido por un botón con un contenedor emergente de calendario. Esto elimina el riesgo de introducir formatos de fecha incompatibles con el sistema de persistencia (como discrepancias entre DD/MM/AAAA y MM/DD/AAAA).
+
+Control de Carga de Archivos (File Inputs): Implementado mediante el binomio "Campo de estado + Botón Examinar" para la importación de rutas GPX y la actualización del avatar. Este control delega la exploración al sistema operativo del usuario, ofreciendo una experiencia familiar y segura.
+
+2.2.2. Controles de Comando y Navegación
+Botones de Acción Clave (Command Buttons): Se clasifican jerárquicamente en botones primarios (con color de acento verde sólido para confirmar acciones como Guardar, Importar o Añadir) y botones secundarios (de contorno o neutros para Cancelar o Volver). Su comportamiento interactivo incluye un cambio de estado (hover) al posicionar el cursor sobre ellos.
+
+Botones Contextuales e Iconográficos (Icon Buttons): Ubicados dentro de las filas de las listas de actividades. El uso de microbotones nativos (Lápiz para Editar, Papelera para Eliminar) actúa como un atajo operativo directo sobre el objeto, reduciendo los pasos necesarios para la gestión de elementos.
+
+Conmutadores de Estado (Toggles): El control de modo Claro/Oscuro en la cabecera actúa como un interruptor de estado binario e inmediato, transformando las hojas de estilo (CSS) del sistema en tiempo real sin recargar la página.
+
+2.2.3. Controles de Manipulación de Visualización
+Controles de Zoom en Mapas: Botones flotantes de incremento (+) y decremento (-) superpuestos en la esquina inferior derecha del mapa, que permiten al usuario alterar la escala cartográfica mediante clics directos o mediante el desplazamiento (scroll) del ratón, adaptándose a las preferencias del usuario (flexibilidad de uso).
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
