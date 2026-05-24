@@ -397,6 +397,16 @@ Wireframe:
 ## Layout Estructural
 ![Layout Estr.](protimg/protPerfil.png)
 
+# Historial de Sesiones
+| Barra Lateral (Navegación)                                                                                                                     | Cabecera (Header)                                                                                                        | Módulos Principales (Lista de Sesiones)                                                                                                                                                                                                                                                                                                                                                                 |
+| :--------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Fondo:** Color sólido gris muy oscuro                                                                                                        | **Fondo:** Color sólido gris muy oscuro                                                                                  | **Fondo:** Un bloque modular contenedor grande con líneas de división horizontales (Gris #1a1a1a) sobre fondo general oscuro                                                                                                                                                                                                                                                                            |
+| **Contenido:** Iconos de navegación vertical. El cuarto icono (Reloj / Historial con flecha circular) se encuentra activo y resaltado en verde | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro, avatar/perfil de usuario y botón de salir | **Contenido:** • Título "Historial de sesiones" con el subtítulo "Revisa tus accesos y actividad básica de uso". • Lista cronológica de accesos agrupados en filas independientes. • Cada elemento de la lista contiene: título de la sesión con fecha, horario de entrada/salida junto con duración exacta y etiquetas (badges) de actividad realizada como "importaciones", "vistas" y "anotaciones". |
+
+## Layout Estructural
+![Layout Estr.](protimg/protSes.png)
+
+
 
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
