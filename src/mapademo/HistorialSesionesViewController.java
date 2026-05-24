@@ -20,7 +20,6 @@ public class HistorialSesionesViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         sessionsList.setCellFactory(list -> new SessionCell());
-        sessionsList.setMouseTransparent(true);
         sessionsList.setFocusTraversable(false);
         loadSessions();
     }
