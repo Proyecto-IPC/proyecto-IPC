@@ -358,55 +358,9 @@ Wireframe:
 
 ## Layout Estructural
 
-```text
-+-----------------------------------+-----------------------------------+
-|                                   |                                   |
-|                                   |          Iniciar sesión           |
-|                                   |   Accede para consultar tus...    |
-|                                   |                                   |
-|             [ LOGO ]              |   Usuario                         |
-|                                   |   [___________________________]   |
-|         Running La Safor          |                                   |
-|              -CLUB-               |   Contraseña                      |
-|                                   |   [___________________________]   |
-|                                   |                                   |
-|                                   |   [          Entrar           ]   |
-|            ( IMAGEN )             |                                   |
-|                                   |   ¿No tienes cuenta?              |
-|                                   |   [        Registrarme        ]   |
-|                                   |                                   |
-+-----------------------------------+-----------------------------------+
+![Layout Estr.](protimg/protLogin.png)
+![Layout Estr.](protimg/protReg.png)
 
-+-----------------------------------+-----------------------------------+
-|                                   |                                   |
-|                                   |             Registro              |
-|                                   |   Crea tu cuenta con los...       |
-|                                   |                                   |
-|             [ LOGO ]              |   Usuario                         |
-|                                   |   [___________________________]   |
-|         Running La Safor          |                                   |
-|              -CLUB-               |   Correo electrónico              |
-|                                   |   [___________________________]   |
-|                                   |                                   |
-|                                   |   Contraseña (i)                  |
-|                                   |   [___________________________]   |
-|                                   |                                   |
-|                                   |   Confirmar contraseña            |
-|                                   |   [___________________________]   |
-|                                   |                                   |
-|            ( IMAGEN )             |   Fecha de nacimiento             |
-|                                   |   [Día] [Mes] [Año] [Icono]       |
-|                                   |                                   |
-|                                   |   Avatar (opcional)               |
-|                                   |   [Selecciona image] [Examinar]   |
-|                                   |                                   |
-|                                   |  [         Crear cuenta        ]  |
-|                                   |                                   |
-|                                   |   ¿Ya tienes cuenta?              |
-|                                   |  [        Iniciar sesión       ]  |
-|                                   |                                   |
-+-----------------------------------+-----------------------------------+
-```
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
