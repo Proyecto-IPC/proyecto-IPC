@@ -361,6 +361,14 @@ Wireframe:
 ![Layout Estr.](protimg/protLogin.png)
 ![Layout Estr.](protimg/protReg.png)
 
+# Pantalla Principal
+| Barra Lateral (Navegación)                                                                                        | Cabecera (Header)                                                                             | Módulos Principales (KPIs y Gráficos)                                                                                                                                |
+| :---------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fondo:** Color sólido gris muy oscuro                                                                           | **Fondo:** Color sólido gris muy oscuro                                                       | **Fondo:** Bloques independientes (Gris #1a1a1a)                                                                                                                     |
+| **Contenido:** Iconos de navegación vertical (Dashboard activo en verde, estadísticas, perfil, historial y mapas) | **Contenido:** Logo de la marca, selector de modo claro/oscuro y perfil de usuario (amir1330) | **Contenido:** Indicadores de rendimiento (distancia, tiempo y desnivel), mapa de última ruta, calendario de racha, gráfica semanal y lista de actividades recientes |
+
+## Layout Estructural
+![Layout Estr.](protimg/protpantPrin.png)
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
