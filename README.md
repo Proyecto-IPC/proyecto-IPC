@@ -388,6 +388,16 @@ Wireframe:
 ## Layout Estructural
 ![Layout Estr.](protimg/protVistAct.png)
 
+# Vista Perfil
+| Barra Lateral (Navegación)                                                                                                            | Cabecera (Header)                                                                                                        | Módulos Principales (Formulario de Perfil)                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| :------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fondo:** Color sólido gris muy oscuro                                                                                               | **Fondo:** Color sólido gris muy oscuro                                                                                  | **Fondo:** Un bloque centralizado vertical (Gris #1a1a1a) sobre fondo general oscuro                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **Contenido:** Iconos de navegación vertical. El tercer icono (Perfil / Usuario) se encuentra activo y resaltado con un círculo verde | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro, avatar/perfil de usuario y botón de salir | **Contenido:** • Título "Mi perfil" con el subtítulo "Actualiza tus datos de cuenta". • Campos de texto editables: usuario, correo electrónico, contraseña actual, nueva contraseña y confirmación de contraseña. • Selector de fecha de nacimiento (día, mes, año) con icono de calendario. • Sección de avatar con indicador de archivo cargado, botón verde "Examinar" y previsualización de imagen. • Botones inferiores: "Guardar cambios" (verde) y "Cancelar" (gris con borde). |
+
+## Layout Estructural
+![Layout Estr.](protimg/protPerfil.png)
+
+
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
