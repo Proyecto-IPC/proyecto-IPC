@@ -1,10 +1,6 @@
 package mapademo;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -20,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -73,25 +68,13 @@ public class GestionMapasViewController implements Initializable {
         path.setTooltip(new Tooltip(mapa.getImagePath()));
         HBox.setHgrow(path, Priority.ALWAYS);
 
-        HBox actionBox = new HBox(6, crearBotonRenombrar(mapa), crearBotonEliminar(mapa, canDelete));
+        HBox actionBox = new HBox(6, crearBotonEliminar(mapa, canDelete));
         actionBox.setAlignment(Pos.CENTER);
         actionBox.setMinWidth(96);
         actionBox.setPrefWidth(96);
 
         row.getChildren().addAll(name, path, actionBox);
         return row;
-    }
-
-    private Button crearBotonRenombrar(MapRegion mapa) {
-        Button button = new Button();
-        button.getStyleClass().add("activity-action-button");
-        button.setTooltip(new Tooltip("Renombrar mapa"));
-        button.setGraphic(cargarIcono("/resources/icons/EditIcon.fxml"));
-        button.setOnAction(event -> {
-            renombrarMapa(mapa);
-            event.consume();
-        });
-        return button;
     }
 
     private Button crearBotonEliminar(MapRegion mapa, boolean canDelete) {
@@ -144,41 +127,6 @@ public class GestionMapasViewController implements Initializable {
         });
     }
 
-    private void renombrarMapa(MapRegion mapa) {
-        TextInputDialog dialog = new TextInputDialog(mapa.getName());
-        dialog.setTitle("Renombrar mapa");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Nombre visible:");
-        aplicarEstiloDialogo(dialog);
-
-        dialog.showAndWait().ifPresent(nombre -> {
-            String nuevoNombre = nombre.trim();
-            if (nuevoNombre.isEmpty()) {
-                mostrarAlerta("Nombre vacío", "El nombre visible no puede estar vacío.");
-                return;
-            }
-            if (actualizarNombreMapa(mapa, nuevoNombre)) {
-                cargarMapas();
-            } else {
-                mostrarAlerta("No se ha podido renombrar", "No se ha podido actualizar el nombre del mapa.");
-            }
-        });
-    }
-
-    private boolean actualizarNombreMapa(MapRegion mapa, String nuevoNombre) {
-        String sql = "UPDATE map_regions SET name=? WHERE id=?";
-        String dbUrl = "jdbc:sqlite:" + SportActivityApp.getInstance().getDatabasePath();
-        try (Connection connection = DriverManager.getConnection(dbUrl);
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, nuevoNombre);
-            statement.setLong(2, mapa.getId());
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     @FXML
     private void handleAddMap(ActionEvent event) {
         MainViewController.getInstancia().cargarVista("AñadirMapaView.fxml");
@@ -200,10 +148,4 @@ public class GestionMapasViewController implements Initializable {
         }
     }
 
-    private void aplicarEstiloDialogo(TextInputDialog dialog) {
-        URL cssUrl = getClass().getResource("/resources/style.css");
-        if (cssUrl != null) {
-            dialog.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
-        }
-    }
 }

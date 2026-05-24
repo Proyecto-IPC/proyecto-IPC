@@ -51,9 +51,8 @@ public class AñadirMapaViewController implements Initializable {
         File file = fileChooser.showOpenDialog(btnExaminar.getScene().getWindow());
         if (file != null) {
             selectedImageFile = file;
-            txtNombreMapa.setText(nombreSinExtension(file));
             txtRutaImagen.setText(file.getAbsolutePath());
-            mapPreview.setImage(new Image(file.toURI().toString(), 310, 170, true, true));
+            mapPreview.setImage(new Image(file.toURI().toString(), 310, 190, true, true));
             mapPreview.setVisible(true);
             lblPreviewPlaceholder.setVisible(false);
         }
@@ -85,10 +84,11 @@ public class AñadirMapaViewController implements Initializable {
                 return;
             }
 
+            String nombreMapa = txtNombreMapa.getText().trim();
             MapRegion mapa = SportActivityApp.getInstance().addMapRegion(
-                nombreSinExtension(selectedImageFile),
+                nombreMapa,
                 selectedImageFile,
-                latN, latS, lonO, lonE
+                latS, latN, lonO, lonE
             );
 
             if (mapa == null) {
@@ -104,16 +104,11 @@ public class AñadirMapaViewController implements Initializable {
 
     private boolean validarCamposObligatorios() {
         return selectedImageFile != null
+                && !txtNombreMapa.getText().trim().isEmpty()
                 && !txtLatNorte.getText().trim().isEmpty()
                 && !txtLatSur.getText().trim().isEmpty()
                 && !txtLonEste.getText().trim().isEmpty()
                 && !txtLonOeste.getText().trim().isEmpty();
-    }
-
-    private String nombreSinExtension(File file) {
-        String name = file.getName();
-        int dotIndex = name.lastIndexOf('.');
-        return dotIndex > 0 ? name.substring(0, dotIndex) : name;
     }
 
     @FXML
