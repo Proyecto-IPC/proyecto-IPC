@@ -56,6 +56,7 @@ public class ActivityDetailPanelController implements Initializable {
     private XYChart.Series<Number, Number> elevationSeries;
     private List<XYChart.Data<Number, Number>> sampledDataPoints = new ArrayList<>();
     private List<TrackPoint> sampledTrackPoints = new ArrayList<>();
+    private double maxElevationDistanceKm = 0.0;
     private MapViewController mapController;
     private Activity currentActivity;
     private boolean speedModeEnabled = true;
@@ -92,6 +93,7 @@ public class ActivityDetailPanelController implements Initializable {
         elevationSeries = new XYChart.Series<>();
         sampledDataPoints.clear();
         sampledTrackPoints.clear();
+        maxElevationDistanceKm = 0.0;
 
         int totalPoints = puntos.size();
         int desiredSamples = 150;
@@ -115,6 +117,7 @@ public class ActivityDetailPanelController implements Initializable {
                 sampledDataPoints.add(dataNode);
                 sampledTrackPoints.add(actual);
                 elevationSeries.getData().add(dataNode);
+                maxElevationDistanceKm = Math.max(maxElevationDistanceKm, kmAcumulados);
             }
         }
 
@@ -174,6 +177,10 @@ public class ActivityDetailPanelController implements Initializable {
 
             Point2D localToAxis = xAxis.sceneToLocal(event.getSceneX(), event.getSceneY());
             double xValue = xAxis.getValueForDisplay(localToAxis.getX()).doubleValue();
+            if (xValue < 0 || xValue > maxElevationDistanceKm) {
+                ocultarIndicadoresChart();
+                return;
+            }
 
             XYChart.Data<Number, Number> nearestData = null;
             double minDiff = Double.MAX_VALUE;
