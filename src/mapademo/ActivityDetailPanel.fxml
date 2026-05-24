@@ -20,7 +20,13 @@
          <children>
             <VBox spacing="16.0">
                <children>
-                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#handleVolver" styleClass="secondary-button" text="← Volver al resumen" />
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#handleVolver" styleClass="secondary-button" text="← Volver al resumen" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <HBox fx:id="detailActions" alignment="CENTER_RIGHT" />
+                     </children>
+                  </HBox>
                   <VBox spacing="4.0">
                      <children>
                         <Label fx:id="lblNombreActividad" styleClass="page-title" text="Nombre de la Actividad" wrapText="true" />

@@ -56,6 +56,8 @@ public class MainViewController implements Initializable {
     private AnotacionesManager anotacionesManager;
     private Parent dashboardViewCache;
     private DashboardViewController dashboardController;
+    private String currentViewPath;
+    private String detailReturnViewPath;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,6 +98,7 @@ public class MainViewController implements Initializable {
                 updateRailForView(fxmlPath);
             }
             rootPane.setCenter(vista);
+            currentViewPath = fxmlPath;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,6 +225,7 @@ public class MainViewController implements Initializable {
             }
 
             rootPane.setCenter(dashboardViewCache);
+            currentViewPath = "DashboardView.fxml";
 
             if (dashboardController != null) {
                 dashboardController.reproducirAnimacionEntrada();
@@ -458,6 +462,7 @@ public class MainViewController implements Initializable {
 
     public void mostrarDetalleActividad(upv.ipc.sportlib.Activity activity) {
         mostrarShell();
+        detailReturnViewPath = rootPane.getCenter() == dashboardViewCache ? "DashboardView.fxml" : currentViewPath;
         setActiveRail(btnNavActividades);
 
         try {
@@ -480,10 +485,19 @@ public class MainViewController implements Initializable {
             detailController.setMapNode(mapView);
 
             rootPane.setCenter(panelDetalle);
+            currentViewPath = "ActivityDetailPanel.fxml";
         } catch (Exception e) {
             e.printStackTrace();
         }
         Platform.runLater(rootPane::requestFocus);
+    }
+
+    public void volverAPantallaAnteriorAlDetalle() {
+        if ("ActividadesView.fxml".equals(detailReturnViewPath)) {
+            cargarVista("ActividadesView.fxml");
+        } else {
+            mostrarPantallaPrincipal();
+        }
     }
 
     private void actualizarEstadoBotones(javafx.scene.control.Button botonActivo) {

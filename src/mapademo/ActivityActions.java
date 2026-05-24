@@ -27,12 +27,16 @@ final class ActivityActions {
     }
 
     static HBox create(Activity activity, Runnable onChanged) {
+        return create(activity, onChanged, onChanged);
+    }
+
+    static HBox create(Activity activity, Runnable onRenamed, Runnable onDeleted) {
         HBox actions = new HBox(6);
         actions.getStyleClass().add("activity-row-actions");
         actions.setAlignment(Pos.TOP_RIGHT);
         actions.getChildren().addAll(
-                createButton(EDIT_ICON, "Renombrar actividad", false, () -> renameActivity(activity, onChanged)),
-                createButton(TRASH_ICON, "Eliminar actividad", true, () -> deleteActivity(activity, onChanged))
+                createButton(EDIT_ICON, "Renombrar actividad", false, () -> renameActivity(activity, onRenamed)),
+                createButton(TRASH_ICON, "Eliminar actividad", true, () -> deleteActivity(activity, onDeleted))
         );
         return actions;
     }

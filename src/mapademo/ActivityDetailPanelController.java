@@ -35,6 +35,7 @@ public class ActivityDetailPanelController implements Initializable {
     @FXML private Label lblRitmo;
     @FXML private Label lblDesnivel;
     @FXML private Button btnVelocidad;
+    @FXML private HBox detailActions;
     @FXML private GridPane metricsGrid;
     @FXML private StackPane chartStackContainer;
     @FXML private VBox emptyChartState;
@@ -54,6 +55,7 @@ public class ActivityDetailPanelController implements Initializable {
     private List<XYChart.Data<Number, Number>> sampledDataPoints = new ArrayList<>();
     private List<TrackPoint> sampledTrackPoints = new ArrayList<>();
     private MapViewController mapController;
+    private Activity currentActivity;
     private boolean speedModeEnabled = true;
 
     @Override
@@ -65,6 +67,7 @@ public class ActivityDetailPanelController implements Initializable {
 
     public void setActivity(Activity activity) {
         if (activity == null) return;
+        currentActivity = activity;
 
         lblNombreActividad.setText(activity.getName() != null ? activity.getName() : "Actividad sin nombre");
         lblFechaActividad.setText(activity.getStartTime() != null ? activity.getStartTime().format(DATE_TIME_FORMAT) : "Fecha desconocida");
@@ -73,6 +76,7 @@ public class ActivityDetailPanelController implements Initializable {
         lblTiempo.setText(Math.round(activity.getDuration().toSeconds() / 60.0) + " min");
         lblRitmo.setText(String.format("%.2f min/km", activity.getAveragePace()));
         lblDesnivel.setText(Math.round(activity.getElevationGain()) + " m");
+        configurarAccionesDetalle(activity);
 
         List<TrackPoint> puntos = activity.getTrackPoints();
         if (puntos == null || puntos.size() < 5) {
@@ -114,6 +118,22 @@ public class ActivityDetailPanelController implements Initializable {
 
         elevationChart.getData().clear();
         elevationChart.getData().add(elevationSeries);
+    }
+
+    private void configurarAccionesDetalle(Activity activity) {
+        detailActions.getChildren().setAll(ActivityActions.create(
+                activity,
+                this::actualizarNombreTrasRenombrar,
+                this::volverTrasEliminar
+        ));
+    }
+
+    private void actualizarNombreTrasRenombrar() {
+        lblNombreActividad.setText(currentActivity.getName() != null ? currentActivity.getName() : "Actividad sin nombre");
+    }
+
+    private void volverTrasEliminar() {
+        MainViewController.getInstancia().volverAPantallaAnteriorAlDetalle();
     }
 
     private void configurarFormatoEjes() {
