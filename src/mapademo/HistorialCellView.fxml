@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="root" alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.HistorialCellController">
+<HBox fx:id="root" alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.HistorialCellController">
    <padding>
       <Insets bottom="4.0" top="4.0" />
    </padding>

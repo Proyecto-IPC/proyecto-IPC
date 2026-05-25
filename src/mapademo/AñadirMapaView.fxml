@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="main-scroll" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.AñadirMapaViewController">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="main-scroll" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.AñadirMapaViewController">
    <content>
       <VBox alignment="CENTER" minHeight="520.0" spacing="22.0" styleClass="home-page">
          <children>

@@ -448,9 +448,10 @@ Para probar la aplicación en el entorno de evaluación:
 
 1. Clonar o descargar este repositorio en su entorno local.
 2. Abrir el proyecto desde NetBeans.
-3. Comprobar que las librerías de `/lib` están añadidas al proyecto.
-4. Ejecutar la clase principal de la aplicación.
-5. Probar el flujo completo con los recursos incluidos en `/gpx` y `/maps`.
+3. Usar JDK 21 o superior. Si se trabaja con JDK 21, configurar la librería JavaFX del IDE con JavaFX SDK 21.
+4. Comprobar que las librerías de `/lib` están añadidas al proyecto.
+5. Ejecutar la clase principal de la aplicación.
+6. Probar el flujo completo con los recursos incluidos en `/gpx` y `/maps`.
 
 El repositorio incluye las librerías necesarias en `/lib`, los mapas base en `/maps` y ficheros GPX de prueba en `/gpx`, por lo que la revisión puede realizarse sin preparar datos externos.
 

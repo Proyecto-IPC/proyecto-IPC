@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="24" styleClass="home-page" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ActividadesViewController">
+<VBox spacing="24" styleClass="home-page" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapademo.ActividadesViewController">
 <children>
        
        <HBox alignment="CENTER_LEFT" spacing="12.0">
