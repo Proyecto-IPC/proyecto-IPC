@@ -415,22 +415,12 @@ El objetivo de esta fase no es solo que la aplicación compile, sino demostrar q
 ---
 
 ## 3.3. Demostración de la Interfaz
-Para la defensa del proyecto se recomienda preparar **un único vídeo general**, no un vídeo por cada tarea. Un vídeo único mantiene la narrativa completa de uso y evita repeticiones; basta con que recorra las tareas principales de forma ordenada.
-
-Guion recomendado para el vídeo:
-
-1. **Acceso y cuenta:** iniciar sesión, mostrar registro brevemente y abrir el perfil.
-2. **Resumen principal:** enseñar la pantalla inicial, totales y navegación lateral.
-3. **Actividades:** importar un GPX, abrir la actividad creada, renombrarla y mostrar la opción de borrado.
-4. **Análisis de ruta:** enseñar mapa, zoom, métricas, perfil de desnivel y visualización de velocidad.
-5. **Anotaciones:** crear una anotación sobre el mapa y comprobar que aparece asociada a la actividad.
-6. **Historial y cierre:** abrir historial de sesiones, cerrar sesión y volver al acceso.
-7. **Mapas:** mostrar gestión de mapas y el formulario de alta con imagen y bounding box.
-
-Duración óptima: **5-7 minutos**. Si se quiere añadir material complementario, es mejor usar clips muy cortos solo para interacciones difíciles de apreciar en directo, como zoom, anotaciones o sincronización mapa-gráfica.
+Para la presentación del proyecto hemos preparado una demostración general en vídeo que recorre las tareas principales de forma ordenada.
 
 
 
+
+PONER AQUI ENLACE AL VIDEO EN ONEDRIVE
 
 
 EJEMPLO VIDEO:
