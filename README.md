@@ -420,9 +420,7 @@ Para la presentación del proyecto hemos preparado una demostración general en 
 **Nota importante:** Recomendamos subir la calidad en las opciones de reproducción, ya que OneDrive baja la resolución automáticamente y el video se verá mal si no se cambia.
 
 👇 **¡Haz clic en la imagen de abajo para reproducir el vídeo de demostración en OneDrive!**
-<a href="https://upvedues-my.sharepoint.com/:v:/g/personal/dmolnic_upv_edu_es/IQBA5KtbV_WWQ4lVvUMJRWzLASZyAcGndnrjvQTxzRsAVUw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=ObNYh3" target="_blank">
-  <img src="assets/portadaVideoDemo.png" alt="Ver vídeo en OneDrive" />
-</a>
+[![Ver vídeo en OneDrive](assets/portadaVideoDemo.png)](https://upvedues-my.sharepoint.com/:v:/g/personal/dmolnic_upv_edu_es/IQBA5KtbV_WWQ4lVvUMJRWzLASZyAcGndnrjvQTxzRsAVUw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=ObNYh3)
 
 [Volver al índice](#índice-general-del-proyecto)
 
