@@ -417,21 +417,10 @@ El objetivo de esta fase no es solo que la aplicación compile, sino demostrar q
 ## 3.3. Demostración de la Interfaz
 Para la presentación del proyecto hemos preparado una demostración general en vídeo que recorre las tareas principales de forma ordenada.
 
+**Nota importante:** Recomendamos subir la calidad en las opciones de reproducción, ya que OneDrive baja la resolución automáticamente y el video se verá mal si no se cambia.
 
-
-
-PONER AQUI ENLACE AL VIDEO EN ONEDRIVE
-
-
-EJEMPLO VIDEO:
-
-<video src="assets/videoDemoEjemplo.mp4" width="100%" controls>
-  Tu navegador no soporta la reproducción de vídeos nativos de HTML5.
-</video>
-
-_👉 Si el reproductor no carga correctamente en tu navegador, puedes [descargar el vídeo de demostración directamente desde aquí](assets/videoDemoEjemplo.mp4)._
-
-
+👇 **¡Haz clic en la imagen de abajo para reproducir el vídeo de demostración en OneDrive!**
+[![Ver vídeo en OneDrive](assets/portadaVideoDemo.png)](https://upvedues-my.sharepoint.com/:v:/g/personal/dmolnic_upv_edu_es/IQBA5KtbV_WWQ4lVvUMJRWzLASZyAcGndnrjvQTxzRsAVUw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=ObNYh3)
 
 
 [Volver al índice](#índice-general-del-proyecto)
