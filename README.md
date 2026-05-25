@@ -22,9 +22,14 @@ Este repositorio contiene el código y la documentación del proyecto **"Running
    * [1.6. Diagrama de Contenidos](#16-diagrama-de-contenidos)
 
 2. [Fase 2: Prototipado de Baja Fidelidad](#fase-2-prototipado-de-baja-fidelidad)
-   * [2.1. Diseños de Pantallas y Wireframes](#21-diseños-de-pantallas-y-wireframes)
-   * [2.2. Selección de Controles e Interacción](#22-selección-de-controles-e-interacción)
-   * [2.3. Justificación de Composición Visual](#23-justificación-de-composición-visual)
+   * [2.1. Metodología de Prototipado Iterativo](#21-metodología-de-prototipado-iterativo)
+   * [2.2. Iteración 1: Boceto Exploratorio](#22-iteración-1-boceto-exploratorio)
+   * [2.3. Iteración 2: Flujo de Aplicación](#23-iteración-2-flujo-de-aplicación)
+   * [2.4. Iteración 3: Wireframes Refinados](#24-iteración-3-wireframes-refinados)
+   * [2.5. Trazabilidad entre Escenarios e Interacción](#25-trazabilidad-entre-escenarios-e-interacción)
+   * [2.6. Selección de Controles](#26-selección-de-controles)
+   * [2.7. Evaluación y Evolución del Prototipo](#27-evaluación-y-evolución-del-prototipo)
+   * [2.8. Relación con el Producto Final](#28-relación-con-el-producto-final)
 
 3. [Fase 3: Implementación y Aplicación Final](#fase-3-implementación-y-aplicación-final)
    * [3.1. Control de Cambios y Commits](#31-control-de-cambios-y-commits)
@@ -268,147 +273,108 @@ flowchart TD
 
 # Fase 2: Prototipado de Baja Fidelidad
 
-## 2.1. Diseños de Pantallas y Wireframes
+## 2.1. Metodología de Prototipado Iterativo
 
-Wireframe:
-# Pantalla de Login 
+Siguiendo las directrices del Tema 7, la interfaz se diseñó mediante un proceso iterativo de prototipado de baja fidelidad. El objetivo fue validar la arquitectura de información, la distribución de contenidos y el flujo de navegación antes de consolidar la implementación final en JavaFX.
 
-| Panel Izquierdo (Marca) | Panel Derecho (Formulario) |
-| :--- | :--- |
-| **Fondo:** Fotografía (Runners al atardecer) | **Fondo:** Color sólido (#1e1e1e) |
-| **Contenido:** Logo vectorizado en blanco | **Contenido:** Formulario de acceso |
+Se utilizaron bocetos y wireframes estructurales porque permiten trabajar rápido, cambiar decisiones con bajo coste y centrar la discusión en las tareas del usuario. Además, al evitar detalles propios de alta fidelidad como paletas de color, tipografías o acabados visuales, se facilita que las críticas se dirijan a la estructura, la navegación y la interacción.
 
-# Pantalla de Registro 
+## 2.2. Iteración 1: Boceto Exploratorio
 
-| Panel Izquierdo (Marca) | Panel Derecho (Formulario) |
-| :--- | :--- |
-| **Fondo:** Fotografía (Runners al atardecer) | **Fondo:** Color sólido (#1e1e1e) |
-| **Contenido:** Logo vectorizado en blanco | **Contenido:** Formulario de registro con campos extendidos |
+La primera aproximación fue un boceto inicial de baja fidelidad, usado para ubicar de forma rápida los elementos principales del sistema: acceso, registro, actividades, mapa, métricas, perfil, historial, mapas y anotaciones.
 
-## Layout Estructural
+![Boceto inicial exploratorio](assets/1rPrototipoExcalidrawBoceto.png)
 
-![Layout Estr.](protimg/protLogin.png)
-![Layout Estr.](protimg/protReg.png)
+Este boceto permitió detectar qué información debía aparecer en cada zona y qué pantallas necesitaban separarse para evitar una interfaz demasiado densa.
 
-# Pantalla Principal
-| Barra Lateral (Navegación)                                                                                        | Cabecera (Header)                                                                             | Módulos Principales (KPIs y Gráficos)                                                                                                                                |
-| :---------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fondo:** Color sólido gris muy oscuro                                                                           | **Fondo:** Color sólido gris muy oscuro                                                       | **Fondo:** Bloques independientes (Gris #1a1a1a)                                                                                                                     |
-| **Contenido:** Iconos de navegación vertical (Dashboard activo en verde, estadísticas, perfil, historial y mapas) | **Contenido:** Logo de la marca, selector de modo claro/oscuro y perfil de usuario | **Contenido:** Indicadores de rendimiento (distancia, tiempo y desnivel), mapa de última ruta, calendario de racha, gráfica semanal y lista de actividades recientes |
+## 2.3. Iteración 2: Flujo de Aplicación
 
-## Layout Estructural
-![Layout Estr.](protimg/protpantPrin.png)
+Después del boceto inicial se elaboró un diagrama de flujo con enfoque de storyboard, centrado en la secuencia de tareas que realiza el socio dentro de la aplicación.
 
-# Mis Actividades
-| Barra Lateral (Navegación)                                                                                                             | Cabecera (Header)                                                                                                             | Módulos Principales (Lista de Actividades)                                                                                                                                                                                                                                                       |
-| :------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fondo:** Color sólido gris muy oscuro                                                                                                | **Fondo:** Color sólido gris muy oscuro                                                                                       | **Fondo:** Bloques independientes y alargados en forma de lista (Gris #1a1a1a)                                                                                                                                                                                                                   |
-| **Contenido:** Iconos de navegación vertical. El segundo icono (Estadísticas/Rendimiento) está activo y resaltado con un círculo verde | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro, perfil del usuario y botón de salir | **Contenido:** Título "Mis Actividades" con el subtítulo "Tus rutas importadas desde archivos GPX". Botón verde "Importar actividad". Lista de tarjetas con entrenamientos (ss y Example Activity), detallando fecha, hora, distancia, tiempo y desnivel, junto a iconos para editar y eliminar. |
+![Flujo de aplicación y tareas](assets/1rPrototipoExcalidrawFlujo.png)
 
-## Layout Estructural
-![Layout Estr.](protimg/protMisAct.png)
+El flujo representa tareas críticas del caso práctico: registrarse o autenticarse, importar un fichero GPX, visualizar una actividad, consultar el perfil de desnivel, mostrar la velocidad sobre el trazado, crear anotaciones y gestionar mapas.
 
-# Vista Actividades
-| Barra Lateral (Navegación)                                                                                 | Cabecera (Header)                                                                                                                | Módulos Principales (Detalles, Mapa y Elevación)                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| :--------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fondo:** Color sólido gris muy oscuro                                                                    | **Fondo:** Color sólido gris muy oscuro                                                                                          | **Fondo:** Paneles modulares independientes (Gris #1a1a1a) sobre fondo general oscuro                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| **Contenido:** Iconos de navegación vertical. El segundo icono (Estadísticas/Rendimiento) permanece activo | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro y perfil del usuario con botón de salir | **Contenido:** • Panel izquierdo: Botón "← Volver al resumen", acciones de edición/borrado, título de ruta (ss), fecha, botón "Ocultar velocidad" y tarjetas con métricas (distancia, tiempo en movimiento, ritmo medio, desnivel positivo). • Panel derecho superior: Mapa cartográfico extendido que muestra el recorrido de la ruta trazado con un gradiente cromático circular y controles de zoom (+/-). • Panel derecho inferior: Gráfico de "Perfil de Elevación" con una onda de relieve verde y ejes graduados. |
+## 2.4. Iteración 3: Wireframes Refinados
 
-## Layout Estructural
-![Layout Estr.](protimg/protVistAct.png)
+A partir del flujo anterior se definieron los wireframes estructurales definitivos. En esta iteración se priorizó la jerarquía del contenido y la organización de cada contenedor, manteniendo una representación sencilla propia de baja fidelidad.
 
-# Vista Perfil
-| Barra Lateral (Navegación)                                                                                                            | Cabecera (Header)                                                                                                        | Módulos Principales (Formulario de Perfil)                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| :------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fondo:** Color sólido gris muy oscuro                                                                                               | **Fondo:** Color sólido gris muy oscuro                                                                                  | **Fondo:** Un bloque centralizado vertical (Gris #1a1a1a) sobre fondo general oscuro                                                                                                                                                                                                                                                                                                                                                                                                   |
-| **Contenido:** Iconos de navegación vertical. El tercer icono (Perfil / Usuario) se encuentra activo y resaltado con un círculo verde | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro, avatar/perfil de usuario y botón de salir | **Contenido:** • Título "Mi perfil" con el subtítulo "Actualiza tus datos de cuenta". • Campos de texto editables: usuario, correo electrónico, contraseña actual, nueva contraseña y confirmación de contraseña. • Selector de fecha de nacimiento (día, mes, año) con icono de calendario. • Sección de avatar con indicador de archivo cargado, botón verde "Examinar" y previsualización de imagen. • Botones inferiores: "Guardar cambios" (verde) y "Cancelar" (gris con borde). |
+### Acceso y Cuenta
 
-## Layout Estructural
-![Layout Estr.](protimg/protPerfil.png)
+Las pantallas de autenticación, registro y perfil agrupan los campos de entrada necesarios para crear, validar y actualizar la cuenta del usuario. El nickname se trata como identificador principal y no editable tras el registro.
 
-# Historial de Sesiones
-| Barra Lateral (Navegación)                                                                                                                     | Cabecera (Header)                                                                                                        | Módulos Principales (Lista de Sesiones)                                                                                                                                                                                                                                                                                                                                                                 |
-| :--------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Fondo:** Color sólido gris muy oscuro                                                                                                        | **Fondo:** Color sólido gris muy oscuro                                                                                  | **Fondo:** Un bloque modular contenedor grande con líneas de división horizontales (Gris #1a1a1a) sobre fondo general oscuro                                                                                                                                                                                                                                                                            |
-| **Contenido:** Iconos de navegación vertical. El cuarto icono (Reloj / Historial con flecha circular) se encuentra activo y resaltado en verde | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro, avatar/perfil de usuario y botón de salir | **Contenido:** • Título "Historial de sesiones" con el subtítulo "Revisa tus accesos y actividad básica de uso". • Lista cronológica de accesos agrupados en filas independientes. • Cada elemento de la lista contiene: título de la sesión con fecha, horario de entrada/salida junto con duración exacta y etiquetas (badges) de actividad realizada como "importaciones", "vistas" y "anotaciones". |
+![Wireframe login](assets/protLogin.png)
+![Wireframe registro](assets/protReg.png)
+![Wireframe perfil](assets/protPerfil.png)
 
-## Layout Estructural
-![Layout Estr.](protimg/protSes.png)
+### Actividades y Resumen
 
-# Añadir Mapa / Gestión de Mapas
-| Barra Lateral (Navegación)                                                                                             | Cabecera (Header)                                                                                                        | Módulos Principales (Formulario de Registro de Mapa)                                                                                                                                                                                                                                                                                                                                                                                                   |
-| :--------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fondo:** Color sólido gris muy oscuro                                                                                | **Fondo:** Color sólido gris muy oscuro                                                                                  | **Fondo:** Un bloque centralizado vertical (Gris #1a1a1a) sobre fondo general oscuro                                                                                                                                                                                                                                                                                                                                                                   |
-| **Contenido:** Iconos de navegación vertical. El quinto icono (Mapa / Geolocalización) se encuentra activo y resaltado | **Contenido:** Logo de "Running La Safor Club", selector de modo claro/oscuro, avatar/perfil de usuario y botón de salir | **Contenido:** • Título "Registrar nuevo mapa" con subtítulo "Asigna un nombre y selecciona la imagen del mapa". • Campos de entrada: nombre del mapa y selección de archivo de imagen con botón verde "Examinar". • Sección "Coordenadas del mapa" con entradas numéricas: latitud mínima (sur), latitud máxima (norte), longitud mínima (oeste) y longitud máxima (este). • Botones inferiores: "Añadir mapa" (verde) y "Cancelar" (gris con borde). |
+La pantalla principal ofrece una vista resumida de la actividad del usuario, mientras que la lista de actividades separa la gestión operativa: importar, seleccionar, renombrar o borrar rutas.
 
-## Layout Estructural
-![Layout Estr.](protimg/protRegMapa.png)
+![Wireframe pantalla principal](assets/protpantPrin.png)
+![Wireframe mis actividades](assets/protMisAct.png)
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+### Análisis Cartográfico
 
----
+La vista de actividad concentra el análisis de la ruta: mapa, métricas, acciones sobre la actividad, control de velocidad y gráfica de desnivel. Esta agrupación mantiene juntos los elementos que deben consultarse de forma sincronizada.
 
-## 2.2. Selección de Controles e Interacción
+![Wireframe vista actividad](assets/protVistAct.png)
 
-2.2.1. Controles de Entrada de Datos (Inputs)
-Campos de Texto con Restricción Numérica (Text Fields): Utilizados en la configuración de coordenadas del mapa (Latitud/Longitud). Se seleccionan controles que limitan la entrada de caracteres alfanuméricos, permitiendo únicamente números y separadores decimales para asegurar la integridad de los datos espaciales.
+### Historial y Mapas
 
-Selectores de Fecha Segmentados (Date Pickers): Para la fecha de nacimiento en el perfil, se opta por un control dividido en tres microcampos (Día / Mes / Año) asistido por un botón con un contenedor emergente de calendario. Esto elimina el riesgo de introducir formatos de fecha incompatibles con el sistema de persistencia (como discrepancias entre DD/MM/AAAA y MM/DD/AAAA).
+El historial se plantea como una vista informativa de sesiones anteriores. La gestión de mapas queda separada como tarea administrativa, con entrada explícita de imagen y coordenadas del bounding box.
 
-Control de Carga de Archivos (File Inputs): Implementado mediante el binomio "Campo de estado + Botón Examinar" para la importación de rutas GPX y la actualización del avatar. Este control delega la exploración al sistema operativo del usuario, ofreciendo una experiencia familiar y segura.
+![Wireframe historial de sesiones](assets/protSes.png)
+![Wireframe añadir mapa](assets/protRegMapa.png)
 
-2.2.2. Controles de Comando y Navegación
-Botones de Acción Clave (Command Buttons): Se clasifican jerárquicamente en botones primarios (con color de acento verde sólido para confirmar acciones como Guardar, Importar o Añadir) y botones secundarios (de contorno o neutros para Cancelar o Volver). Su comportamiento interactivo incluye un cambio de estado (hover) al posicionar el cursor sobre ellos.
+## 2.5. Trazabilidad entre Escenarios e Interacción
 
-Botones Contextuales e Iconográficos (Icon Buttons): Ubicados dentro de las filas de las listas de actividades. El uso de microbotones nativos (Lápiz para Editar, Papelera para Eliminar) actúa como un atajo operativo directo sobre el objeto, reduciendo los pasos necesarios para la gestión de elementos.
+| Escenario del caso | Pantalla principal | Interacción prevista |
+| --- | --- | --- |
+| Registrarse | Registro | Introducir nickname, email, contraseña, fecha y avatar opcional. |
+| Autenticarse | Login | Introducir credenciales y acceder al sistema. |
+| Modificar perfil | Perfil | Actualizar datos editables manteniendo el nickname bloqueado. |
+| Cerrar sesión | Pantalla principal / cabecera | Finalizar la sesión activa y volver al acceso. |
+| Visualizar historial | Historial de sesiones | Consultar sesiones, duración y acciones realizadas. |
+| Registrar actividad nueva | Mis Actividades | Importar un fichero GPX desde el sistema de archivos. |
+| Visualizar actividad | Vista Actividad | Revisar mapa, trazado, métricas y anotaciones. |
+| Añadir anotaciones | Vista Actividad | Crear marcas asociadas a coordenadas del mapa. |
+| Realizar zoom | Vista Actividad | Ampliar o reducir el mapa manteniendo ruta y anotaciones alineadas. |
+| Perfil de desnivel | Vista Actividad | Relacionar la gráfica inferior con el punto equivalente del recorrido. |
+| Velocidad sobre trazado | Vista Actividad | Activar u ocultar la codificación visual de velocidad. |
+| Añadir mapa al sistema | Añadir Mapa | Seleccionar imagen e introducir coordenadas exactas del bounding box. |
 
-Conmutadores de Estado (Toggles): El control de modo Claro/Oscuro en la cabecera actúa como un interruptor de estado binario e inmediato, transformando las hojas de estilo (CSS) del sistema en tiempo real sin recargar la página.
+## 2.6. Selección de Controles
 
-2.2.3. Controles de Manipulación de Visualización
-Controles de Zoom en Mapas: Botones flotantes de incremento (+) y decremento (-) superpuestos en la esquina inferior derecha del mapa, que permiten al usuario alterar la escala cartográfica mediante clics directos o mediante el desplazamiento (scroll) del ratón, adaptándose a las preferencias del usuario (flexibilidad de uso).
+Los controles se escogieron por su adecuación a la tarea y por su capacidad para reducir errores de interacción:
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+* **Campos de texto y contraseña:** usados en login, registro, perfil y coordenadas de mapas, donde el usuario debe introducir datos específicos.
+* **Selector de archivo:** usado para GPX, avatar e imagen de mapa, aprovechando un patrón familiar del sistema operativo.
+* **Botones de acción:** usados para comandos directos como iniciar sesión, registrarse, importar, guardar, cancelar o añadir mapa.
+* **Acciones contextuales sobre actividades:** usadas para renombrar o borrar sin obligar al usuario a navegar a otra pantalla.
+* **Controles de zoom y encuadre:** usados en el mapa para permitir manipulación directa de la visualización.
+* **Panel o diálogo contextual de anotación:** previsto para crear marcas sobre el mapa sin perder el contexto geográfico de la actividad.
 
----
+## 2.7. Evaluación y Evolución del Prototipo
 
-## 2.3. Justificación de Composición Visual
+El prototipo se usó para responder preguntas de diseño antes de cerrar la estructura de pantallas:
 
-El diseño arquitectónico y visual del sistema *Running La Safor Club* ha sido desarrollado bajo las directrices fundamentales de la **Interacción Persona-Compuador**. Con el objetivo de garantizar una óptima experiencia y optimizar la usabilidad, la interfaz se justifica técnicamente a través de las **Heurísticas de Usabilidad de Jakob Nielsen** y las **Leyes de la Psicología de la Gestalt**:
+El flujo y los wireframes fueron revisados internamente por el equipo antes de cerrar la estructura final, comprobando que las tareas principales del caso quedaban cubiertas.
 
-### 2.3.1. Consistencia y Estándares de la Industria (4ª Heurística de Nielsen)
+| Pregunta de diseño | Decisión tomada |
+| --- | --- |
+| ¿Debe la pantalla principal mezclar resumen, lista completa y análisis detallado? | No. Se separó el resumen general de la lista de actividades y de la vista de detalle para reducir densidad visual. |
+| ¿Es eficiente el flujo tras importar un GPX? | Se planteó que la actividad importada pueda abrirse directamente en la vista de análisis, evitando pasos intermedios innecesarios. |
+| ¿Mapa y gráfica deben estar en pantallas separadas? | No. Se mantuvieron juntos para que el usuario relacione altitud, posición y recorrido sin cambiar de contexto. |
+| ¿La gestión de mapas debe mezclarse con la visualización de rutas? | No. Se aisló como tarea administrativa para no cargar la vista de actividad con controles poco frecuentes. |
 
-La interfaz implementa un diseño estructural unificado en la totalidad de sus vistas (Dashboard, Listado de Actividades, Detalle de Ruta, Edición de Perfil e Historial).
+## 2.8. Relación con el Producto Final
 
-* **Persistencia del Layout:** La cohabitación permanente de una barra de navegación superior (*Header*) y un menú lateral de accesos directos (*Sidebar*) mitiga de forma drástica la carga cognitiva del usuario. Al mantener los componentes de control en ubicaciones espaciales idénticas, el usuario transiciona entre módulos sin necesidad de reorientarse.
-* **Metáforas Universales:** Se emplean iconos estandarizados globalmente (un reloj con flecha circular para el *Historial*, una silueta humana para el *Perfil* y un pictograma de puerta para *Cerrar Sesión*). Esto aprovecha el conocimiento previo del usuario, acelerando la comprensión del sistema sin requerir instrucciones adicionales.
+Los prototipos de baja fidelidad no tienen que coincidir de forma exacta con el producto final. Su función es servir como herramienta de exploración y evaluación temprana; por tanto, pueden cambiar detalles de distribución, nombres o controles durante la implementación.
 
-### 2.3.2 Visibilidad del Estado del Sistema (1ª Heurística de Nielsen)
+Lo importante es que se mantenga la coherencia con los escenarios del caso: las tareas principales, los objetos de interacción y los flujos de navegación definidos en el prototipo deben seguir siendo reconocibles en la aplicación final.
 
-Es crucial que el usuario mantenga el control sobre su ubicación en la aplicación. Para ello, el sistema aplica un principio de retroalimentación inmediata (*feedback* visual) en el menú de navegación lateral: el nodo correspondiente a la sección activa se resalta cromáticamente mediante un anillo de acento verde o un cambio de contraste claramente distinguible al navegar entre pantallas.
-
-### 2.3.3. Organización Modular mediante Leyes de la Gestalt
-
-Para la distribución de datos complejos en las vistas analíticas, se ha adoptado el patrón de diseño contenedorizado conocido como *Bento Box Layout*.
-
-* **Ley de la Región Común:** Al delimitar la información mediante tarjetas (*cards*) con fondos diferenciados (Gris `#1a1a1a`) y bordes redondeados, las capacidades cognitivas del cerebro agrupan de manera automática los elementos internos como una sola unidad funcional.
-* **Ley de Proximidad:** Las métricas de rendimiento afines (como distancia, tiempo y ritmo medio) se sitúan a una distancia mínima relativa, permitiendo al usuario realizar escaneos visuales rápidos y asimilar bloques de datos homogéneos de un solo vistazo.
-
-### 2.3.4. Flexibilidad y Eficiencia de Uso (7ª Heurística de Nielsen)
-
-El diseño optimiza los flujos de tareas operativas mediante la inclusión de aceleradores de interfaz:
-
-* **Acciones Contextuales Directas:** En los listados de elementos se integran botones analógicos de interacción rápida (iconos de *Editar* y *Eliminar* mediante lápiz y papelera). Esto optimiza el flujo de trabajo, eliminando la necesidad de que el usuario navegue a una subpantalla secundaria para realizar una gestión básica.
-* **Cromaticidad Orientada a la Acción:** La interfaz utiliza el verde esmeralda como color de llamada a la acción (*Call to Action* o CTA) para los flujos primarios y constructivos (*Guardar cambios*, *Importar actividad* o *Añadir mapa*), mientras que relega a tonos neutros o desaturados las acciones de cancelación o retorno, previniendo errores involuntarios por parte del usuario.
-
-### 2.3.5. Prevención de Errores y Guiado Contextual (5ª Heurística de Nielsen)
-
-En las vistas de alta interacción de datos (como los formularios de registro de mapas o edición de datos personales), el sistema minimiza la probabilidad de error en la introducción de información mediante el uso de *placeholders* formativos (ej: `Ej: 39.33` o `Ej: -0.50`). Esta técnica actúa como una restricción de diseño implícita, instruyendo al usuario sobre la sintaxis espacial y el tipo de dato requerido por la base de datos antes de que se produzca un error de validación en el servidor.
-
-### 2.3.6. Correspondencia entre el Sistema y el Mundo Real (2ª Heurística de Nielsen)
-
-El tratamiento de datos no se limita a un volcado abstracto de información alfanumérica. El sistema traduce las variables geográficas y físicas a modelos mentales familiares para el usuario: la trayectoria espacial se proyecta sobre un mapa cartográfico real, y los cambios altimétricos se representan visualmente a través de un histograma suavizado de montaña (*Perfil de Elevación*), lo que facilita una interpretación intuitiva y natural del rendimiento deportivo.
-
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
