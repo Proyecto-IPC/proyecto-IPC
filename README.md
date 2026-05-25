@@ -53,7 +53,7 @@ El usuario objetivo es un socio de **Running la Safor** que registra actividades
 | Contexto de uso | Aplicación de escritorio usada tras entrenamientos, con énfasis en revisión, organización y análisis. |
 | Riesgos de interacción | Errores al introducir credenciales, coordenadas de mapas o anotaciones; pérdida de orientación al cambiar entre vistas; sobrecarga de datos técnicos. |
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -79,7 +79,7 @@ A partir de los escenarios del enunciado, se extraen las tareas que debe soporta
 | Mapas | T5.1 Añadir mapa | Registrar una imagen de mapa con nombre y coordenadas geográficas de sus límites. |
 | Mapas | T5.2 Gestionar mapas | Consultar y eliminar mapas cuando no estén asociados a actividades. |
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -149,7 +149,7 @@ Siguiendo el procedimiento del Tema 5, primero se analizan escenarios concretos 
 | Mantener `Anotación` como objeto propio | Tiene tipo, texto, color, grosor y posiciones; no es solo un atributo de la actividad. |
 | Tratar `Sesión` como objeto propio | El usuario consulta historial y estadísticas de uso, por tanto tiene entidad conceptual. |
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -200,7 +200,7 @@ A continuación se definen los contenedores con la plantilla formal del Tema 5: 
 | :--- |
 | **Objetivo:** Registrar una nueva región de mapa.<br><br>**Funciones:**<br>⚫ Introducir nombre, imagen y coordenadas límite.<br>◼ Validar límites.<br>◼ Registrar región o mostrar errores.<br><br>**Enlaces:**<br>▶ Gestión de Mapas<br><br>**Objetos:**<br>Región de mapa, Bounding box<br><br>**Restricciones:**<br>Las coordenadas deben representar correctamente los límites geográficos de la imagen. |
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -225,7 +225,7 @@ Esta tabla verifica que todos los escenarios del caso práctico están soportado
 | Añadir mapa al sistema | T5.1 | Región de mapa, Bounding box | Gestión de Mapas, Añadir Mapa |
 | Gestionar mapas | T5.2 | Región de mapa | Gestión de Mapas |
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -269,7 +269,7 @@ flowchart TD
     GM --> P
 ```
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -281,6 +281,8 @@ Siguiendo las directrices del Tema 7, la interfaz se diseñó mediante un proces
 
 Se utilizaron bocetos y wireframes estructurales porque permiten trabajar rápido, cambiar decisiones con bajo coste y centrar la discusión en las tareas del usuario. Además, al evitar detalles propios de alta fidelidad como paletas de color, tipografías o acabados visuales, se facilita que las críticas se dirijan a la estructura, la navegación y la interacción.
 
+[Volver al índice](#índice-general-del-proyecto)
+
 ## 2.2. Iteración 1: Boceto Exploratorio
 
 La primera aproximación fue un boceto inicial de baja fidelidad, usado para ubicar de forma rápida los elementos principales del sistema: acceso, registro, actividades, mapa, métricas, perfil, historial, mapas y anotaciones.
@@ -289,6 +291,8 @@ La primera aproximación fue un boceto inicial de baja fidelidad, usado para ubi
 
 Este boceto permitió detectar qué información debía aparecer en cada zona y qué pantallas necesitaban separarse para evitar una interfaz demasiado densa.
 
+[Volver al índice](#índice-general-del-proyecto)
+
 ## 2.3. Iteración 2: Flujo de Aplicación
 
 Después del boceto inicial se elaboró un diagrama de flujo con enfoque de storyboard, centrado en la secuencia de tareas que realiza el socio dentro de la aplicación.
@@ -296,6 +300,8 @@ Después del boceto inicial se elaboró un diagrama de flujo con enfoque de stor
 ![Flujo de aplicación y tareas](assets/1rPrototipoExcalidrawFlujo.png)
 
 El flujo representa tareas críticas del caso práctico: registrarse o autenticarse, importar un fichero GPX, visualizar una actividad, consultar el perfil de desnivel, mostrar la velocidad sobre el trazado, crear anotaciones y gestionar mapas.
+
+[Volver al índice](#índice-general-del-proyecto)
 
 ## 2.4. Iteración 3: Wireframes Refinados
 
@@ -329,6 +335,8 @@ El historial se plantea como una vista informativa de sesiones anteriores. La ge
 ![Wireframe historial de sesiones](assets/protSes.png)
 ![Wireframe añadir mapa](assets/protRegMapa.png)
 
+[Volver al índice](#índice-general-del-proyecto)
+
 ## 2.5. Trazabilidad entre Escenarios e Interacción
 
 | Escenario del caso | Pantalla principal | Interacción prevista |
@@ -346,6 +354,8 @@ El historial se plantea como una vista informativa de sesiones anteriores. La ge
 | Velocidad sobre trazado | Vista Actividad | Activar u ocultar la codificación visual de velocidad. |
 | Añadir mapa al sistema | Añadir Mapa | Seleccionar imagen e introducir coordenadas exactas del bounding box. |
 
+[Volver al índice](#índice-general-del-proyecto)
+
 ## 2.6. Selección de Controles
 
 Los controles se escogieron por su adecuación a la tarea y por su capacidad para reducir errores de interacción:
@@ -356,6 +366,8 @@ Los controles se escogieron por su adecuación a la tarea y por su capacidad par
 * **Acciones contextuales sobre actividades:** usadas para renombrar o borrar sin obligar al usuario a navegar a otra pantalla.
 * **Controles de zoom y encuadre:** usados en el mapa para permitir manipulación directa de la visualización.
 * **Panel o diálogo contextual de anotación:** previsto para crear marcas sobre el mapa sin perder el contexto geográfico de la actividad.
+
+[Volver al índice](#índice-general-del-proyecto)
 
 ## 2.7. Evaluación y Evolución del Prototipo
 
@@ -369,6 +381,8 @@ El flujo y los wireframes fueron revisados internamente por el equipo antes de c
 | ¿Es eficiente el flujo tras importar un GPX? | Se planteó que la actividad importada pueda abrirse directamente en la vista de análisis, evitando pasos intermedios innecesarios. |
 | ¿Mapa y gráfica deben estar en pantallas separadas? | No. Se mantuvieron juntos para que el usuario relacione altitud, posición y recorrido sin cambiar de contexto. |
 | ¿La gestión de mapas debe mezclarse con la visualización de rutas? | No. Se aisló como tarea administrativa para no cargar la vista de actividad con controles poco frecuentes. |
+
+[Volver al índice](#índice-general-del-proyecto)
 
 ## 2.8. Relación con el Producto Final
 
@@ -387,7 +401,7 @@ De acuerdo con los criterios de evaluación de la asignatura, el desarrollo y la
 
 👉 **[Consultar el Historial de Commits del Proyecto](https://github.com/Proyecto-IPC/proyecto-IPC/commits/master/)**
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -396,7 +410,7 @@ La implementación final se considera cerrada cuando los escenarios definidos en
 
 El objetivo de esta fase no es solo que la aplicación compile, sino demostrar que el diseño conceptual y el prototipado se han convertido en una interfaz usable, coherente y verificable.
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -430,7 +444,7 @@ _👉 Si el reproductor no carga correctamente en tu navegador, puedes [descarga
 
 
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -447,7 +461,7 @@ La siguiente matriz resume qué debe comprobarse en la aplicación final para cu
 | Análisis | Perfil de desnivel y velocidad | Gráfica de altitud y codificación visual de velocidad sobre el trazado. |
 | Mapas | Añadir y gestionar mapas | Alta de imagen con coordenadas exactas del bounding box y listado de mapas. |
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -462,7 +476,7 @@ Para probar la aplicación en el entorno de evaluación:
 
 El repositorio incluye las librerías necesarias en `/lib`, los mapas base en `/maps` y ficheros GPX de prueba en `/gpx`, por lo que la revisión puede realizarse sin preparar datos externos.
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)
 
 ---
 
@@ -472,4 +486,4 @@ Durante el desarrollo se ha utilizado IA como apoyo para generar código, propon
 
 La IA también se ha utilizado para apoyar el formato y la claridad del README, incluyendo la estructura en Markdown y algunos diagramas/esquemas en Mermaid.
 
-[⬆️ Volver al índice](#índice-general-del-proyecto)
+[Volver al índice](#índice-general-del-proyecto)

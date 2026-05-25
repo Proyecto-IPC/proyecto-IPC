@@ -171,6 +171,14 @@ public class DashboardViewController implements Initializable {
     private void populateMapPreview() {
         mapPreview.getChildren().clear();
 
+        List<Activity> actividades = getActividadesOrdenadas();
+        if (actividades.isEmpty()) {
+            latestMapChips = null;
+            latestMapView = null;
+            mapPreview.getChildren().add(createLatestMapEmptyState());
+            return;
+        }
+
         latestMapChips = new VBox(9);
         latestMapChips.getStyleClass().add("latest-map-chips");
         latestMapChips.setAlignment(Pos.CENTER);
@@ -185,17 +193,35 @@ public class DashboardViewController implements Initializable {
         latestMapView.setMinSize(0, 0);
         latestMapView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         latestMapView.resize(mapPreview.getWidth(), mapPreview.getHeight());
+        ActivityMapPreview preview = latestMapView;
         mapPreview.widthProperty().addListener((obs, oldValue, newValue) ->
-                latestMapView.resize(newValue.doubleValue(), mapPreview.getHeight())
+                preview.resize(newValue.doubleValue(), mapPreview.getHeight())
         );
         mapPreview.heightProperty().addListener((obs, oldValue, newValue) ->
-                latestMapView.resize(mapPreview.getWidth(), newValue.doubleValue())
+                preview.resize(mapPreview.getWidth(), newValue.doubleValue())
         );
 
-        List<Activity> actividades = getActividadesOrdenadas();
-        latestMapView.setActivity(actividades.isEmpty() ? null : actividades.get(0));
+        latestMapView.setActivity(actividades.get(0));
         StackPane.setAlignment(latestMapView, Pos.CENTER);
         mapPreview.getChildren().addAll(latestMapView, latestMapChips);
+    }
+
+    private VBox createLatestMapEmptyState() {
+        VBox empty = new VBox(6);
+        empty.getStyleClass().add("latest-map-empty");
+        empty.setAlignment(Pos.CENTER);
+        empty.setMaxWidth(360);
+
+        Label title = new Label("Aún no hay actividad");
+        title.getStyleClass().add("empty-state-title");
+
+        Label message = new Label("El mapa aparecerá cuando haya un entrenamiento registrado.");
+        message.getStyleClass().add("empty-state-text");
+        message.setWrapText(true);
+        message.setMaxWidth(300);
+
+        empty.getChildren().addAll(title, message);
+        return empty;
     }
 
     private void populateLatestActivitySummary() {

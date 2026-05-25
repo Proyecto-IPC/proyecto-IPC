@@ -1151,13 +1151,17 @@
 }
 
 .mini-map-placeholder {
-    -fx-background-color: -app-map-bg;
+    -fx-background-color: -app-surface-alt;
     -fx-background-radius: 8;
     -fx-border-color: -app-border;
     -fx-border-radius: 8;
     -fx-min-height: 190;
     -fx-pref-height: 190;
     -fx-max-height: 190;
+}
+
+.latest-map-empty {
+    -fx-padding: 18;
 }
 
 .chart-bars {
