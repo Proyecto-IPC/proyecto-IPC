@@ -33,8 +33,10 @@ Este repositorio contiene el código y la documentación del proyecto **"Running
 
 3. [Fase 3: Implementación y Aplicación Final](#fase-3-implementación-y-aplicación-final)
    * [3.1. Control de Cambios y Commits](#31-control-de-cambios-y-commits)
-   * [3.2. Demostración de la Interfaz](#32-demostración-de-la-interfaz)
-   * [3.3. Despliegue y Pruebas](#33-despliegue-y-pruebas)
+   * [3.2. Criterio de Cierre de Implementación](#32-criterio-de-cierre-de-implementación)
+   * [3.3. Demostración de la Interfaz](#33-demostración-de-la-interfaz)
+   * [3.4. Validación de Escenarios](#34-validación-de-escenarios)
+   * [3.5. Despliegue y Pruebas](#35-despliegue-y-pruebas)
 
 ---
 
@@ -381,7 +383,7 @@ Lo importante es que se mantenga la coherencia con los escenarios del caso: las 
 # Fase 3: Implementación y Aplicación Final
 
 ## 3.1. Control de Cambios y Commits
-De acuerdo con los criterios de evaluación de la asignatura, el desarrollo y la documentación de este proyecto se realizan de manera estrictamente incremental. Se puede consultar el registro detallado de las aportaciones y el trabajo en equipo de cada integrante del grupo directamente en el siguiente enlace:
+De acuerdo con los criterios de evaluación de la asignatura, el desarrollo y la documentación del proyecto se han realizado de forma incremental. El historial de GitHub permite comprobar la evolución del trabajo y la participación del equipo:
 
 👉 **[Consultar el Historial de Commits del Proyecto](https://github.com/Proyecto-IPC/proyecto-IPC/commits/master/)**
 
@@ -389,19 +391,86 @@ De acuerdo con los criterios de evaluación de la asignatura, el desarrollo y la
 
 ---
 
-## 3.2. Demostración de la Interfaz
-*En esta sección se incluirán breves capturas de pantalla o un GIF animado del sistema interactivo real en funcionamiento para comprobar visualmente el comportamiento de la interfaz (manejo del lienzo, zoom y gráficas sincronizadas).*
+## 3.2. Criterio de Cierre de Implementación
+La implementación final se considera cerrada cuando los escenarios definidos en el caso práctico pueden completarse desde la interfaz gráfica sin acceder manualmente a la base de datos ni modificar las clases de la librería proporcionada.
+
+El objetivo de esta fase no es solo que la aplicación compile, sino demostrar que el diseño conceptual y el prototipado se han convertido en una interfaz usable, coherente y verificable.
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
 ---
 
-## 3.3. Despliegue y Pruebas
-La aplicación se encuentra completamente desarrollada y subida al repositorio. Para probarla en el entorno de evaluación:
+## 3.3. Demostración de la Interfaz
+Para la defensa del proyecto se recomienda preparar **un único vídeo general**, no un vídeo por cada tarea. Un vídeo único mantiene la narrativa completa de uso y evita repeticiones; basta con que recorra las tareas principales de forma ordenada.
+
+Guion recomendado para el vídeo:
+
+1. **Acceso y cuenta:** iniciar sesión, mostrar registro brevemente y abrir el perfil.
+2. **Resumen principal:** enseñar la pantalla inicial, totales y navegación lateral.
+3. **Actividades:** importar un GPX, abrir la actividad creada, renombrarla y mostrar la opción de borrado.
+4. **Análisis de ruta:** enseñar mapa, zoom, métricas, perfil de desnivel y visualización de velocidad.
+5. **Anotaciones:** crear una anotación sobre el mapa y comprobar que aparece asociada a la actividad.
+6. **Historial y cierre:** abrir historial de sesiones, cerrar sesión y volver al acceso.
+7. **Mapas:** mostrar gestión de mapas y el formulario de alta con imagen y bounding box.
+
+Duración óptima: **5-7 minutos**. Si se quiere añadir material complementario, es mejor usar clips muy cortos solo para interacciones difíciles de apreciar en directo, como zoom, anotaciones o sincronización mapa-gráfica.
+
+
+
+
+
+EJEMPLO VIDEO:
+
+<video src="assets/videoDemoEjemplo.mp4" width="100%" controls>
+  Tu navegador no soporta la reproducción de vídeos nativos de HTML5.
+</video>
+
+_👉 Si el reproductor no carga correctamente en tu navegador, puedes [descargar el vídeo de demostración directamente desde aquí](assets/videoDemoEjemplo.mp4)._
+
+
+
+
+[⬆️ Volver al índice](#índice-general-del-proyecto)
+
+---
+
+## 3.4. Validación de Escenarios
+La siguiente matriz resume qué debe comprobarse en la aplicación final para cubrir el caso práctico:
+
+| Categoría | Escenario validado | Evidencia esperada en la interfaz |
+| --- | --- | --- |
+| Usuarios | Registro, login, perfil y cierre de sesión | Formularios funcionales, validaciones visibles y retorno al acceso tras cerrar sesión. |
+| Sesiones | Historial de sesiones | Lista de sesiones con duración y contadores de uso. |
+| Actividades | Importar, listar, renombrar y borrar GPX | Lista actualizada y actividad abierta con métricas calculadas. |
+| Mapa | Visualizar ruta y hacer zoom | Ruta dibujada sobre imagen cartográfica, con inicio/fin y escalado correcto. |
+| Anotaciones | Crear marcas geográficas | Anotación persistente asociada a coordenadas de la actividad. |
+| Análisis | Perfil de desnivel y velocidad | Gráfica de altitud y codificación visual de velocidad sobre el trazado. |
+| Mapas | Añadir y gestionar mapas | Alta de imagen con coordenadas exactas del bounding box y listado de mapas. |
+
+[⬆️ Volver al índice](#índice-general-del-proyecto)
+
+---
+
+## 3.5. Despliegue y Pruebas
+Para probar la aplicación en el entorno de evaluación:
 
 1. Clonar o descargar este repositorio en su entorno local.
-2. Abrir el proyecto desde el IDE (ej. NetBeans).
-3. **Nota:** El repositorio ya incluye la carpeta `/maps` con los recursos cartográficos originales y las librerías necesarias en la carpeta `/lib`, por lo que el proyecto está listo para compilarse y ejecutarse directamente sin configuración adicional.
+2. Abrir el proyecto desde NetBeans.
+3. Comprobar que las librerías de `/lib` están añadidas al proyecto.
+4. Ejecutar la clase principal de la aplicación.
+5. Probar el flujo completo con los recursos incluidos en `/gpx` y `/maps`.
+
+El repositorio incluye las librerías necesarias en `/lib`, los mapas base en `/maps` y ficheros GPX de prueba en `/gpx`, por lo que la revisión puede realizarse sin preparar datos externos.
+
+[⬆️ Volver al índice](#índice-general-del-proyecto)
+
+---
+
+## Uso de inteligencia artificial
+
+Durante el desarrollo se ha utilizado IA como apoyo para generar código, proponer mejoras, detectar posibles errores y refinar decisiones de diseño. Las decisiones finales, la validación funcional y la adaptación al caso de uso del proyecto han sido realizadas por el equipo.
+
+La IA también se ha utilizado para apoyar el formato y la claridad del README, incluyendo la estructura en Markdown y algunos diagramas/esquemas en Mermaid.
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
 
