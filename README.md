@@ -473,13 +473,3 @@ Durante el desarrollo se ha utilizado IA como apoyo para generar código, propon
 La IA también se ha utilizado para apoyar el formato y la claridad del README, incluyendo la estructura en Markdown y algunos diagramas/esquemas en Mermaid.
 
 [⬆️ Volver al índice](#índice-general-del-proyecto)
-
----
-
-## Uso de inteligencia artificial
-
-Durante el desarrollo se ha utilizado IA como apoyo para generar código, proponer mejoras, detectar posibles errores y refinar decisiones de diseño. Las decisiones finales, la validación funcional y la adaptación al caso de uso del proyecto han sido realizadas por el equipo.
-
-La IA también se ha utilizado para apoyar el formato y la claridad del README, incluyendo la estructura en Markdown y algunos diagramas/esquemas en Mermaid.
-
-[⬆️ Volver al índice](#índice-general-del-proyecto)
