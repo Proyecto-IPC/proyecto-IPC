@@ -30,7 +30,7 @@ public class LoginViewController implements Initializable {
         String password = txtPassword.getText().trim();
 
         if (usuario.isEmpty() || password.isEmpty()) {
-            lblError.setText("Introduce usuario y contraseña para continuar.");
+            mostrarError("Introduce usuario y contraseña para continuar.");
             return;
         }
 
@@ -41,12 +41,22 @@ public class LoginViewController implements Initializable {
             lblError.setText("");
             MainViewController.getInstancia().mostrarShellInicial();
         } else {
-            lblError.setText("Usuario o contraseña incorrectos. Revisa los datos e inténtalo de nuevo.");
+            mostrarError("Usuario o contraseña incorrectos. Revisa los datos e inténtalo de nuevo.");
         }
     }
 
     @FXML
     private void handleIrRegistro() {
         MainViewController.getInstancia().cargarVista("RegisterView.fxml");
+    }
+
+    public void mostrarMensajeExito(String mensaje) {
+        lblError.getStyleClass().setAll("success");
+        lblError.setText(mensaje);
+    }
+
+    private void mostrarError(String mensaje) {
+        lblError.getStyleClass().setAll("error");
+        lblError.setText(mensaje);
     }
 }

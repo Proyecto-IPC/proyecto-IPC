@@ -118,7 +118,8 @@ public class RegisterViewController implements Initializable {
 
         if (exito) {
             lblError.setText("");
-            MainViewController.getInstancia().cargarVista("LoginView.fxml");
+            MainViewController.getInstancia().mostrarLoginConMensaje(
+                    "Cuenta creada correctamente. Inicia sesión para continuar.");
         } else {
             lblError.setText("No se ha podido crear la cuenta. Prueba con otro usuario o correo.");
         }

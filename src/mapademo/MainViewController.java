@@ -106,6 +106,22 @@ public class MainViewController implements Initializable {
         }
     }
 
+    public void mostrarLoginConMensaje(String mensaje) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
+            Parent vista = loader.load();
+            LoginViewController controller = loader.getController();
+            controller.mostrarMensajeExito(mensaje);
+            ocultarShell();
+            setActiveRail(null);
+            rootPane.setCenter(vista);
+            currentViewPath = "LoginView.fxml";
+        } catch (Exception e) {
+            e.printStackTrace();
+            cargarVista("LoginView.fxml");
+        }
+    }
+
     public void mostrarShellInicial() {
         mostrarPantallaPrincipal();
     }
